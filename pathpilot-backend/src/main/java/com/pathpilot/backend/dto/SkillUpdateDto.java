@@ -1,0 +1,21 @@
+package com.pathpilot.backend.dto;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SkillUpdateDto {
+
+    @NotBlank(message = "Skill name is required")
+    private String skillName;
+
+    @Min(value = 0, message = "Progress must be at least 0%")
+    @Max(value = 100, message = "Progress cannot exceed 100%")
+    private int progressPercentage;
+}
