@@ -41,11 +41,20 @@ export const DashboardLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#07080d] text-slate-100 flex overflow-hidden">
-      {/* Background Glow Orbs */}
-      <div className="glow-orb w-[400px] h-[400px] bg-purple-900/20 top-[-100px] left-[-100px]" />
-      <div className="glow-orb w-[500px] h-[500px] bg-indigo-950/20 bottom-[-150px] right-[-100px]" />
-      <div className="glow-orb w-[300px] h-[300px] bg-cyan-900/10 top-[40%] left-[60%]" />
+    <div className="relative min-h-screen text-slate-100 flex overflow-hidden">
+      {/* Animated Glowing Orbs & Cyber Grid Backdrop */}
+      <div className="aurora-container">
+        <div className="cyber-grid" />
+        <div className="aurora-orb aurora-1" />
+        <div className="aurora-orb aurora-2" />
+        <div className="aurora-orb aurora-3" />
+        <div className="aurora-orb aurora-4" />
+        {/* Glow Particles */}
+        <div className="glow-particle animate-pulse-slow top-[20%] left-[30%] w-1.5 h-1.5 bg-purple-500/35" />
+        <div className="glow-particle animate-pulse-fast top-[60%] left-[85%] w-1.5 h-1.5 bg-indigo-400/30" />
+        <div className="glow-particle animate-pulse-slow top-[80%] left-[25%] w-2 h-2 bg-cyan-400/20" />
+        <div className="glow-particle animate-pulse-fast top-[40%] left-[70%] w-1 h-1 bg-pink-500/25" />
+      </div>
 
       {/* Navigation Sidebar */}
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />

@@ -132,13 +132,20 @@ export const Landing: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#05060f] text-slate-100 flex flex-col overflow-hidden selection:bg-purple-600/30 selection:text-purple-200">
-      {/* Animated Glowing Orbs & Grid Overlay (Matched with Auth pages) */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="auth-bg-grid absolute inset-0 z-0" />
-        <div className="glow-orb-premium orb-violet w-[700px] h-[700px] -top-[10%] -left-[10%] opacity-35" />
-        <div className="glow-orb-premium orb-indigo w-[800px] h-[800px] -bottom-[10%] -right-[10%] opacity-40" />
-        <div className="glow-orb-premium orb-cyan w-[500px] h-[500px] top-[30%] left-[25%] opacity-20" />
+    <div className="relative min-h-screen text-slate-100 flex flex-col overflow-hidden selection:bg-purple-600/30 selection:text-purple-200">
+      {/* Animated Glowing Orbs & Cyber Grid Backdrop */}
+      <div className="aurora-container">
+        <div className="cyber-grid" />
+        <div className="aurora-orb aurora-1" />
+        <div className="aurora-orb aurora-2" />
+        <div className="aurora-orb aurora-3" />
+        <div className="aurora-orb aurora-4" />
+        {/* Glow Particles */}
+        <div className="glow-particle animate-pulse-slow top-[12%] left-[18%] w-1.5 h-1.5 bg-purple-500/35" />
+        <div className="glow-particle animate-pulse-fast top-[38%] left-[75%] w-1 h-1 bg-indigo-400/30" />
+        <div className="glow-particle animate-pulse-slow top-[65%] left-[12%] w-2 h-2 bg-cyan-400/20" />
+        <div className="glow-particle animate-pulse-fast top-[28%] left-[60%] w-1 h-1 bg-pink-500/25" />
+        <div className="glow-particle animate-pulse-slow top-[80%] left-[45%] w-1.5 h-1.5 bg-purple-400/20" />
       </div>
 
       {/* Global Navbar */}

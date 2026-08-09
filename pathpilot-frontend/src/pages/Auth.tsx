@@ -128,13 +128,19 @@ export const Auth: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#05060f] text-slate-100 flex items-center justify-center p-6 overflow-hidden">
-      {/* Animated Glow Grid Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="auth-bg-grid absolute inset-0 z-0" />
-        <div className="glow-orb-premium orb-violet w-[600px] h-[600px] -top-[10%] -left-[10%]" />
-        <div className="glow-orb-premium orb-indigo w-[600px] h-[600px] -bottom-[10%] -right-[10%]" />
-        <div className="glow-orb-premium orb-cyan w-[400px] h-[400px] top-[30%] left-[30%]" />
+    <div className="relative min-h-screen text-slate-100 flex items-center justify-center p-6 overflow-hidden">
+      {/* Animated Glowing Orbs & Cyber Grid Backdrop */}
+      <div className="aurora-container">
+        <div className="cyber-grid" />
+        <div className="aurora-orb aurora-1" />
+        <div className="aurora-orb aurora-2" />
+        <div className="aurora-orb aurora-3" />
+        <div className="aurora-orb aurora-4" />
+        {/* Glow Particles */}
+        <div className="glow-particle animate-pulse-slow top-[15%] left-[20%] w-1.5 h-1.5 bg-purple-500/35" />
+        <div className="glow-particle animate-pulse-fast top-[45%] left-[80%] w-1 h-1 bg-indigo-400/30" />
+        <div className="glow-particle animate-pulse-slow top-[75%] left-[15%] w-2 h-2 bg-cyan-400/20" />
+        <div className="glow-particle animate-pulse-fast top-[35%] left-[65%] w-1 h-1 bg-pink-500/25" />
       </div>
 
       <div className="w-full max-w-md relative z-10 my-8">
