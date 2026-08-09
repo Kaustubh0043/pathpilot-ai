@@ -47,20 +47,26 @@ public class AuthServiceImpl implements AuthService {
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
                 .streakCount(1) // Start streak on signup
-                .enabled(false) // Disabled until email verification
+                .enabled(true) // Enable immediately (bypassing email verification block)
                 .verificationCode(code)
                 .verificationCodeExpiresAt(expiresAt)
                 .build();
 
         User savedUser = userRepository.save(user);
 
-        // Send email
+        // Send verification email in the background (as logs or backup)
         emailService.sendVerificationEmail(savedUser.getEmail(), code);
 
+        String token = tokenProvider.generateToken(savedUser.getEmail(), savedUser.getId());
+        String refreshToken = tokenProvider.generateRefreshToken(savedUser.getEmail(), savedUser.getId());
+
         return AuthResponse.builder()
+                .token(token)
+                .refreshToken(refreshToken)
+                .userId(savedUser.getId())
                 .email(savedUser.getEmail())
                 .fullName(savedUser.getFullName())
-                .message("verification_required")
+                .message("verified")
                 .build();
     }
 
