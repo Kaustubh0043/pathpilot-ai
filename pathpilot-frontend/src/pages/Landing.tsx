@@ -13,6 +13,7 @@ import {
   Terminal, 
   UserCheck, 
   ArrowRight, 
+  ArrowLeft,
   UploadCloud, 
   CheckCircle, 
   ArrowUpRight,
@@ -20,7 +21,8 @@ import {
   Phone,
   AlertCircle,
   HelpCircle,
-  RefreshCw
+  RefreshCw,
+  Play
 } from 'lucide-react';
 
 export const Landing: React.FC = () => {
@@ -41,6 +43,179 @@ export const Landing: React.FC = () => {
 
   // FAQ Accordion State
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
+  // Video Showcase Modal states
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [modalTab, setModalTab] = useState<'video' | 'tour'>('video');
+  const [tourStep, setTourStep] = useState(0);
+
+  const tourSteps = [
+    {
+      title: "Consistency Trackers & Habit Loops",
+      description: "Monitor daily consistency, targets, and github-like activity grid heatmaps to lock in coding routine habits.",
+      preview: (
+        <div className="border border-slate-800 bg-slate-950/40 rounded-2xl p-6 h-full flex flex-col justify-between text-left">
+          <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+            <div className="flex items-center gap-2">
+              <Flame className="w-5 h-5 text-amber-500 fill-amber-500/20" />
+              <span className="text-sm font-bold text-white">Daily Target Streak</span>
+            </div>
+            <span className="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full">Active Streak</span>
+          </div>
+          <div className="py-6 flex flex-col items-center justify-center space-y-4">
+            <div className="w-24 h-24 rounded-full border-4 border-amber-500/20 border-t-amber-500 flex items-center justify-center animate-spin-slow">
+              <span className="text-2xl font-black text-white">12 Days</span>
+            </div>
+            <p className="text-xs text-slate-400 text-center max-w-xs">You are in the top 5% of active programmers this week!</p>
+          </div>
+          <div className="flex justify-between items-center text-[10px] text-slate-500 border-t border-slate-900 pt-3">
+            <span>Progress checklist: 42%</span>
+            <span className="text-purple-400 font-bold">1200 XP Earned</span>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Interactive AI Career Mentorship",
+      description: "Chat with a virtual career coach trained in target role guidelines, code formatting, and job interview preparation.",
+      preview: (
+        <div className="border border-slate-800 bg-slate-950/40 rounded-2xl p-6 h-full flex flex-col justify-between text-left">
+          <div className="flex items-center gap-2 border-b border-slate-900 pb-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+            <span className="text-sm font-bold text-white">Active Coaching Chat</span>
+          </div>
+          <div className="flex-1 py-4 space-y-4 overflow-y-auto max-h-[160px] text-xs">
+            <div className="flex justify-end">
+              <div className="bg-purple-600 text-white rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[80%]">
+                How do I improve my backend keyword score?
+              </div>
+            </div>
+            <div className="flex justify-start">
+              <div className="bg-slate-900 border border-slate-850 text-slate-350 rounded-2xl rounded-tl-none px-4 py-2.5 max-w-[80%] leading-relaxed">
+                Detail database schema updates and query optimization patterns directly. Avoid generalized bullet descriptions.
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-slate-900 pt-3 flex gap-2">
+            <input disabled placeholder="Ask Career Coach..." className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 text-[11px] outline-none" />
+            <button disabled className="bg-purple-600 px-3 py-1 rounded-xl text-[11px] font-bold">Send</button>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Keyword & ATS Profile Reviewer",
+      description: "Submit technical profiles or resumes to review alignment, pinpoint missing tools, and view structural suggestions.",
+      preview: (
+        <div className="border border-slate-800 bg-slate-950/40 rounded-2xl p-6 h-full flex flex-col justify-between text-left">
+          <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+            <span className="text-sm font-bold text-white">ATS Keyword Analyzer</span>
+            <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Match: 84%</span>
+          </div>
+          <div className="py-4 space-y-3">
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-slate-400">Keyword densities (TypeScript, React)</span>
+              <span className="text-emerald-400 font-bold">Optimal</span>
+            </div>
+            <div className="w-full bg-slate-900 rounded-full h-1.5">
+              <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: '85%' }} />
+            </div>
+            <div className="flex justify-between items-center text-xs pt-1">
+              <span className="text-slate-400">Database Sharding details</span>
+              <span className="text-rose-400 font-bold">Missing</span>
+            </div>
+            <div className="w-full bg-slate-900 rounded-full h-1.5">
+              <div className="bg-rose-500 h-1.5 rounded-full" style={{ width: '30%' }} />
+            </div>
+          </div>
+          <div className="border-t border-slate-900 pt-3 text-[10px] text-slate-400 leading-normal">
+            <strong className="text-white">Recommendation:</strong> Add SQL details or database migration patterns to increase matching keywords.
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Checklisted Curriculum Syllabi",
+      description: "Formulate step-by-step syllabus checksheets covering languages, frameworks, or database system designs.",
+      preview: (
+        <div className="border border-slate-800 bg-slate-950/40 rounded-2xl p-6 h-full flex flex-col justify-between text-left">
+          <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+            <span className="text-sm font-bold text-white">Syllabus: System Architecture</span>
+            <span className="text-[10px] text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded-full">4 Weeks</span>
+          </div>
+          <div className="py-3 space-y-2 text-xs">
+            <div className="flex items-start gap-2">
+              <input type="checkbox" defaultChecked className="mt-1" disabled />
+              <div className="space-y-0.5">
+                <p className="font-bold text-slate-200 text-xs">Week 1: Horizontal Scaling</p>
+                <p className="text-[10px] text-slate-500">Understand load balancers, DNS routing rules, and stateless layers.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <input type="checkbox" className="mt-1" disabled />
+              <div className="space-y-0.5">
+                <p className="font-bold text-slate-200 text-xs">Week 2: Database Replication</p>
+                <p className="text-[10px] text-slate-500">Practice replica sets, failovers, and write routing rules.</p>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-slate-900 pt-3 flex justify-between items-center text-[10px] text-slate-500">
+            <span>Checklist steps: 12 Tasks</span>
+            <span className="text-emerald-400 font-bold">1 Week Done</span>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Scaffold APIs & Database Schemas",
+      description: "Quickly export relational sql tables, file directory structures, and boilerplate REST controller paths.",
+      preview: (
+        <div className="border border-slate-800 bg-slate-950/40 rounded-2xl p-6 h-full flex flex-col justify-between text-left">
+          <div className="flex items-center justify-between border-b border-slate-900 pb-2">
+            <span className="text-sm font-bold text-white font-mono">Sandbox: Spring Rest</span>
+            <span className="text-[10px] text-slate-400">Boilerplate</span>
+          </div>
+          <div className="bg-slate-900 border border-slate-850 rounded-xl p-3 font-mono text-[10px] text-slate-400 overflow-x-auto my-2 max-h-[140px] custom-scrollbar">
+            <span className="text-purple-400">@RestController</span><br/>
+            <span className="text-purple-400">@RequestMapping</span>(<span className="text-teal-400">"/api/users"</span>)<br/>
+            <span className="text-blue-400">public class</span> <span className="text-yellow-400">UserController</span> &#123;<br/>
+            &nbsp;&nbsp;<span className="text-purple-400">@PostMapping</span><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-slate-500">// scaffolded endpoints</span><br/>
+            &#125;
+          </div>
+          <div className="border-t border-slate-900 pt-2 flex justify-between items-center text-[10px] text-slate-500">
+            <span>Schema: PostgreSQL</span>
+            <span className="text-purple-400 font-bold">Export Code</span>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Rigorous Technical Mock Screenings",
+      description: "Test coding or speech answers in simulated tech screens. Thin, ambiguous answers are graded strictly.",
+      preview: (
+        <div className="border border-slate-800 bg-slate-950/40 rounded-2xl p-6 h-full flex flex-col justify-between text-left">
+          <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+            <span className="text-sm font-bold text-white">Google L4 Mock Interview</span>
+            <span className="text-xs font-bold text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full">Strict Grade</span>
+          </div>
+          <div className="py-3 space-y-1.5 text-xs">
+            <p className="text-slate-400 font-medium">Explain heap building complexity.</p>
+            <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-850 text-slate-500 text-[10px]">
+              Your Answer: "It takes O(N) because we run heapify."
+            </div>
+            <p className="text-rose-400 font-bold text-[10px]">
+              ⚠️ Score: 4/10. Include geometric convergence proofs.
+            </p>
+          </div>
+          <div className="border-t border-slate-900 pt-3 text-[10px] text-slate-500 flex justify-between">
+            <span>Completed in 2.1s</span>
+            <span className="text-purple-400 font-bold">Retry</span>
+          </div>
+        </div>
+      )
+    }
+  ];
 
   const openModal = (tab: 'terms' | 'privacy') => {
     setActiveModalTab(tab);
@@ -241,69 +416,48 @@ export const Landing: React.FC = () => {
           )}
         </div>
 
-        {/* Immersive Dashboard Mock Visual */}
-        <div className="mt-16 w-full relative group">
-          <div className="absolute inset-0 -m-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity" />
-          <div className="premium-glass-card p-4 border border-slate-800/80 relative rounded-2xl overflow-hidden aspect-[16/9] flex items-center justify-center">
-            {/* Mock Visual Grid Elements */}
-            <div className="absolute inset-0 bg-[#0c0d1b]/80 flex flex-col">
-              {/* Header Bar */}
-              <div className="h-10 border-b border-slate-800/80 flex items-center px-4 justify-between bg-slate-950/40">
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                </div>
-                <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Platform Dashboard Preview</span>
-                </div>
+        {/* Dynamic Video & Tour Showcase Mockup (Replacing basic visual) */}
+        <div className="mt-16 w-full relative group max-w-4xl mx-auto">
+          <div className="absolute inset-0 -m-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl blur-xl opacity-25 group-hover:opacity-35 transition-opacity" />
+          <div className="premium-glass-card border border-slate-850/80 relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#0c0d1b]/70 flex flex-col justify-between shadow-2xl">
+            {/* Mock Visual Header Bar */}
+            <div className="h-11 border-b border-slate-800/70 flex items-center px-4 justify-between bg-slate-950/60 z-10">
+              <div className="flex items-center gap-2">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
               </div>
-              {/* Layout Content */}
-              <div className="flex-1 grid grid-cols-4 p-4 gap-4 text-left">
-                {/* Left navigation column */}
-                <div className="col-span-1 border border-slate-850 bg-slate-900/10 rounded-xl p-3 space-y-2 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="h-5 w-24 bg-purple-500/10 border border-purple-500/20 rounded-md" />
-                    <div className="h-4 w-full bg-slate-800/40 rounded-md" />
-                    <div className="h-4 w-full bg-slate-800/40 rounded-md" />
-                    <div className="h-4 w-4/5 bg-slate-800/40 rounded-md" />
-                  </div>
-                  <div className="h-6 w-full bg-slate-850 rounded-md border border-slate-800/40" />
-                </div>
-                {/* Main center elements */}
-                <div className="col-span-3 grid grid-rows-3 gap-4">
-                  <div className="row-span-1 grid grid-cols-3 gap-4">
-                    <div className="border border-slate-850 bg-slate-900/15 rounded-xl p-3 flex flex-col justify-between">
-                      <p className="text-[10px] text-slate-500 font-bold uppercase">ATS Score</p>
-                      <p className="text-xl font-bold text-emerald-400">84%</p>
-                    </div>
-                    <div className="border border-slate-850 bg-slate-900/15 rounded-xl p-3 flex flex-col justify-between">
-                      <p className="text-[10px] text-slate-500 font-bold uppercase">Interview Prep</p>
-                      <p className="text-xl font-bold text-purple-400">Ready</p>
-                    </div>
-                    <div className="border border-slate-850 bg-slate-900/15 rounded-xl p-3 flex flex-col justify-between">
-                      <p className="text-[10px] text-slate-500 font-bold uppercase">Streak Count</p>
-                      <p className="text-xl font-bold text-amber-500 flex items-center gap-1">
-                        <Flame className="w-5 h-5 fill-amber-500/15" />
-                        <span>12 Days</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="row-span-2 border border-slate-850 bg-slate-900/15 rounded-xl p-4 flex flex-col justify-between">
-                    <div className="space-y-2">
-                      <p className="text-[10px] text-purple-400 font-bold uppercase">Coach Recommendations</p>
-                      <p className="text-xs text-slate-400 leading-normal">
-                        "Your resume shows strong alignments in TypeScript, but lacks database architecture details. I recommend generating the SQL learning roadmap."
-                      </p>
-                    </div>
-                    <div className="flex gap-2">
-                      <div className="h-6 w-20 bg-purple-600/20 border border-purple-500/30 rounded-md" />
-                      <div className="h-6 w-24 bg-slate-800/40 rounded-md" />
-                    </div>
-                  </div>
-                </div>
+              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
+                <span>PathPilot Product Showcase</span>
               </div>
+            </div>
+
+            {/* Video Preview Overlay */}
+            <div className="flex-1 relative flex items-center justify-center group/btn overflow-hidden">
+              <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px] z-10 transition-all group-hover/btn:bg-slate-950/20" />
+              
+              {/* Background preview video loop */}
+              <video
+                src="https://assets.mixkit.co/videos/preview/mixkit-code-running-on-a-computer-screen-32943-large.mp4"
+                className="absolute inset-0 w-full h-full object-cover opacity-30 select-none pointer-events-none"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+
+              {/* Glowing Play Button */}
+              <button 
+                onClick={() => { setModalTab('video'); setShowVideoModal(true); }}
+                className="z-20 p-5 rounded-full bg-purple-600 hover:bg-purple-500 hover:scale-110 active:scale-95 text-white shadow-2xl shadow-purple-600/50 transition-all cursor-pointer flex items-center justify-center border border-purple-400/30"
+              >
+                <Play className="w-7 h-7 fill-white translate-x-0.5" />
+              </button>
+
+              <span className="absolute bottom-6 z-20 text-[11px] font-bold text-slate-400 uppercase tracking-widest pointer-events-none bg-slate-950/80 px-3 py-1.5 rounded-full border border-slate-850">
+                Click to Play Product Tour
+              </span>
             </div>
           </div>
         </div>
@@ -766,6 +920,120 @@ export const Landing: React.FC = () => {
                 className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-purple-600/10 cursor-pointer"
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Showcase Video & Interactive Tour Lightbox Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
+          <div className="premium-glass-card w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden animated-gradient-border z-50">
+            {/* Modal Header / Tabs */}
+            <div className="flex items-center justify-between p-6 border-b border-slate-800/60">
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setModalTab('video')}
+                  className={`text-base font-bold pb-1 border-b-2 transition-all cursor-pointer ${
+                    modalTab === 'video' ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Platform Overview Video
+                </button>
+                <button
+                  onClick={() => { setModalTab('tour'); setTourStep(0); }}
+                  className={`text-base font-bold pb-1 border-b-2 transition-all cursor-pointer ${
+                    modalTab === 'tour' ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  Interactive Guided Tour
+                </button>
+              </div>
+              <button
+                onClick={() => setShowVideoModal(false)}
+                className="text-slate-400 hover:text-white font-semibold text-lg cursor-pointer p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex-1 overflow-y-auto p-6 flex flex-col items-center justify-center min-h-[350px]">
+              {modalTab === 'video' ? (
+                /* MP4 Player Tab */
+                <div className="w-full aspect-[16/9] rounded-xl overflow-hidden relative border border-slate-800/80 bg-slate-950">
+                  <video
+                    src="https://assets.mixkit.co/videos/preview/mixkit-code-running-on-a-computer-screen-32943-large.mp4"
+                    className="w-full h-full object-cover"
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
+                </div>
+              ) : (
+                /* Guided Tour Simulator Tab */
+                <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-6 items-center">
+                  {/* Left explanation block */}
+                  <div className="md:col-span-2 space-y-4 text-left">
+                    <div className="inline-flex px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-wider">
+                      Step {tourStep + 1} of {tourSteps.length}
+                    </div>
+                    <h3 className="text-lg font-black text-white">{tourSteps[tourStep].title}</h3>
+                    <p className="text-xs text-slate-450 leading-relaxed">{tourSteps[tourStep].description}</p>
+                    
+                    {/* Navigation Buttons */}
+                    <div className="flex gap-2 pt-2">
+                      <button
+                        onClick={() => setTourStep(prev => Math.max(0, prev - 1))}
+                        disabled={tourStep === 0}
+                        className="p-2 rounded-xl bg-slate-900 border border-slate-800 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-850 hover:text-white cursor-pointer"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => setTourStep(prev => Math.min(tourSteps.length - 1, prev + 1))}
+                        disabled={tourStep === tourSteps.length - 1}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl font-bold text-xs cursor-pointer"
+                      >
+                        <span>Next Step</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Right visual mockup screen */}
+                  <div className="md:col-span-3 aspect-[4/3] w-full max-w-sm mx-auto">
+                    {tourSteps[tourStep].preview}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer / Dots indicator */}
+            <div className="p-6 border-t border-slate-800/60 flex items-center justify-between">
+              {modalTab === 'tour' ? (
+                <div className="flex gap-1.5">
+                  {tourSteps.map((_, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => setTourStep(idx)}
+                      className={`w-2 h-2 rounded-full cursor-pointer transition-all ${
+                        tourStep === idx ? 'bg-purple-500 w-4' : 'bg-slate-700 hover:bg-slate-600'
+                      }`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <span className="text-[10px] text-slate-500 font-bold uppercase">Overview demo play state active</span>
+              )}
+              
+              <button
+                onClick={() => setShowVideoModal(false)}
+                className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-purple-600/10 cursor-pointer"
+              >
+                Close Showcase
               </button>
             </div>
           </div>
