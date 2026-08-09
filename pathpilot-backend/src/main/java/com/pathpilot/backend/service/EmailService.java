@@ -27,20 +27,23 @@ public class EmailService {
             return;
         }
 
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromEmail);
-            message.setTo(toEmail);
-            message.setSubject("PathPilot.AI - Verify Your Account");
-            message.setText("Welcome to PathPilot.AI!\n\n" +
-                    "Your verification code is: " + code + "\n\n" +
-                    "This code will expire in 15 minutes.\n\n" +
-                    "Best regards,\n" +
-                    "The PathPilot.AI Team");
-            mailSender.send(message);
-            log.info("Verification email sent successfully to {}", toEmail);
-        } catch (Exception e) {
-            log.error("Failed to send verification email to {}: {}", toEmail, e.getMessage());
-        }
+        // Send email asynchronously in a background thread to prevent blocking the signup response
+        new Thread(() -> {
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom(fromEmail);
+                message.setTo(toEmail);
+                message.setSubject("PathPilot.AI - Verify Your Account");
+                message.setText("Welcome to PathPilot.AI!\n\n" +
+                        "Your verification code is: " + code + "\n\n" +
+                        "This code will expire in 15 minutes.\n\n" +
+                        "Best regards,\n" +
+                        "The PathPilot.AI Team");
+                mailSender.send(message);
+                log.info("Verification email sent successfully to {}", toEmail);
+            } catch (Exception e) {
+                log.error("Failed to send verification email to {}: {}", toEmail, e.getMessage());
+            }
+        }).start();
     }
 }
