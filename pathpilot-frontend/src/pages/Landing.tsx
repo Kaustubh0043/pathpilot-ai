@@ -63,8 +63,11 @@ export const Landing: React.FC = () => {
             <span className="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full">Active Streak</span>
           </div>
           <div className="py-6 flex flex-col items-center justify-center space-y-4">
-            <div className="w-24 h-24 rounded-full border-4 border-amber-500/20 border-t-amber-500 flex items-center justify-center animate-spin-slow">
-              <span className="text-2xl font-black text-white">12 Days</span>
+            <div className="relative w-24 h-24 flex items-center justify-center">
+              {/* Spinning outer ring */}
+              <div className="absolute inset-0 rounded-full border-4 border-amber-500/20 border-t-amber-500 animate-spin-slow" />
+              {/* Static centered text */}
+              <span className="text-xl font-black text-white z-10">12 Days</span>
             </div>
             <p className="text-xs text-slate-400 text-center max-w-xs">You are in the top 5% of active programmers this week!</p>
           </div>
@@ -310,7 +313,8 @@ export const Landing: React.FC = () => {
     <div className="relative min-h-screen text-slate-100 flex flex-col overflow-hidden selection:bg-purple-600/30 selection:text-purple-200">
       {/* Animated Glowing Orbs & Cyber Grid Backdrop */}
       <div className="aurora-container">
-        <div className="cyber-grid" />
+        <div className="cyber-grid-3d" />
+        <div className="neon-horizon" />
         <div className="aurora-orb aurora-1" />
         <div className="aurora-orb aurora-2" />
         <div className="aurora-orb aurora-3" />

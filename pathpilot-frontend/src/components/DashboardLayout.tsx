@@ -44,7 +44,8 @@ export const DashboardLayout: React.FC = () => {
     <div className="relative min-h-screen text-slate-100 flex overflow-hidden">
       {/* Animated Glowing Orbs & Cyber Grid Backdrop */}
       <div className="aurora-container">
-        <div className="cyber-grid" />
+        <div className="cyber-grid-3d" />
+        <div className="neon-horizon" />
         <div className="aurora-orb aurora-1" />
         <div className="aurora-orb aurora-2" />
         <div className="aurora-orb aurora-3" />
