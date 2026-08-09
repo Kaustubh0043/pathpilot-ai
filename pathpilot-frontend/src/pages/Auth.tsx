@@ -131,8 +131,7 @@ export const Auth: React.FC = () => {
     <div className="relative min-h-screen text-slate-100 flex items-center justify-center p-6 overflow-hidden">
       {/* Animated Glowing Orbs & Cyber Grid Backdrop */}
       <div className="aurora-container">
-        <div className="cyber-grid-3d" />
-        <div className="neon-horizon" />
+        <div className="cyber-grid-2d" />
         <div className="aurora-orb aurora-1" />
         <div className="aurora-orb aurora-2" />
         <div className="aurora-orb aurora-3" />
