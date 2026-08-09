@@ -369,6 +369,21 @@ export const Landing: React.FC = () => {
         </div>
       </header>
 
+      {/* Hero Background Video (Blending into black/aurora at bottom) */}
+      <div className="absolute top-0 left-0 w-full h-[680px] overflow-hidden pointer-events-none z-0">
+        <video
+          src="https://assets.mixkit.co/videos/preview/mixkit-code-running-on-a-computer-screen-32943-large.mp4"
+          className="w-full h-full object-cover opacity-25"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        {/* Gradients to blend video smoothly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030408]/60 to-[#030408]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#030408]/30 via-transparent to-[#030408]/30" />
+      </div>
+
       {/* Hero Section */}
       <section className="relative z-10 w-full max-w-5xl mx-auto px-6 pt-16 md:pt-24 pb-16 text-center flex flex-col items-center">
         {/* Glow Tagline */}
