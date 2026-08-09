@@ -55,13 +55,13 @@ export const Auth: React.FC = () => {
     try {
       if (isLogin) {
         await login(email, password);
-        navigate('/');
+        navigate('/dashboard');
       } else {
         const res = await signup(email, password, fullName);
         if (res?.requiresVerification) {
           setIsVerify(true);
         } else {
-          navigate('/');
+          navigate('/dashboard');
         }
       }
     } catch (err: any) {
@@ -89,7 +89,7 @@ export const Auth: React.FC = () => {
 
     try {
       await verifyCode(email, code);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Verification failed. Please check your code.');
     } finally {

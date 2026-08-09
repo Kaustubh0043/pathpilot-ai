@@ -29,13 +29,13 @@ export const DashboardLayout: React.FC = () => {
 
   const getPageTitle = () => {
     switch (location.pathname) {
-      case '/': return 'Dashboard';
-      case '/chat': return 'AI Career Coaching';
-      case '/resume': return 'ATS Resume Analyzer';
-      case '/jd-match': return 'Job Description Gap Matcher';
-      case '/roadmaps': return 'Personalized Learning Roadmaps';
-      case '/projects': return 'Developer Project Sandbox';
-      case '/interviews': return 'AI Interview Simulator';
+      case '/dashboard': return 'Dashboard';
+      case '/dashboard/chat': return 'AI Career Coaching';
+      case '/dashboard/resume': return 'ATS Resume Analyzer';
+      case '/dashboard/jd-match': return 'Job Description Gap Matcher';
+      case '/dashboard/roadmaps': return 'Personalized Learning Roadmaps';
+      case '/dashboard/projects': return 'Developer Project Sandbox';
+      case '/dashboard/interviews': return 'AI Interview Simulator';
       default: return 'PathPilot AI';
     }
   };

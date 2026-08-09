@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { DashboardLayout } from './components/DashboardLayout';
 import { Auth } from './pages/Auth';
+import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
 import { Chat } from './pages/Chat';
 import { Resume } from './pages/Resume';
@@ -31,12 +32,15 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+          {/* Public Home Landing Page */}
+          <Route path="/" element={<Landing />} />
+
           {/* Public Auth Routes */}
           <Route path="/auth" element={<Auth />} />
 
           {/* Secure Dashboard Shell */}
           <Route 
-            path="/" 
+            path="/dashboard" 
             element={
               <PrivateRoute>
                 <DashboardLayout />

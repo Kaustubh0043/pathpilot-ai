@@ -23,13 +23,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { name: 'Dashboard', path: '/', icon: LayoutDashboard },
-    { name: 'AI Coaching Chat', path: '/chat', icon: MessageSquare },
-    { name: 'Resume Analyzer', path: '/resume', icon: FileText },
-    { name: 'Job Match (JD)', path: '/jd-match', icon: FileCheck },
-    { name: 'Learning Paths', path: '/roadmaps', icon: Map },
-    { name: 'Project Generator', path: '/projects', icon: Terminal },
-    { name: 'Interview Coach', path: '/interviews', icon: UserCheck },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'AI Coaching Chat', path: '/dashboard/chat', icon: MessageSquare },
+    { name: 'Resume Analyzer', path: '/dashboard/resume', icon: FileText },
+    { name: 'Job Match (JD)', path: '/dashboard/jd-match', icon: FileCheck },
+    { name: 'Learning Paths', path: '/dashboard/roadmaps', icon: Map },
+    { name: 'Project Generator', path: '/dashboard/projects', icon: Terminal },
+    { name: 'Interview Coach', path: '/dashboard/interviews', icon: UserCheck },
   ];
 
   const handleLogout = () => {
