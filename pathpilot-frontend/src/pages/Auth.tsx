@@ -154,6 +154,17 @@ export const Auth: React.FC = () => {
           </p>
         </div>
 
+        {/* Back to Home Button */}
+        <div className="mb-6 flex justify-start">
+          <button
+            onClick={() => navigate('/')}
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors cursor-pointer group"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
+            <span>Back to Home</span>
+          </button>
+        </div>
+
         {/* Auth Panels */}
         {isVerify ? (
           /* Verification Screen */

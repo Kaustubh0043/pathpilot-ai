@@ -6,7 +6,9 @@ import com.pathpilot.backend.dto.RefreshTokenRequest;
 import com.pathpilot.backend.dto.SignupRequest;
 import com.pathpilot.backend.dto.VerifyRequest;
 import com.pathpilot.backend.dto.ResendCodeRequest;
+import com.pathpilot.backend.dto.ContactRequest;
 import com.pathpilot.backend.service.AuthService;
+import com.pathpilot.backend.service.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final EmailService emailService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> signup(@Valid @RequestBody SignupRequest request) {
@@ -50,6 +53,12 @@ public class AuthController {
     @PostMapping("/resend-code")
     public ResponseEntity<Void> resendCode(@Valid @RequestBody ResendCodeRequest request) {
         authService.resendVerificationCode(request.getEmail());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/contact")
+    public ResponseEntity<Void> submitContact(@Valid @RequestBody ContactRequest request) {
+        emailService.sendContactEmail(request.getName(), request.getEmail(), request.getMessage());
         return ResponseEntity.ok().build();
     }
 }

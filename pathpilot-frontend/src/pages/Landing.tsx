@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { api } from '../services/api';
 import { 
   Compass, 
   Sparkles, 
@@ -14,73 +15,136 @@ import {
   ArrowRight, 
   UploadCloud, 
   CheckCircle, 
-  ArrowUpRight 
+  ArrowUpRight,
+  Mail,
+  Phone,
+  AlertCircle,
+  HelpCircle,
+  RefreshCw
 } from 'lucide-react';
 
 export const Landing: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  
+  // Terms & Privacy Modals
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [activeModalTab, setActiveModalTab] = useState<'terms' | 'privacy'>('terms');
+
+  // Contact Form states
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactMessage, setContactMessage] = useState('');
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState<string | null>(null);
+  const [contactError, setContactError] = useState<string | null>(null);
+
+  // FAQ Accordion State
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const openModal = (tab: 'terms' | 'privacy') => {
     setActiveModalTab(tab);
     setShowTermsModal(true);
   };
 
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactLoading(true);
+    setContactSuccess(null);
+    setContactError(null);
+
+    try {
+      await api.post('/api/auth/contact', {
+        name: contactName,
+        email: contactEmail,
+        message: contactMessage
+      });
+      setContactSuccess('Your message has been sent successfully to the developer inbox!');
+      setContactName('');
+      setContactEmail('');
+      setContactMessage('');
+    } catch (err: any) {
+      setContactError(
+        err.response?.data?.message || 
+        'Failed to send message. Please verify your inputs and try again.'
+      );
+    } finally {
+      setContactLoading(false);
+    }
+  };
+
   const services = [
     {
       name: 'AI Career Coach',
-      desc: 'Interact with a role-trained career mentor for targeted guidance, resume strategy, and software engineering questions.',
+      desc: 'Ask your personal tech mentor anything from mock salary negotiations to code optimization and general interview prep.',
       icon: MessageSquare,
       color: 'from-purple-500/20 to-indigo-500/20 text-purple-400 border-purple-500/30',
     },
     {
-      name: 'ATS Resume Analyzer',
-      desc: 'Get your compatibility score for tech positions, detect stack keywords gap, and generate immediate format revisions.',
+      name: 'ATS Resume Review',
+      desc: 'Upload your resume to calculate keyword alignment for developer roles and generate immediate structural text updates.',
       icon: FileText,
       color: 'from-blue-500/20 to-cyan-500/20 text-blue-400 border-blue-500/30',
     },
     {
       name: 'Job Description Matcher',
-      desc: 'Compare target job requirements directly against your profile to evaluate structural overlap and preparation recommendations.',
+      desc: 'Paste a target job posting to analyze stack mismatches, structural gaps, and recommendations to prepare before applying.',
       icon: FileCheck,
       color: 'from-cyan-500/20 to-teal-500/20 text-cyan-400 border-cyan-500/30',
     },
     {
-      name: 'AI Syllabus Roadmaps',
-      desc: 'Generate custom week-by-week developer syllabus curricula complete with detailed hourly checklists.',
+      name: 'Syllabus Roadmaps',
+      desc: 'Build customized learning curricula covering languages, frameworks, or system designs, checklisted by week and hour.',
       icon: Map,
       color: 'from-indigo-500/20 to-pink-500/20 text-indigo-400 border-indigo-500/30',
     },
     {
       name: 'Developer Sandbox',
-      desc: 'Simulate target folders, databases, and REST schemas instantly to scaffold structural backend mock designs.',
+      desc: 'Generate ready-to-use directory structures, SQL schemas, and REST endpoint structures based on your stack requirements.',
       icon: Terminal,
       color: 'from-amber-500/20 to-orange-500/20 text-amber-400 border-amber-500/30',
     },
     {
       name: 'Interview Simulator',
-      desc: 'Simulate technical or HR screenings, evaluate code or speech inputs, and grade replies with precise score matrices.',
+      desc: 'Practice customized mock screens with grading algorithms. Lazy or generic answers get strict marks to push you to improve.',
       icon: UserCheck,
       color: 'from-rose-500/20 to-red-500/20 text-rose-400 border-rose-500/30',
     },
   ];
 
+  const faqs = [
+    {
+      q: 'How does the ATS Resume Analyzer score my profile?',
+      a: 'The analyzer processes your uploaded document, extracts key technical stacks, and runs crosschecks against a curated database of core industry job requirements. It evaluates match scores and drafts specific line-by-line recommendations.'
+    },
+    {
+      q: 'What is the RAG Context tool?',
+      a: 'RAG (Retrieval-Augmented Generation) allows you to index your own local files (PDF lectures, study notes, slide decks). The Career Coach references this data directly during conversations to answer questions based only on your uploads.'
+    },
+    {
+      q: 'How does the Developer Sandbox work?',
+      a: 'When you specify your target features and tech stacks, the AI generator maps out modular file trees, database relational schemas (SQL/NoSQL), and controller endpoint boilerplate structures to jumpstart your development sandbox.'
+    },
+    {
+      q: 'Why are interview mock scores strict?',
+      a: 'To prepare you for actual screenings, the AI interviewer checks response completeness. Lax, short, or ambiguous answers are graded stringently to encourage comprehensive explanations of technical problems.'
+    }
+  ];
+
   return (
     <div className="relative min-h-screen bg-[#05060f] text-slate-100 flex flex-col overflow-hidden selection:bg-purple-600/30 selection:text-purple-200">
-      {/* Animated Glowing Orbs & Grid Overlay */}
+      {/* Animated Glowing Orbs & Grid Overlay (Matched with Auth pages) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="auth-bg-grid absolute inset-0 z-0" />
-        <div className="glow-orb-premium orb-violet w-[700px] h-[700px] -top-[10%] -left-[10%] opacity-20" />
-        <div className="glow-orb-premium orb-indigo w-[800px] h-[800px] bottom-[10%] -right-[15%] opacity-25" />
-        <div className="glow-orb-premium orb-cyan w-[500px] h-[500px] top-[30%] left-[25%] opacity-15" />
+        <div className="glow-orb-premium orb-violet w-[700px] h-[700px] -top-[10%] -left-[10%] opacity-35" />
+        <div className="glow-orb-premium orb-indigo w-[800px] h-[800px] -bottom-[10%] -right-[10%] opacity-40" />
+        <div className="glow-orb-premium orb-cyan w-[500px] h-[500px] top-[30%] left-[25%] opacity-20" />
       </div>
 
       {/* Global Navbar */}
       <header className="relative z-10 w-full max-w-7xl mx-auto px-6 h-20 flex items-center justify-between border-b border-slate-900/60 bg-slate-950/20 backdrop-blur-md">
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="p-2 rounded-xl bg-purple-600/10 border border-purple-500/20">
+          <div className="p-2 rounded-xl bg-purple-600/10 border border-purple-500/20 shadow-lg shadow-purple-500/5">
             <Compass className="w-6 h-6 text-purple-400 animate-spin-slow" />
           </div>
           <span className="text-xl font-bold tracking-tight text-white">
@@ -90,15 +154,16 @@ export const Landing: React.FC = () => {
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-400">
           <a href="#services" className="hover:text-white transition-colors">Services</a>
-          <a href="#features" className="hover:text-white transition-colors">RAG Technology</a>
-          <a href="#gamification" className="hover:text-white transition-colors">Streaks</a>
+          <a href="#features" className="hover:text-white transition-colors">RAG Uploads</a>
+          <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
+          <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </nav>
 
         <div className="flex items-center gap-4">
           {user ? (
             <button
               onClick={() => navigate('/dashboard')}
-              className="flex items-center gap-1.5 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-600/10 cursor-pointer animate-fade-in"
+              className="flex items-center gap-1.5 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-600/10 cursor-pointer"
             >
               <span>Go to Dashboard</span>
               <ArrowRight className="w-4 h-4" />
@@ -127,17 +192,17 @@ export const Landing: React.FC = () => {
         {/* Glow Tagline */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/25 text-purple-400 text-xs font-semibold shadow-sm mb-6 animate-pulse">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Platform v2.0 - Fully Integrated AI Core</span>
+          <span>Complete Technical Career Sandbox</span>
         </div>
 
         {/* Hero Title */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.1] mb-6 text-white max-w-4xl">
-          Navigate Your Tech Career with <span className="text-gradient">AI Precision</span>
+          Build Your Coding Career with <span className="text-gradient">AI Precision</span>
         </h1>
 
         {/* Hero Description */}
         <p className="text-slate-400 text-base md:text-lg max-w-2xl mb-10 leading-relaxed font-medium">
-          Accelerate your growth using an all-in-one ecosystem fueled by Retrieval-Augmented Generation (RAG) and Google Gemini. Match ATS parameters, generate checklisted syllabi, and simulate interactive coding interviews.
+          Accelerate your readiness using an organic suite of developer tools. Match resume stacks, index lecture PDFs in vector databases, compile checklisted roadmaps, and practice mock screenings.
         </p>
 
         {/* Hero CTA buttons */}
@@ -184,7 +249,7 @@ export const Landing: React.FC = () => {
                 </div>
                 <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
                   <Flame className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Interactive Mock Dashboard</span>
+                  <span>Platform Dashboard Preview</span>
                 </div>
               </div>
               {/* Layout Content */}
@@ -208,7 +273,7 @@ export const Landing: React.FC = () => {
                     </div>
                     <div className="border border-slate-850 bg-slate-900/15 rounded-xl p-3 flex flex-col justify-between">
                       <p className="text-[10px] text-slate-500 font-bold uppercase">Interview Prep</p>
-                      <p className="text-xl font-bold text-purple-400">Perfect</p>
+                      <p className="text-xl font-bold text-purple-400">Ready</p>
                     </div>
                     <div className="border border-slate-850 bg-slate-900/15 rounded-xl p-3 flex flex-col justify-between">
                       <p className="text-[10px] text-slate-500 font-bold uppercase">Streak Count</p>
@@ -220,9 +285,9 @@ export const Landing: React.FC = () => {
                   </div>
                   <div className="row-span-2 border border-slate-850 bg-slate-900/15 rounded-xl p-4 flex flex-col justify-between">
                     <div className="space-y-2">
-                      <p className="text-[10px] text-purple-400 font-bold uppercase">AI Coach Insights</p>
+                      <p className="text-[10px] text-purple-400 font-bold uppercase">Coach Recommendations</p>
                       <p className="text-xs text-slate-400 leading-normal">
-                        "Your resume shows strong alignments in TypeScript, but lacks database architecture credentials. I recommend generating the SQL learning roadmap."
+                        "Your resume shows strong alignments in TypeScript, but lacks database architecture details. I recommend generating the SQL learning roadmap."
                       </p>
                     </div>
                     <div className="flex gap-2">
@@ -355,13 +420,13 @@ export const Landing: React.FC = () => {
 
           <div className="space-y-6">
             <div className="inline-flex p-1.5 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-400 text-xs font-semibold">
-              Habits & Retention
+              Consistency Focus
             </div>
             <h2 className="text-3xl font-extrabold text-white leading-tight">
-              Build Daily Habits with Gamified Metrics
+              Build Continuous Habits with Gamified Metrics
             </h2>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Stay consistent on your learning path. Track your streak count, earn activity multipliers, and check off syllabus roadmaps. PathPilot.AI maps your daily progress in developer style.
+              Stay consistent on your learning path. Track your streak count, earn activity milestones, and complete checklisted roadmaps. PathPilot.AI maps your daily progress in clean, developer style calendars.
             </p>
             <div className="flex gap-8">
               <div>
@@ -370,53 +435,231 @@ export const Landing: React.FC = () => {
               </div>
               <div className="border-l border-slate-800 pl-8">
                 <p className="text-2xl font-black text-white">4.8×</p>
-                <p className="text-xs text-slate-500">Higher Success Consistency</p>
+                <p className="text-xs text-slate-500">Higher Learning Consistency</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer Banner CTA */}
-      <section className="relative z-10 w-full max-w-5xl mx-auto px-6 py-20 text-center">
-        <div className="premium-glass-card p-10 border border-purple-500/20 shadow-2xl relative overflow-hidden animated-gradient-border">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-indigo-500/5 opacity-50" />
-          <h2 className="text-3xl font-extrabold text-white mb-4 relative z-10">Start Optimizing Your Career Today</h2>
-          <p className="text-slate-400 text-sm max-w-md mx-auto mb-8 relative z-10">
-            Sign up for a free account, generate your roadmap, index your notes, and simulate mock interviews.
-          </p>
-          <button
-            onClick={() => navigate(user ? '/dashboard' : '/auth')}
-            className="px-8 py-3.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-base transition-all shadow-lg shadow-purple-600/10 relative z-10 cursor-pointer"
-          >
-            {user ? 'Go to Dashboard' : 'Get Started for Free'}
-          </button>
+      {/* FAQ Accordion Section */}
+      <section id="faq" className="relative z-10 w-full max-w-4xl mx-auto px-6 py-20 border-t border-slate-900/60">
+        <div className="text-center mb-12">
+          <div className="inline-flex p-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/25 text-indigo-400 text-xs font-semibold mb-3">
+            Got Questions?
+          </div>
+          <h2 className="text-3xl font-extrabold text-white">Frequently Asked Questions</h2>
+        </div>
+
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div 
+              key={index}
+              className="premium-glass-card border border-slate-850/80 overflow-hidden"
+            >
+              <button
+                onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                className="w-full flex items-center justify-between p-5 text-left text-sm font-bold text-white hover:text-purple-400 transition-colors focus:outline-none"
+              >
+                <span>{faq.q}</span>
+                <span className="text-slate-500 text-lg">{activeFaq === index ? '−' : '+'}</span>
+              </button>
+              <div 
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  activeFaq === index ? 'max-h-40 border-t border-slate-850/60 p-5' : 'max-h-0'
+                }`}
+              >
+                <p className="text-xs text-slate-400 leading-relaxed">{faq.a}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Global Footer */}
-      <footer className="relative z-10 w-full border-t border-slate-900/60 bg-slate-950/40 py-10 mt-auto text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <Compass className="w-5 h-5 text-slate-600" />
-            <span className="font-semibold text-slate-400">PathPilot.AI</span>
-            <span>© {new Date().getFullYear()} All Rights Reserved.</span>
+      {/* Contact & Feedback Form Section */}
+      <section id="contact" className="relative z-10 w-full max-w-3xl mx-auto px-6 py-20 border-t border-slate-900/60">
+        <div className="premium-glass-card p-8 md:p-10 border border-slate-850/80 shadow-2xl relative animated-gradient-border">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-black text-white">Contact & Send Feedback</h2>
+            <p className="text-slate-400 text-xs mt-2 max-w-md mx-auto">
+              Have questions, issues, or suggestions? Submit your feedback here to forward it directly to the developer's inbox.
+            </p>
           </div>
 
-          <div className="flex items-center gap-6 font-semibold">
-            <span 
-              onClick={() => openModal('terms')} 
-              className="hover:text-slate-300 transition-colors cursor-pointer"
+          {contactSuccess && (
+            <div className="mb-6 flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs backdrop-blur-md">
+              <CheckCircle className="w-5 h-5 shrink-0 text-emerald-400" />
+              <span>{contactSuccess}</span>
+            </div>
+          )}
+
+          {contactError && (
+            <div className="mb-6 flex items-start gap-2.5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs backdrop-blur-md">
+              <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+              <span>{contactError}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleContactSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Name */}
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Your Name"
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-200 placeholder-slate-600 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none text-xs transition-all"
+                />
+              </div>
+              {/* Email */}
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Email Address</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="name@domain.com"
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-200 placeholder-slate-600 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none text-xs transition-all"
+                />
+              </div>
+            </div>
+            {/* Message */}
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Message</label>
+              <textarea
+                required
+                rows={4}
+                placeholder="Write your suggestions, questions, or general feedback here..."
+                value={contactMessage}
+                onChange={(e) => setContactMessage(e.target.value)}
+                className="w-full px-4 py-3 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-200 placeholder-slate-600 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none text-xs transition-all resize-none"
+              />
+            </div>
+            
+            {/* Submit button */}
+            <button
+              type="submit"
+              disabled={contactLoading}
+              className="w-full flex items-center justify-center gap-2 py-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 disabled:bg-purple-800/40 disabled:text-slate-400 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-600/10 cursor-pointer mt-6"
             >
-              Terms of Service
-            </span>
-            <span 
-              onClick={() => openModal('privacy')} 
-              className="hover:text-slate-300 transition-colors cursor-pointer"
-            >
-              Privacy Policy
-            </span>
+              {contactLoading ? (
+                <RefreshCw className="w-5 h-5 animate-spin" />
+              ) : (
+                <span>Submit Message</span>
+              )}
+            </button>
+          </form>
+        </div>
+      </section>
+
+      {/* Global Footer (Enhanced multi-column layout) */}
+      <footer className="relative z-10 w-full border-t border-slate-900/60 bg-slate-950/40 py-12 mt-auto text-xs text-slate-400">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+          
+          {/* Column 1: Company Profile */}
+          <div className="space-y-4 col-span-1">
+            <div className="flex items-center gap-2.5">
+              <Compass className="w-6 h-6 text-purple-400" />
+              <span className="text-base font-bold text-white tracking-tight">PathPilotAI</span>
+            </div>
+            <p className="text-slate-500 leading-relaxed text-[11px]">
+              AI-powered ecosystem designed to map syllabus guidelines, perform ATS analyzer parsing, and simulate mock technical interviews.
+            </p>
+            <div className="space-y-2 text-[11px] text-slate-400">
+              <div className="flex items-center gap-2">
+                <Phone className="w-3.5 h-3.5 text-purple-400" />
+                <span>+91 8805565585</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="w-3.5 h-3.5 text-purple-400" />
+                <span>pathpilot.ai.info@gmail.com</span>
+              </div>
+            </div>
           </div>
+
+          {/* Column 2: Quick Links */}
+          <div className="space-y-3 col-span-1">
+            <h4 className="font-bold text-white uppercase text-[10px] tracking-wider">Quick Navigation</h4>
+            <ul className="space-y-2 text-slate-500 font-medium">
+              <li><a href="#services" className="hover:text-purple-400 transition-colors">Services</a></li>
+              <li><a href="#features" className="hover:text-purple-400 transition-colors">RAG Indexes</a></li>
+              <li><a href="#faq" className="hover:text-purple-400 transition-colors">FAQ</a></li>
+              <li><a href="#contact" className="hover:text-purple-400 transition-colors">Contact us</a></li>
+            </ul>
+          </div>
+
+          {/* Column 3: Contact Developer */}
+          <div className="space-y-3 col-span-1">
+            <h4 className="font-bold text-white uppercase text-[10px] tracking-wider">Contact Developer</h4>
+            <div className="space-y-2.5">
+              <p className="font-semibold text-white text-[11px]">Kaustubh Jadhav</p>
+              <div className="flex gap-3 text-slate-500">
+                <a 
+                  href="https://www.linkedin.com/in/kaustubh-jadhav-6a2216248/" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="hover:text-purple-400 transition-colors p-1 rounded-lg bg-slate-900/80 border border-slate-850 flex items-center justify-center cursor-pointer"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                  </svg>
+                </a>
+                <a 
+                  href="https://github.com/Kaustubh0043" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="hover:text-purple-400 transition-colors p-1 rounded-lg bg-slate-900/80 border border-slate-850 flex items-center justify-center cursor-pointer"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                  </svg>
+                </a>
+                <a 
+                  href="https://www.instagram.com/kaustubhh.jadhav/?hl=en" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="hover:text-purple-400 transition-colors p-1 rounded-lg bg-slate-900/80 border border-slate-850 flex items-center justify-center cursor-pointer"
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 4: Legals */}
+          <div className="space-y-3 col-span-1">
+            <h4 className="font-bold text-white uppercase text-[10px] tracking-wider">Legal Framework</h4>
+            <div className="space-y-2 text-slate-500 font-medium flex flex-col">
+              <span 
+                onClick={() => openModal('terms')} 
+                className="hover:text-purple-400 transition-colors cursor-pointer"
+              >
+                Terms of Service
+              </span>
+              <span 
+                onClick={() => openModal('privacy')} 
+                className="hover:text-purple-400 transition-colors cursor-pointer"
+              >
+                Privacy Policy
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 border-t border-slate-900/60 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[10px] font-bold">
+          <span>PathPilot.AI is an independent carrier preparation platform.</span>
+          <span>© {new Date().getFullYear()} PathPilotAI. All Rights Reserved.</span>
         </div>
       </footer>
 

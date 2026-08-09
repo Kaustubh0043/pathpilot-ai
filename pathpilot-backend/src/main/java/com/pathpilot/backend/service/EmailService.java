@@ -46,4 +46,36 @@ public class EmailService {
             }
         }).start();
     }
+
+    public void sendContactEmail(String fromName, String fromUserEmail, String messageText) {
+        log.info("--------------------------------------------------");
+        log.info("CONTACT FORM SUBMISSION FROM {} ({}): {}", fromName, fromUserEmail, messageText);
+        log.info("--------------------------------------------------");
+        
+        if (fromEmail == null || fromEmail.isBlank()) {
+            log.warn("SMTP email username is not configured. Skipping sending actual email.");
+            return;
+        }
+
+        // Send asynchronously to avoid blocking the API response
+        new Thread(() -> {
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setFrom(fromEmail);
+                message.setTo("pathpilot.ai.info@gmail.com");
+                message.setReplyTo(fromUserEmail);
+                message.setSubject("PathPilot.AI - New Contact Message from " + fromName);
+                message.setText("You received a new message from the PathPilot.AI contact form:\n\n" +
+                        "Name: " + fromName + "\n" +
+                        "Email: " + fromUserEmail + "\n\n" +
+                        "Message:\n" + messageText + "\n\n" +
+                        "Best regards,\n" +
+                        "PathPilot.AI System");
+                mailSender.send(message);
+                log.info("Contact email forwarded successfully to developer inbox.");
+            } catch (Exception e) {
+                log.error("Failed to send contact email: {}", e.getMessage());
+            }
+        }).start();
+    }
 }
