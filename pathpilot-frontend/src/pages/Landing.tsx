@@ -366,7 +366,7 @@ export const Landing: React.FC = () => {
                 Sign In
               </button>
               <button
-                onClick={() => navigate('/auth')}
+                onClick={() => navigate('/auth?mode=signup')}
                 className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-600/10 cursor-pointer"
               >
                 Get Started
@@ -407,7 +407,7 @@ export const Landing: React.FC = () => {
           ) : (
             <>
               <button
-                onClick={() => navigate('/auth')}
+                onClick={() => navigate('/auth?mode=signup')}
                 className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl font-bold text-base transition-all shadow-xl shadow-purple-600/10 cursor-pointer"
               >
                 <span>Get Started Now</span>

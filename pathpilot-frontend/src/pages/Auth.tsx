@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Compass, Mail, Lock, User, AlertCircle, RefreshCw, KeyRound, ArrowLeft, CheckCircle, ShieldCheck } from 'lucide-react';
 
 export const Auth: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const initialMode = searchParams.get('mode') === 'signup' ? false : true;
+
+  const [isLogin, setIsLogin] = useState(initialMode);
   const [isVerify, setIsVerify] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   
@@ -31,7 +36,6 @@ export const Auth: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const { login, signup, verifyCode, resendCode } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
