@@ -299,3 +299,51 @@ body {
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.6) 0%, rgba(99, 102, 241, 0.2) 50%, rgba(6, 182, 212, 0.6) 100%);
 }
 
+/* Scanning Cyber Beams */
+.grid-beam {
+  position: absolute;
+  background: linear-gradient(to right, transparent, rgba(168, 85, 247, 0.18), transparent);
+  height: 1px;
+  width: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.grid-beam-v {
+  position: absolute;
+  background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.15), transparent);
+  width: 1px;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.beam-1 {
+  top: 0;
+  animation: scan-horizontal 16s infinite linear;
+}
+
+.beam-2 {
+  left: 30%;
+  animation: scan-vertical 20s infinite linear;
+}
+
+.beam-3 {
+  left: 75%;
+  animation: scan-vertical 24s infinite linear-reverse;
+}
+
+@keyframes scan-horizontal {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(800px); opacity: 0; }
+}
+
+@keyframes scan-vertical {
+  0% { transform: translateX(0); opacity: 0; }
+  15% { opacity: 0.5; }
+  85% { opacity: 0.5; }
+  100% { transform: translateX(1000px); opacity: 0; }
+}
+

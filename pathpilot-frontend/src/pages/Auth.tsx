@@ -136,6 +136,10 @@ export const Auth: React.FC = () => {
         <div className="aurora-orb aurora-2" />
         <div className="aurora-orb aurora-3" />
         <div className="aurora-orb aurora-4" />
+        {/* Scanning Cyber Beams */}
+        <div className="grid-beam beam-1" />
+        <div className="grid-beam-v beam-2" />
+        <div className="grid-beam-v beam-3" />
         {/* Glow Particles */}
         <div className="glow-particle animate-pulse-slow top-[15%] left-[20%] w-1.5 h-1.5 bg-purple-500/35" />
         <div className="glow-particle animate-pulse-fast top-[45%] left-[80%] w-1 h-1 bg-indigo-400/30" />

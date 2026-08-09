@@ -49,6 +49,10 @@ export const DashboardLayout: React.FC = () => {
         <div className="aurora-orb aurora-2" />
         <div className="aurora-orb aurora-3" />
         <div className="aurora-orb aurora-4" />
+        {/* Scanning Cyber Beams */}
+        <div className="grid-beam beam-1" />
+        <div className="grid-beam-v beam-2" />
+        <div className="grid-beam-v beam-3" />
         {/* Glow Particles */}
         <div className="glow-particle animate-pulse-slow top-[20%] left-[30%] w-1.5 h-1.5 bg-purple-500/35" />
         <div className="glow-particle animate-pulse-fast top-[60%] left-[85%] w-1.5 h-1.5 bg-indigo-400/30" />

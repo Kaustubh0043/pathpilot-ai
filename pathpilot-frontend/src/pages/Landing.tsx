@@ -315,6 +315,10 @@ export const Landing: React.FC = () => {
         <div className="aurora-orb aurora-2" />
         <div className="aurora-orb aurora-3" />
         <div className="aurora-orb aurora-4" />
+        {/* Scanning Cyber Beams */}
+        <div className="grid-beam beam-1" />
+        <div className="grid-beam-v beam-2" />
+        <div className="grid-beam-v beam-3" />
         {/* Glow Particles */}
         <div className="glow-particle animate-pulse-slow top-[12%] left-[18%] w-1.5 h-1.5 bg-purple-500/35" />
         <div className="glow-particle animate-pulse-fast top-[38%] left-[75%] w-1 h-1 bg-indigo-400/30" />
@@ -369,21 +373,6 @@ export const Landing: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Background Video (Blending into black/aurora at bottom) */}
-      <div className="absolute top-0 left-0 w-full h-[680px] overflow-hidden pointer-events-none z-0">
-        <video
-          src="https://assets.mixkit.co/videos/preview/mixkit-code-running-on-a-computer-screen-32943-large.mp4"
-          className="w-full h-full object-cover opacity-25"
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
-        {/* Gradients to blend video smoothly */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030408]/60 to-[#030408]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#030408]/30 via-transparent to-[#030408]/30" />
-      </div>
-
       {/* Hero Section */}
       <section className="relative z-10 w-full max-w-5xl mx-auto px-6 pt-16 md:pt-24 pb-16 text-center flex flex-col items-center">
         {/* Glow Tagline */}
@@ -431,11 +420,11 @@ export const Landing: React.FC = () => {
           )}
         </div>
 
-        {/* Dynamic Video & Tour Showcase Mockup (Replacing basic visual) */}
-        <div className="mt-16 w-full relative group max-w-4xl mx-auto">
-          <div className="absolute inset-0 -m-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl blur-xl opacity-25 group-hover:opacity-35 transition-opacity" />
-          <div className="premium-glass-card border border-slate-850/80 relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#0c0d1b]/70 flex flex-col justify-between shadow-2xl">
-            {/* Mock Visual Header Bar */}
+        {/* Dynamic Guided Tour Showcase Card (Replacing the static / video frames) */}
+        <div className="mt-16 w-full relative group max-w-4xl mx-auto z-20">
+          <div className="absolute inset-0 -m-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-2xl blur-xl opacity-20 group-hover:opacity-35 transition-opacity" />
+          <div className="premium-glass-card border border-slate-850/80 relative rounded-2xl overflow-hidden aspect-[16/10] bg-[#0a0b16]/80 flex flex-col justify-between shadow-2xl">
+            {/* Visual Laptop Header Bar */}
             <div className="h-11 border-b border-slate-800/70 flex items-center px-4 justify-between bg-slate-950/60 z-10">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
@@ -444,35 +433,59 @@ export const Landing: React.FC = () => {
               </div>
               <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
-                <span>PathPilot Product Showcase</span>
+                <span>Interactive Platform Tour</span>
               </div>
             </div>
 
-            {/* Video Preview Overlay */}
-            <div className="flex-1 relative flex items-center justify-center group/btn overflow-hidden">
-              <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-[1px] z-10 transition-all group-hover/btn:bg-slate-950/20" />
-              
-              {/* Background preview video loop */}
-              <video
-                src="https://assets.mixkit.co/videos/preview/mixkit-code-running-on-a-computer-screen-32943-large.mp4"
-                className="absolute inset-0 w-full h-full object-cover opacity-30 select-none pointer-events-none"
-                autoPlay
-                loop
-                muted
-                playsInline
-              />
+            {/* Visual Showcase Content Grid */}
+            <div className="flex-1 p-6 grid grid-cols-1 md:grid-cols-5 gap-6 items-center overflow-hidden">
+              {/* Left explanation block */}
+              <div className="md:col-span-2 space-y-4 text-left">
+                <div className="inline-flex px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-wider">
+                  Module {tourStep + 1} of {tourSteps.length}
+                </div>
+                <h3 className="text-base font-black text-white leading-tight">{tourSteps[tourStep].title}</h3>
+                <p className="text-[11px] text-slate-450 leading-relaxed">{tourSteps[tourStep].description}</p>
+                
+                {/* Navigation Buttons */}
+                <div className="flex gap-2 pt-1.5">
+                  <button
+                    onClick={() => setTourStep(prev => Math.max(0, prev - 1))}
+                    disabled={tourStep === 0}
+                    className="p-2 rounded-xl bg-slate-900 border border-slate-800 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-850 hover:text-white cursor-pointer"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => setTourStep(prev => Math.min(tourSteps.length - 1, prev + 1))}
+                    disabled={tourStep === tourSteps.length - 1}
+                    className="flex items-center gap-1 px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl font-bold text-[10px] cursor-pointer"
+                  >
+                    <span>Next Feature</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
 
-              {/* Glowing Play Button */}
-              <button 
-                onClick={() => { setModalTab('video'); setShowVideoModal(true); }}
-                className="z-20 p-5 rounded-full bg-purple-600 hover:bg-purple-500 hover:scale-110 active:scale-95 text-white shadow-2xl shadow-purple-600/50 transition-all cursor-pointer flex items-center justify-center border border-purple-400/30"
-              >
-                <Play className="w-7 h-7 fill-white translate-x-0.5" />
-              </button>
+              {/* Right visual mock preview */}
+              <div className="md:col-span-3 h-full max-h-[250px] flex items-center justify-center">
+                <div className="w-full h-full max-w-sm">
+                  {tourSteps[tourStep].preview}
+                </div>
+              </div>
+            </div>
 
-              <span className="absolute bottom-6 z-20 text-[11px] font-bold text-slate-400 uppercase tracking-widest pointer-events-none bg-slate-950/80 px-3 py-1.5 rounded-full border border-slate-850">
-                Click to Play Product Tour
-              </span>
+            {/* Visual Indicators Footer */}
+            <div className="p-4 border-t border-slate-850 bg-slate-950/20 flex justify-center gap-1.5">
+              {tourSteps.map((_, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setTourStep(idx)}
+                  className={`w-1.5 h-1.5 rounded-full cursor-pointer transition-all ${
+                    tourStep === idx ? 'bg-purple-500 w-3' : 'bg-slate-700 hover:bg-slate-600'
+                  }`}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -940,120 +953,7 @@ export const Landing: React.FC = () => {
           </div>
         </div>
       )}
-      {/* Showcase Video & Interactive Tour Lightbox Modal */}
-      {showVideoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-          <div className="premium-glass-card w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden animated-gradient-border z-50">
-            {/* Modal Header / Tabs */}
-            <div className="flex items-center justify-between p-6 border-b border-slate-800/60">
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setModalTab('video')}
-                  className={`text-base font-bold pb-1 border-b-2 transition-all cursor-pointer ${
-                    modalTab === 'video' ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  Platform Overview Video
-                </button>
-                <button
-                  onClick={() => { setModalTab('tour'); setTourStep(0); }}
-                  className={`text-base font-bold pb-1 border-b-2 transition-all cursor-pointer ${
-                    modalTab === 'tour' ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  Interactive Guided Tour
-                </button>
-              </div>
-              <button
-                onClick={() => setShowVideoModal(false)}
-                className="text-slate-400 hover:text-white font-semibold text-lg cursor-pointer p-1"
-              >
-                ✕
-              </button>
-            </div>
 
-            {/* Modal Body */}
-            <div className="flex-1 overflow-y-auto p-6 flex flex-col items-center justify-center min-h-[350px]">
-              {modalTab === 'video' ? (
-                /* MP4 Player Tab */
-                <div className="w-full aspect-[16/9] rounded-xl overflow-hidden relative border border-slate-800/80 bg-slate-950">
-                  <video
-                    src="https://assets.mixkit.co/videos/preview/mixkit-code-running-on-a-computer-screen-32943-large.mp4"
-                    className="w-full h-full object-cover"
-                    controls
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  />
-                </div>
-              ) : (
-                /* Guided Tour Simulator Tab */
-                <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-6 items-center">
-                  {/* Left explanation block */}
-                  <div className="md:col-span-2 space-y-4 text-left">
-                    <div className="inline-flex px-2 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-400 text-[10px] font-bold uppercase tracking-wider">
-                      Step {tourStep + 1} of {tourSteps.length}
-                    </div>
-                    <h3 className="text-lg font-black text-white">{tourSteps[tourStep].title}</h3>
-                    <p className="text-xs text-slate-450 leading-relaxed">{tourSteps[tourStep].description}</p>
-                    
-                    {/* Navigation Buttons */}
-                    <div className="flex gap-2 pt-2">
-                      <button
-                        onClick={() => setTourStep(prev => Math.max(0, prev - 1))}
-                        disabled={tourStep === 0}
-                        className="p-2 rounded-xl bg-slate-900 border border-slate-800 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-850 hover:text-white cursor-pointer"
-                      >
-                        <ArrowLeft className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setTourStep(prev => Math.min(tourSteps.length - 1, prev + 1))}
-                        disabled={tourStep === tourSteps.length - 1}
-                        className="flex items-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl font-bold text-xs cursor-pointer"
-                      >
-                        <span>Next Step</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Right visual mockup screen */}
-                  <div className="md:col-span-3 aspect-[4/3] w-full max-w-sm mx-auto">
-                    {tourSteps[tourStep].preview}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Modal Footer / Dots indicator */}
-            <div className="p-6 border-t border-slate-800/60 flex items-center justify-between">
-              {modalTab === 'tour' ? (
-                <div className="flex gap-1.5">
-                  {tourSteps.map((_, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => setTourStep(idx)}
-                      className={`w-2 h-2 rounded-full cursor-pointer transition-all ${
-                        tourStep === idx ? 'bg-purple-500 w-4' : 'bg-slate-700 hover:bg-slate-600'
-                      }`}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <span className="text-[10px] text-slate-500 font-bold uppercase">Overview demo play state active</span>
-              )}
-              
-              <button
-                onClick={() => setShowVideoModal(false)}
-                className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-purple-600/10 cursor-pointer"
-              >
-                Close Showcase
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
