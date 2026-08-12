@@ -298,20 +298,20 @@ export const Roadmaps: React.FC = () => {
                       <div 
                         key={task.id}
                         onClick={() => toggleTaskMutation.mutate(task.id)}
-                        className="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/20 hover:bg-slate-900/50 border border-transparent hover:border-slate-800/40 text-xs cursor-pointer transition-all group"
+                        className="flex items-start justify-between p-2.5 rounded-lg bg-slate-900/20 hover:bg-slate-900/50 border border-transparent hover:border-slate-800/40 text-xs cursor-pointer transition-all group"
                       >
-                        <div className="flex items-center gap-3 min-w-0">
+                        <div className="flex items-start gap-3 min-w-0 pr-4">
                           {task.isCompleted || task.completed ? (
-                            <CheckSquare className="w-4 h-4 text-purple-500 shrink-0" />
+                            <CheckSquare className="w-4 h-4 text-purple-500 shrink-0 mt-0.5" />
                           ) : (
-                            <Square className="w-4 h-4 text-slate-500 group-hover:text-slate-400 shrink-0" />
+                            <Square className="w-4 h-4 text-slate-500 group-hover:text-slate-400 shrink-0 mt-0.5" />
                           )}
-                          <span className={`truncate font-medium ${task.isCompleted || task.completed ? 'line-through text-slate-500' : 'text-slate-200'}`}>
+                          <span className={`break-words whitespace-normal font-medium leading-relaxed ${task.isCompleted || task.completed ? 'line-through text-slate-500' : 'text-slate-200'}`}>
                             {task.title}
                           </span>
                         </div>
                         
-                        <div className="flex items-center gap-1 text-[10px] text-slate-500 shrink-0">
+                        <div className="flex items-center gap-1 text-[10px] text-slate-500 shrink-0 mt-0.5">
                           <Clock className="w-3.5 h-3.5" />
                           <span>{task.estimatedHours}h</span>
                         </div>

@@ -243,10 +243,10 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 h-[calc(100vh-10rem)] min-h-[500px]">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 h-[calc(100vh-10rem)] min-h-[500px]">
       
-      {/* Sidebar Panel - Conversation List */}
-      <div className="glass-card p-4 border border-slate-800 bg-slate-900/30 flex flex-col h-full md:col-span-1">
+      {/* Sidebar Panel - Conversation List (Hidden on Mobile) */}
+      <div className="hidden md:flex glass-card p-4 border border-slate-800 bg-slate-900/30 flex-col h-full md:col-span-1">
         
         {/* Create Chat */}
         <form onSubmit={handleCreateChat} className="flex gap-2 mb-4">
@@ -306,11 +306,40 @@ export const Chat: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Chat Terminal */}
-      <div className="glass-card border border-slate-800 bg-slate-900/30 flex flex-col h-full md:col-span-3 overflow-hidden">
+      {/* Main Chat Terminal - Full Width on Mobile like ChatGPT */}
+      <div className="border-0 bg-transparent md:border md:border-slate-800 md:bg-slate-900/30 md:glass-card flex flex-col h-full md:col-span-3 overflow-hidden">
         
+        {/* Mobile Conversation Selector Header */}
+        <div className="md:hidden p-3 border-b border-slate-900 flex items-center justify-between gap-3 bg-slate-950/40">
+          <select
+            value={activeConvId || ''}
+            onChange={(e) => setActiveConvId(e.target.value)}
+            className="flex-1 bg-slate-950 border border-slate-850 rounded-lg py-1.5 px-3 text-xs text-slate-350 font-semibold focus:outline-none focus:border-purple-600"
+          >
+            {conversations && conversations.length > 0 ? (
+              conversations.map((conv: any) => (
+                <option key={conv.id} value={conv.id}>{conv.title}</option>
+              ))
+            ) : (
+              <option value="">No Active Chats</option>
+            )}
+          </select>
+          <button
+            type="button"
+            onClick={() => {
+              const title = prompt("Enter new chat title:");
+              if (title && title.trim()) {
+                createConvMutation.mutate(title.trim());
+              }
+            }}
+            className="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold cursor-pointer shrink-0"
+          >
+            + New Chat
+          </button>
+        </div>
+
         {/* Messages viewport */}
-        <div ref={messageContainerRef} className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div ref={messageContainerRef} className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
           {!activeConvId ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <Bot className="w-12 h-12 text-purple-500 animate-bounce mb-3" />
@@ -335,7 +364,7 @@ export const Chat: React.FC = () => {
               return (
                 <div 
                   key={msg.id}
-                  className={`flex gap-4 items-start ${isAi ? 'justify-start' : 'justify-end'}`}
+                  className={`flex gap-2.5 sm:gap-4 items-start ${isAi ? 'justify-start' : 'justify-end'}`}
                 >
                   {/* Left Side AI Avatar */}
                   {isAi && (
@@ -345,7 +374,7 @@ export const Chat: React.FC = () => {
                   )}
 
                   <div className={`
-                    max-w-[80%] rounded-2xl p-4 text-slate-150 border
+                    max-w-[92%] md:max-w-[80%] rounded-2xl p-3 sm:p-4 text-slate-150 border
                     ${isAi 
                       ? 'bg-slate-950/20 border-slate-900 rounded-tl-none shadow-sm' 
                       : 'bg-purple-600/15 border-purple-500/20 text-slate-200 rounded-tr-none shadow-lg shadow-purple-600/5'}
@@ -366,11 +395,11 @@ export const Chat: React.FC = () => {
 
           {/* Pending response loader */}
           {sendMessageMutation.isPending && (
-            <div className="flex gap-4 items-start justify-start">
+            <div className="flex gap-2.5 sm:gap-4 items-start justify-start">
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0 shadow-sm">
                 <Bot className="w-4 h-4" />
               </div>
-              <div className="bg-slate-950/20 border border-slate-900 rounded-2xl rounded-tl-none p-4 shadow-sm flex items-center gap-2">
+              <div className="bg-slate-950/20 border border-slate-900 rounded-2xl rounded-tl-none p-3 sm:p-4 shadow-sm flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin text-purple-500" />
                 <span className="text-xs text-slate-400 font-medium">PathPilot is thinking...</span>
               </div>
@@ -382,7 +411,7 @@ export const Chat: React.FC = () => {
 
         {/* Input Form Bar */}
         {activeConvId && (
-          <div className="p-4 border-t border-slate-900 bg-slate-950/30">
+          <div className="p-3 sm:p-4 border-t border-slate-900 bg-slate-950/30">
             <form onSubmit={handleSendMessage} className="flex gap-2">
               <input
                 type="text"

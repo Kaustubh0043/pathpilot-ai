@@ -96,8 +96,8 @@ export const DashboardLayout: React.FC = () => {
         </header>
 
         {/* Content Viewport */}
-        <main ref={mainRef} className="flex-1 overflow-y-auto p-6 relative z-10">
-          <div className="max-w-6xl mx-auto space-y-6">
+        <main ref={mainRef} className="flex-1 overflow-y-auto p-3 sm:p-6 relative z-10">
+          <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6">
             <Outlet />
           </div>
         </main>
