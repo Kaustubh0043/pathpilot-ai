@@ -178,12 +178,24 @@ class AIService:
             "5. Provide constructive feedback detailing what they answered right and what is missing. Provide a clean, perfect, production-grade model answer.\n\n"
             "You MUST respond ONLY with a JSON object matching this schema:\n"
             "{\n"
-            "  \"score\": 75, // Rating score integer from 0 to 100\n"
+            "  \"score\": 0, // Rating score integer from 0 to 100. IMPORTANT: If the answer is short/lazy, this must be between 0 and 10.\n"
             "  \"feedback\": \"Critique on what was covered and what was missing\",\n"
             "  \"model_answer\": \"Suggested ideal answer to the question\"\n"
             "}"
         )
-        return self._invoke_json(prompt)
+        result = self._invoke_json(prompt)
+        
+        # Proactive python fallback verification check for extremely short/lazy answers
+        clean_ans = answer.strip().lower().replace(".", "").replace(",", "").replace("!", "")
+        word_count = len(clean_ans.split())
+        if word_count < 4 or clean_ans in ["easy", "yes", "no", "dont know", "don't know", "skip", "pass", "ok", "fine", "nothing"]:
+            if "score" in result:
+                result["score"] = min(result["score"], 5) if result["score"] > 10 else result["score"]
+                if result["score"] == 0 or result["score"] > 10:
+                    result["score"] = 5
+                result["feedback"] = "Your answer is too short or lazy to be evaluated. Please provide a detailed technical response."
+        
+        return result
 
     def analyze_resume(self, resume_text: str) -> dict:
         """Evaluates resume content to suggest enhancements."""
