@@ -114,6 +114,81 @@ export const Chat: React.FC = () => {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  const parseInlineFormatting = (text: string) => {
+    // Split by ** to find bold sections
+    const parts = text.split('**');
+    return parts.map((part, index) => {
+      // Odd indices are bold
+      if (index % 2 !== 0) {
+        return (
+          <strong 
+            key={index} 
+            className="font-extrabold text-white bg-purple-500/10 px-1 py-0.5 rounded border border-purple-500/20"
+          >
+            {part}
+          </strong>
+        );
+      }
+      return part;
+    });
+  };
+
+  const parseMarkdownText = (text: string) => {
+    const lines = text.split('\n');
+    return lines.map((line, lineIndex) => {
+      const trimmed = line.trim();
+
+      // Handle horizontal rule
+      if (trimmed === '---') {
+        return <hr key={lineIndex} className="border-slate-800/80 my-4" />;
+      }
+
+      // Handle Headings
+      if (trimmed.startsWith('#### ')) {
+        return (
+          <h6 key={lineIndex} className="text-xs font-bold text-slate-200 mt-3 mb-1.5 uppercase tracking-wider">
+            {parseInlineFormatting(trimmed.substring(5))}
+          </h6>
+        );
+      }
+      if (trimmed.startsWith('### ')) {
+        return (
+          <h5 key={lineIndex} className="text-sm font-black text-white mt-4 mb-2">
+            {parseInlineFormatting(trimmed.substring(4))}
+          </h5>
+        );
+      }
+      if (trimmed.startsWith('## ')) {
+        return (
+          <h4 key={lineIndex} className="text-base font-black text-purple-400 mt-5 mb-2.5">
+            {parseInlineFormatting(trimmed.substring(3))}
+          </h4>
+        );
+      }
+
+      // Handle Bullet Lists
+      if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+        return (
+          <li key={lineIndex} className="list-disc ml-5 my-1 text-slate-350 leading-relaxed text-sm">
+            {parseInlineFormatting(trimmed.substring(2))}
+          </li>
+        );
+      }
+
+      // Handle empty lines (add space)
+      if (trimmed === '') {
+        return <div key={lineIndex} className="h-2" />;
+      }
+
+      // Normal text paragraph
+      return (
+        <p key={lineIndex} className="text-slate-300 leading-relaxed text-sm my-1">
+          {parseInlineFormatting(line)}
+        </p>
+      );
+    });
+  };
+
   // Custom function to render text and format code block sections cleanly
   const renderMessageContent = (content: string, msgId: string) => {
     const parts = content.split('```');
@@ -158,10 +233,10 @@ export const Chat: React.FC = () => {
         );
       }
       
-      // Render standard paragraph text, handling simple line breaks
+      // Render standard paragraph text, parsing headers, lists, and bold markdown
       return (
-        <span key={index} className="whitespace-pre-line leading-relaxed text-sm">
-          {part}
+        <span key={index} className="block space-y-1">
+          {parseMarkdownText(part)}
         </span>
       );
     });
