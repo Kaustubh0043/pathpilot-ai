@@ -62,14 +62,49 @@ export const Roadmaps: React.FC = () => {
     },
   });
 
-  // Toggle task checklist
+  // Toggle task checklist with optimistic updates
   const toggleTaskMutation = useMutation({
     mutationFn: async (taskId: string) => {
       return api.patch(`/api/roadmaps/tasks/${taskId}/toggle`);
     },
-    onSuccess: () => {
+    onMutate: async (taskId: string) => {
+      // Cancel any outgoing refetches so they don't overwrite our optimistic update
+      await queryClient.cancelQueries({ queryKey: ['roadmapDetails', activeRoadmapId] });
+
+      // Snapshot the previous details
+      const previousDetails = queryClient.getQueryData(['roadmapDetails', activeRoadmapId]);
+
+      // Optimistically update the task checked state in cache
+      if (previousDetails) {
+        const updatedDetails = JSON.parse(JSON.stringify(previousDetails));
+        if (updatedDetails.nodes) {
+          updatedDetails.nodes.forEach((node: any) => {
+            if (node.tasks) {
+              node.tasks.forEach((t: any) => {
+                if (t.id === taskId) {
+                  const nextState = !(t.isCompleted || t.completed);
+                  t.isCompleted = nextState;
+                  t.completed = nextState;
+                }
+              });
+            }
+          });
+        }
+        queryClient.setQueryData(['roadmapDetails', activeRoadmapId], updatedDetails);
+      }
+
+      // Return context with snapshot value for rollback
+      return { previousDetails };
+    },
+    onError: (err, taskId, context) => {
+      if (context?.previousDetails) {
+        queryClient.setQueryData(['roadmapDetails', activeRoadmapId], context.previousDetails);
+      }
+    },
+    onSettled: () => {
+      // Sync state in the background with server
       queryClient.invalidateQueries({ queryKey: ['roadmapDetails', activeRoadmapId] });
-      queryClient.invalidateQueries({ queryKey: ['dashboardStats'] }); // refresh stats on change
+      queryClient.invalidateQueries({ queryKey: ['dashboardStats'] });
     },
   });
 
