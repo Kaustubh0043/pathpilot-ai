@@ -48,7 +48,7 @@ public class User {
     @Column(name = "verification_code_expires_at")
     private LocalDateTime verificationCodeExpiresAt;
 
-    @Column(name = "onboarding_completed", nullable = false)
+    @Column(name = "onboarding_completed")
     @Builder.Default
     private boolean onboardingCompleted = false;
 
