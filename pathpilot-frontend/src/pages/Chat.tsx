@@ -341,7 +341,7 @@ export const Chat: React.FC = () => {
             placeholder="New chat title..."
             value={newChatTitle}
             onChange={(e) => setNewChatTitle(e.target.value)}
-            className="flex-1 px-3 py-2 bg-[#07080C] border border-slate-900 rounded text-xs text-[#F4F1EA]"
+            className="flex-1 min-w-0 px-3 py-2 bg-[#07080C] border border-slate-900 rounded text-xs text-[#F4F1EA]"
           />
           <button 
             type="submit" 
@@ -424,7 +424,7 @@ export const Chat: React.FC = () => {
         </div>
 
         {/* Messages viewport */}
-        <div ref={messageContainerRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 custom-scrollbar max-h-[360px]">
+        <div ref={messageContainerRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 custom-scrollbar">
           {!activeConvId ? (
             <div className="flex flex-col items-center justify-center h-full text-center py-16 space-y-3">
               <div className="p-3 bg-[#11151D] border border-slate-900 rounded-lg">
@@ -487,12 +487,12 @@ export const Chat: React.FC = () => {
                 placeholder="Ask Career Coach coaching tips..."
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                className="flex-1 pl-4 pr-4 py-2 bg-[#07080C] border border-slate-900 rounded text-xs text-[#F4F1EA]"
+                className="flex-1 min-w-0 px-4 py-3 bg-[#07080C] border border-slate-900 rounded text-sm text-[#F4F1EA] focus:outline-none focus:border-[#9B5CFF]"
               />
               <button 
                 type="submit" 
                 disabled={!inputText.trim() || sendMessageMutation.isPending}
-                className="px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded text-xs font-bold transition-all cursor-pointer flex items-center justify-center shadow-sm"
+                className="px-6 py-3 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded text-xs font-bold transition-all cursor-pointer flex items-center justify-center shadow-sm shrink-0"
               >
                 <span>Send</span>
               </button>
