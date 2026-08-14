@@ -19,6 +19,7 @@ export const Roadmaps: React.FC = () => {
   const [activeRoadmapId, setActiveRoadmapId] = useState<string | null>(null);
   const [topicInput, setTopicInput] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const [expandedNodeId, setExpandedNodeId] = useState<string | null>(null);
 
   // Reset scroll of parent main layout when roadmap changes
   useEffect(() => {
@@ -118,6 +119,19 @@ export const Roadmaps: React.FC = () => {
     if (!topicInput.trim()) return;
     generateRoadmapMutation.mutate(topicInput);
   };
+
+  // Automatically expand current week when active roadmap details load
+  useEffect(() => {
+    if (roadmapDetails?.nodes) {
+      const nodesWithStatus = getNodesWithStatus(roadmapDetails.nodes);
+      const current = nodesWithStatus.find((n: any) => n.status === 'current');
+      if (current) {
+        setExpandedNodeId(current.id);
+      } else if (nodesWithStatus.length > 0) {
+        setExpandedNodeId(nodesWithStatus[0].id);
+      }
+    }
+  }, [roadmapDetails]);
 
   // Calculate task completions percentage
   const calculateProgress = (nodes: any[]) => {
@@ -289,6 +303,7 @@ export const Roadmaps: React.FC = () => {
               {getNodesWithStatus(roadmapDetails.nodes).map((node: any, idx: number) => {
                 const isCurrent = node.status === 'current';
                 const isCompleted = node.status === 'completed';
+                const isExpanded = expandedNodeId === node.id;
                 
                 // Format chapter header: e.g. "01 FOUNDATIONS"
                 const prefixIndex = String(idx + 1).padStart(2, '0');
@@ -297,7 +312,8 @@ export const Roadmaps: React.FC = () => {
                 return (
                   <div 
                     key={node.id}
-                    className={`p-5 rounded-lg border transition-all space-y-3 
+                    onClick={() => setExpandedNodeId(isExpanded ? null : node.id)}
+                    className={`p-5 rounded-lg border transition-all space-y-3 cursor-pointer
                       ${isCurrent 
                         ? 'border-[#9B5CFF]/30 bg-[#0D1016] border-l-2 border-l-[#9B5CFF]' 
                         : 'border-slate-900 bg-transparent text-slate-500'}`}
@@ -321,12 +337,12 @@ export const Roadmaps: React.FC = () => {
                       </div>
                     </div>
 
-                    {isCurrent && (
-                      <>
+                    {isExpanded && (
+                      <div className="space-y-3 pt-3 border-t border-slate-900/60" onClick={(e) => e.stopPropagation()}>
                         <p className="text-xs text-[#9299A8] leading-relaxed max-w-xl">{node.description}</p>
                         
                         {/* Tasks Checklist Sub-list (Point 29) */}
-                        <div className="space-y-2 pt-3 border-t border-slate-900/60">
+                        <div className="space-y-2 pt-2">
                           {node.tasks?.map((task: any) => {
                             const isTaskCompleted = task.isCompleted || task.completed;
                             return (
@@ -354,7 +370,7 @@ export const Roadmaps: React.FC = () => {
                             );
                           })}
                         </div>
-                      </>
+                      </div>
                     )}
                   </div>
                 );

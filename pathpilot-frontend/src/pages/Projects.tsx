@@ -24,6 +24,12 @@ export const Projects: React.FC = () => {
     },
     onSuccess: (data) => {
       setResult(data);
+      setTimeout(() => {
+        const el = document.getElementById('project-results');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     },
   });
 
@@ -77,7 +83,7 @@ export const Projects: React.FC = () => {
 
       {/* Blueprint Visual Workspace Results (Point 30) */}
       {result && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start animate-fade-up-header">
+        <div id="project-results" className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start animate-fade-up-header">
           
           {/* Concept Overview Box */}
           <div className="bg-[#0D1016] border border-slate-900 p-6 rounded-lg md:col-span-2 space-y-3">

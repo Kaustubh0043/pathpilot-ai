@@ -140,7 +140,7 @@ class AIService:
             f"Generate a comprehensive, detailed, production-ready software project blueprint for the tech stack/concept: '{stack}'.\n"
             "Guidelines:\n"
             "- ideas: Suggest a production-grade application idea with detailed descriptions of core features, security protocols, and advanced architecture patterns.\n"
-            "- folder_structure: Provide a complete, highly organized directory tree diagram showcasing src files, tests, configurations, Dockerfiles, and scripts.\n"
+            "- folder_structure: Provide a complete, highly organized directory tree diagram showcasing all layers of the project (e.g. backend source code controllers, services, database configurations, and frontend client views if a full tech stack is specified) showcasing src files, tests, and configuration assets.\n"
             "- api_suggestions: List specific REST API endpoints, detailing HTTP verbs, exact paths, expected query/path parameters, request payloads, and response status codes.\n"
             "- database_design: Detail a database design schema indicating table fields, data types, relationships (primary/foreign keys), indexing recommendations, and query performance optimizations.\n\n"
             "You MUST respond ONLY with a JSON object matching this schema:\n"
@@ -188,12 +188,18 @@ class AIService:
         # Proactive python fallback verification check for extremely short/lazy answers
         clean_ans = answer.strip().lower().replace(".", "").replace(",", "").replace("!", "")
         word_count = len(clean_ans.split())
-        if word_count < 4 or clean_ans in ["easy", "yes", "no", "dont know", "don't know", "skip", "pass", "ok", "fine", "nothing"]:
+        lazy_words = ["easy", "simple", "dont know", "don't know", "skip", "pass", "ok", "fine", "nothing", "no idea", "too easy", "whatever"]
+        is_lazy = any(w in clean_ans for w in lazy_words) or word_count < 10
+        if is_lazy:
             if "score" in result:
-                result["score"] = min(result["score"], 5) if result["score"] > 10 else result["score"]
-                if result["score"] == 0 or result["score"] > 10:
-                    result["score"] = 5
-                result["feedback"] = "Your answer is too short or lazy to be evaluated. Please provide a detailed technical response."
+                result["score"] = 5
+                result["feedback"] = "Your response is too short, non-technical, or lazy. Please provide a detailed technical explanation to demonstrate your expertise."
+            else:
+                result = {
+                    "score": 5,
+                    "feedback": "Your response is too short, non-technical, or lazy. Please provide a detailed technical explanation to demonstrate your expertise.",
+                    "model_answer": "A proper explanation should cover the architectural tradeoffs and technical details of the question."
+                }
         
         return result
 

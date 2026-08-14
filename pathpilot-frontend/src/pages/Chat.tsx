@@ -345,7 +345,7 @@ export const Chat: React.FC = () => {
           />
           <button 
             type="submit" 
-            className="p-2.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded transition-all cursor-pointer"
+            className="px-3 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded transition-all cursor-pointer flex items-center justify-center shrink-0"
           >
             <Plus className="w-4 h-4" />
           </button>

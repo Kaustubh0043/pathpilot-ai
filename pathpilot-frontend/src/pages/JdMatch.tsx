@@ -36,6 +36,12 @@ export const JdMatch: React.FC = () => {
     },
     onSuccess: (data) => {
       setResult(data);
+      setTimeout(() => {
+        const el = document.getElementById('jd-results');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
     },
   });
 
@@ -122,7 +128,7 @@ export const JdMatch: React.FC = () => {
 
       {/* Results panel Display (Point 31) */}
       {result && (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start animate-fade-up-header border-t border-slate-900 pt-8">
+        <div id="jd-results" className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start animate-fade-up-header border-t border-slate-900 pt-8">
           
           {/* Left Column: Match Score Scorecard */}
           <div className="md:col-span-4 bg-[#0D1016] border border-slate-900 p-6 rounded-lg space-y-4">
