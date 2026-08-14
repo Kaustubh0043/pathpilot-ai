@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Compass, Mail, Lock, User, AlertCircle, RefreshCw, KeyRound, ArrowLeft, CheckCircle, ShieldCheck } from 'lucide-react';
+import { Compass, Mail, Lock, User, AlertCircle, RefreshCw, KeyRound, ArrowLeft, CheckCircle } from 'lucide-react';
 
 export const Auth: React.FC = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export const Auth: React.FC = () => {
   const [isVerify, setIsVerify] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   
-  // Form fields
+  // Form fields (Preserving existing logic)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
@@ -21,7 +21,7 @@ export const Auth: React.FC = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [code, setCode] = useState('');
   
-  // Terms & Privacy Modal states
+  // Terms & Privacy Modal states (Preserving existing logic)
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [activeModalTab, setActiveModalTab] = useState<'terms' | 'privacy'>('terms');
 
@@ -30,7 +30,7 @@ export const Auth: React.FC = () => {
     setShowTermsModal(true);
   };
   
-  // Feedback states
+  // Feedback states (Preserving existing logic)
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,6 @@ export const Auth: React.FC = () => {
     setError(null);
     setSuccessMsg(null);
 
-    // Validation for Signup
     if (!isLogin) {
       if (password !== confirmPassword) {
         setError('Passwords do not match. Please verify your entries.');
@@ -124,47 +123,35 @@ export const Auth: React.FC = () => {
 
     setLoading(true);
 
-    // Mock/Simulate reset request
     setTimeout(() => {
       setLoading(false);
       setSuccessMsg(`A password reset link has been simulated & sent to ${email}`);
     }, 1500);
   };
 
-  return (
-    <div className="relative min-h-screen text-slate-100 flex items-center justify-center p-6 overflow-hidden">
-      {/* Animated Glowing Orbs & Cyber Grid Backdrop */}
-      <div className="aurora-container">
-        <div className="cyber-grid-2d" />
-        <div className="aurora-orb aurora-1" />
-        <div className="aurora-orb aurora-2" />
-        <div className="aurora-orb aurora-3" />
-        <div className="aurora-orb aurora-4" />
-        {/* Scanning Cyber Beams */}
-        <div className="grid-beam beam-1" />
-        <div className="grid-beam-v beam-2" />
-        <div className="grid-beam-v beam-3" />
-        {/* Glow Particles */}
-        <div className="glow-particle animate-pulse-slow top-[15%] left-[20%] w-1.5 h-1.5 bg-purple-500/35" />
-        <div className="glow-particle animate-pulse-fast top-[45%] left-[80%] w-1 h-1 bg-indigo-400/30" />
-        <div className="glow-particle animate-pulse-slow top-[75%] left-[15%] w-2 h-2 bg-cyan-400/20" />
-        <div className="glow-particle animate-pulse-fast top-[35%] left-[65%] w-1 h-1 bg-pink-500/25" />
-      </div>
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'text-[#55D39A]';
+    if (score >= 60) return 'text-[#E9B84B]';
+    return 'text-[#FF6577]';
+  };
 
-      <div className="w-full max-w-md relative z-10 my-8">
+  return (
+    <div className="relative min-h-screen text-[#F4F1EA] flex items-center justify-center p-6 bg-[#07080C]">
+      
+      <div className="w-full max-w-sm relative z-10 my-8">
         
         {/* Brand Header */}
         <div className="flex flex-col items-center mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-2xl bg-purple-600/10 border border-purple-500/20 shadow-lg shadow-purple-500/5">
-              <Compass className="w-9 h-9 text-purple-400 animate-spin-slow" />
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="p-1.5 rounded bg-[#9B5CFF]/10 border border-[#9B5CFF]/20">
+              <Compass className="w-5 h-5 text-[#9B5CFF]" />
             </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-white m-0">
-              PathPilot<span className="text-purple-400">.AI</span>
+            <h1 className="text-xl font-bold tracking-tight text-[#F4F1EA] font-display m-0">
+              PATHPILOT
             </h1>
           </div>
-          <p className="text-slate-400 text-xs text-center font-medium max-w-xs">
-            AI-powered ecosystem for career development and optimization
+          <p className="text-[#9299A8] text-xs text-center font-medium max-w-xs leading-normal">
+            The Career Operating System
           </p>
         </div>
 
@@ -182,35 +169,35 @@ export const Auth: React.FC = () => {
         {/* Auth Panels */}
         {isVerify ? (
           /* Verification Screen */
-          <div className="premium-glass-card p-8 md:p-10 shadow-2xl relative animated-gradient-border">
-            <div className="flex items-center gap-3 mb-6 text-purple-400">
-              <div className="p-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                <KeyRound className="w-5 h-5 text-purple-400" />
+          <div className="bg-[#0D1016] border border-slate-900 p-8 rounded-lg space-y-6">
+            <div className="flex items-center gap-3 text-[#9B5CFF]">
+              <div className="p-1.5 rounded bg-[#9B5CFF]/10 border border-[#9B5CFF]/20">
+                <KeyRound className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-bold text-white">Verify Your Account</h2>
+              <h2 className="text-base font-bold text-[#F4F1EA]">Verify Your Account</h2>
             </div>
 
             {error && (
-              <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm backdrop-blur-md">
-                <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+              <div className="flex items-start gap-2 p-3 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs rounded">
+                <AlertCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
 
             {successMsg && (
-              <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm backdrop-blur-md">
-                <CheckCircle className="w-5 h-5 shrink-0 text-emerald-400" />
+              <div className="flex items-start gap-2 p-3 bg-[#55D39A]/10 border border-[#55D39A]/20 text-[#55D39A] text-xs rounded">
+                <CheckCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
                 <span>{successMsg}</span>
               </div>
             )}
 
-            <p className="text-slate-400 text-xs mb-6 leading-relaxed">
-              We've sent a 6-digit verification code to <strong className="text-slate-200">{email}</strong>. Please enter it below.
+            <p className="text-[#9299A8] text-xs leading-relaxed">
+              We've sent a 6-digit verification code to <strong className="text-[#F4F1EA]">{email}</strong>. Please enter it below.
             </p>
 
             <form onSubmit={handleVerify} className="space-y-5">
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Verification Code</label>
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Verification Code</label>
                 <input
                   type="text"
                   required
@@ -218,27 +205,27 @@ export const Auth: React.FC = () => {
                   placeholder="123456"
                   value={code}
                   onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                  className="w-full text-center tracking-[0.5em] font-black text-xl py-3.5 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-100 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none transition-all shadow-inner"
+                  className="w-full text-center tracking-[0.5em] font-extrabold text-lg py-2.5 bg-[#07080C] border border-slate-900 rounded text-[#F4F1EA]"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading || code.length !== 6}
-                className="w-full flex items-center justify-center gap-2 py-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 disabled:bg-slate-800/80 disabled:text-slate-500 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-600/10 cursor-pointer mt-6"
+                className="w-full flex items-center justify-center gap-2 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded text-xs font-bold transition-all cursor-pointer"
               >
                 {loading ? (
-                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  <RefreshCw className="w-4 h-4 animate-spin" />
                 ) : (
                   <span>Activate Account</span>
                 )}
               </button>
 
-              <div className="flex justify-between items-center text-xs mt-6 pt-2 border-t border-slate-800/60">
+              <div className="flex justify-between items-center text-xs mt-6 pt-3 border-t border-slate-900">
                 <button
                   type="button"
                   onClick={() => { setIsVerify(false); setError(null); setSuccessMsg(null); }}
-                  className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-1 text-slate-500 hover:text-white transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Sign In</span>
@@ -246,7 +233,7 @@ export const Auth: React.FC = () => {
                 <button
                   type="button"
                   onClick={handleResendCode}
-                  className="text-purple-400 hover:text-purple-300 font-bold transition-colors cursor-pointer"
+                  className="text-[#9B5CFF] hover:text-[#C49AFF] font-bold transition-colors cursor-pointer"
                 >
                   Resend Code
                 </button>
@@ -255,65 +242,62 @@ export const Auth: React.FC = () => {
           </div>
         ) : isForgotPassword ? (
           /* Forgot Password Screen */
-          <div className="premium-glass-card p-8 md:p-10 shadow-2xl relative animated-gradient-border">
-            <div className="flex items-center gap-3 mb-6 text-purple-400">
-              <div className="p-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                <Compass className="w-5 h-5 text-purple-400" />
+          <div className="bg-[#0D1016] border border-slate-900 p-8 rounded-lg space-y-6">
+            <div className="flex items-center gap-3 text-[#9B5CFF]">
+              <div className="p-1.5 rounded bg-[#9B5CFF]/10 border border-[#9B5CFF]/20">
+                <Compass className="w-4 h-4" />
               </div>
-              <h2 className="text-xl font-bold text-white">Reset Password</h2>
+              <h2 className="text-base font-bold text-[#F4F1EA]">Reset Password</h2>
             </div>
 
             {error && (
-              <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm backdrop-blur-md">
-                <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+              <div className="flex items-start gap-2 p-3 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs rounded">
+                <AlertCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
 
             {successMsg && (
-              <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm backdrop-blur-md">
-                <CheckCircle className="w-5 h-5 shrink-0 text-emerald-400" />
+              <div className="flex items-start gap-2 p-3 bg-[#55D39A]/10 border border-[#55D39A]/20 text-[#55D39A] text-xs rounded">
+                <CheckCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
                 <span>{successMsg}</span>
               </div>
             )}
 
-            <p className="text-slate-400 text-xs mb-6 leading-relaxed">
+            <p className="text-[#9299A8] text-xs leading-relaxed">
               Enter your email address below and we'll send you instructions to reset your password.
             </p>
 
             <form onSubmit={handleForgotPassword} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Email Address</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3.5 w-5 h-5 text-slate-500" />
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@domain.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none text-sm transition-all shadow-inner"
-                  />
-                </div>
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="name@domain.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full text-xs"
+                />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-2 py-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 disabled:bg-purple-850/80 text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-600/10 cursor-pointer mt-6"
+                className="w-full flex items-center justify-center gap-2 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded text-xs font-bold transition-all cursor-pointer"
               >
                 {loading ? (
-                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  <RefreshCw className="w-4 h-4 animate-spin" />
                 ) : (
                   <span>Send Reset Instructions</span>
                 )}
               </button>
 
-              <div className="flex items-center justify-center text-xs mt-6 pt-2 border-t border-slate-800/60">
+              <div className="flex items-center justify-center text-xs mt-6 pt-3 border-t border-slate-900">
                 <button
                   type="button"
                   onClick={() => { setIsForgotPassword(false); setError(null); setSuccessMsg(null); }}
-                  className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 text-slate-500 hover:text-white transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Sign In</span>
@@ -323,21 +307,21 @@ export const Auth: React.FC = () => {
           </div>
         ) : (
           /* Login/Signup Screen */
-          <div className="premium-glass-card p-8 md:p-10 shadow-2xl relative animated-gradient-border">
+          <div className="bg-[#0D1016] border border-slate-900 p-8 rounded-lg space-y-6">
             {/* Header Tabs */}
-            <div className="flex border-b border-slate-800/60 mb-6">
+            <div className="flex border-b border-slate-900 mb-6">
               <button
                 onClick={() => { setIsLogin(true); setError(null); setSuccessMsg(null); }}
-                className={`flex-1 pb-3 text-sm font-bold border-b-2 cursor-pointer transition-all ${
-                  isLogin ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
+                className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider border-b-2 cursor-pointer transition-all ${
+                  isLogin ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-500 hover:text-slate-200'
                 }`}
               >
                 Sign In
               </button>
               <button
                 onClick={() => { setIsLogin(false); setError(null); setSuccessMsg(null); }}
-                className={`flex-1 pb-3 text-sm font-bold border-b-2 cursor-pointer transition-all ${
-                  !isLogin ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
+                className={`flex-1 pb-3 text-xs font-bold uppercase tracking-wider border-b-2 cursor-pointer transition-all ${
+                  !isLogin ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-500 hover:text-slate-200'
                 }`}
               >
                 Create Account
@@ -345,15 +329,15 @@ export const Auth: React.FC = () => {
             </div>
 
             {error && (
-              <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-sm backdrop-blur-md">
-                <AlertCircle className="w-5 h-5 shrink-0 text-rose-400" />
+              <div className="flex items-start gap-2 p-3 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs rounded">
+                <AlertCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
 
             {successMsg && (
-              <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm backdrop-blur-md">
-                <CheckCircle className="w-5 h-5 shrink-0 text-emerald-400" />
+              <div className="flex items-start gap-2 p-3 bg-[#55D39A]/10 border border-[#55D39A]/20 text-[#55D39A] text-xs rounded">
+                <CheckCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
                 <span>{successMsg}</span>
               </div>
             )}
@@ -363,85 +347,69 @@ export const Auth: React.FC = () => {
               {!isLogin && (
                 /* FULL NAME (Signup only) */
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Full Name</label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3.5 w-5 h-5 text-slate-500" />
-                    <input
-                      type="text"
-                      required
-                      placeholder="Enter your name"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none text-sm transition-all shadow-inner"
-                    />
-                  </div>
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full text-xs"
+                  />
                 </div>
               )}
 
               {/* EMAIL */}
               <div className="space-y-2">
-                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Email Address</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3.5 w-5 h-5 text-slate-500" />
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@domain.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none text-sm transition-all shadow-inner"
-                  />
-                </div>
+                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
+                <input
+                  type="email"
+                  required
+                  placeholder="name@domain.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full text-xs"
+                />
               </div>
 
               {/* PASSWORD */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Password</label>
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Password</label>
                   {isLogin && (
                     <button
                       type="button"
                       onClick={() => { setIsForgotPassword(true); setError(null); setSuccessMsg(null); }}
-                      className="text-xs text-purple-400 hover:text-purple-300 font-bold transition-colors cursor-pointer"
+                      className="text-[11px] text-[#9B5CFF] hover:text-[#C49AFF] font-bold transition-colors cursor-pointer"
                     >
-                      Forgot Password?
+                      Forgot?
                     </button>
                   )}
                 </div>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3.5 w-5 h-5 text-slate-500" />
-                  <input
-                    type="password"
-                    required
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-slate-950/40 border border-slate-800/80 rounded-xl text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 focus:outline-none text-sm transition-all shadow-inner"
-                  />
-                </div>
+                <input
+                  type="password"
+                  required
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full text-xs"
+                />
               </div>
 
               {!isLogin && (
                 /* CONFIRM PASSWORD (Signup only) */
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Confirm Password</label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-3.5 w-5 h-5 text-slate-500" />
-                    <input
-                      type="password"
-                      required
-                      placeholder="••••••••"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className={`w-full pl-10 pr-4 py-3 bg-slate-950/40 border rounded-xl text-slate-100 placeholder-slate-500 focus:ring-1 focus:outline-none text-sm transition-all shadow-inner ${
-                        confirmPassword && password !== confirmPassword 
-                          ? 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500' 
-                          : 'border-slate-800/80 focus:border-purple-500 focus:ring-purple-500'
-                      }`}
-                    />
-                  </div>
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Confirm Password</label>
+                  <input
+                    type="password"
+                    required
+                    placeholder="••••••••"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full text-xs"
+                  />
                   {confirmPassword && password !== confirmPassword && (
-                    <div className="flex items-center gap-1.5 text-xs text-rose-400 mt-1">
+                    <div className="flex items-center gap-1.5 text-xs text-[#FF6577] mt-1 font-bold">
                       <AlertCircle className="w-4 h-4" />
                       <span>Passwords do not match</span>
                     </div>
@@ -451,28 +419,26 @@ export const Auth: React.FC = () => {
 
               {!isLogin && (
                 /* TERMS AND CONDITIONS CHECKBOX (Signup only) */
-                <div className="flex items-start gap-3 mt-4 pt-1">
-                  <div className="relative flex items-center h-5">
-                    <input
-                      id="agreeTerms"
-                      type="checkbox"
-                      checked={agreeTerms}
-                      onChange={(e) => setAgreeTerms(e.target.checked)}
-                      className="w-4 h-4 rounded border-slate-800/80 bg-slate-950/40 text-purple-600 focus:ring-purple-500 focus:ring-offset-slate-950 cursor-pointer"
-                    />
-                  </div>
-                  <label htmlFor="agreeTerms" className="text-xs text-slate-400 leading-normal select-none">
+                <div className="flex items-start gap-3 mt-4 pt-1 text-left">
+                  <input
+                    id="agreeTerms"
+                    type="checkbox"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    className="w-4 h-4 rounded border-slate-900 bg-[#07080C] text-[#9B5CFF] focus:ring-[#9B5CFF] focus:ring-offset-[#07080C] cursor-pointer mt-0.5"
+                  />
+                  <label htmlFor="agreeTerms" className="text-xs text-[#9299A8] leading-normal select-none">
                     I agree to the{' '}
                     <span 
                       onClick={() => openModal('terms')} 
-                      className="text-purple-400 font-bold hover:text-purple-300 transition-colors cursor-pointer"
+                      className="text-[#9B5CFF] font-bold hover:text-[#C49AFF] transition-colors cursor-pointer"
                     >
                       Terms of Service
                     </span>
                     {' '}and{' '}
                     <span 
                       onClick={() => openModal('privacy')} 
-                      className="text-purple-400 font-bold hover:text-purple-300 transition-colors cursor-pointer"
+                      className="text-[#9B5CFF] font-bold hover:text-[#C49AFF] transition-colors cursor-pointer"
                     >
                       Privacy Policy
                     </span>.
@@ -484,10 +450,10 @@ export const Auth: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading || (!isLogin && password !== confirmPassword)}
-                className="w-full flex items-center justify-center gap-2 py-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 disabled:bg-purple-800/40 disabled:text-slate-400 disabled:cursor-not-allowed text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-purple-600/10 cursor-pointer mt-6"
+                className="w-full flex items-center justify-center gap-2 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded text-xs font-bold transition-all cursor-pointer mt-6"
               >
                 {loading ? (
-                  <RefreshCw className="w-5 h-5 animate-spin" />
+                  <RefreshCw className="w-4 h-4 animate-spin" />
                 ) : (
                   <span>{isLogin ? 'Sign In' : 'Create Account'}</span>
                 )}
@@ -499,23 +465,23 @@ export const Auth: React.FC = () => {
 
       {/* Terms & Privacy Modal */}
       {showTermsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">
-          <div className="premium-glass-card w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden animated-gradient-border z-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="bg-[#0D1016] border border-slate-900 w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden rounded-lg z-50 shadow-2xl">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-slate-800/60">
+            <div className="flex items-center justify-between p-6 border-b border-slate-900 bg-[#11151D]/30">
               <div className="flex gap-4">
                 <button
                   onClick={() => setActiveModalTab('terms')}
-                  className={`text-base font-bold pb-1 border-b-2 transition-all cursor-pointer ${
-                    activeModalTab === 'terms' ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
+                  className={`text-xs font-bold pb-1 uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                    activeModalTab === 'terms' ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-550 hover:text-white'
                   }`}
                 >
                   Terms of Service
                 </button>
                 <button
                   onClick={() => setActiveModalTab('privacy')}
-                  className={`text-base font-bold pb-1 border-b-2 transition-all cursor-pointer ${
-                    activeModalTab === 'privacy' ? 'border-purple-500 text-purple-400' : 'border-transparent text-slate-400 hover:text-slate-200'
+                  className={`text-xs font-bold pb-1 uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
+                    activeModalTab === 'privacy' ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-550 hover:text-white'
                   }`}
                 >
                   Privacy Policy
@@ -523,74 +489,52 @@ export const Auth: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowTermsModal(false)}
-                className="text-slate-400 hover:text-white font-semibold text-lg cursor-pointer p-1"
+                className="text-slate-500 hover:text-white text-xs cursor-pointer p-1"
               >
                 ✕
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 text-sm text-slate-300 leading-relaxed custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 text-xs text-[#9299A8] leading-relaxed custom-scrollbar">
               {activeModalTab === 'terms' ? (
                 <div className="space-y-4">
-                  <h3 className="text-white font-bold text-base">1. Acceptance of Terms</h3>
+                  <h3 className="text-[#F4F1EA] font-bold text-sm">1. Acceptance of Terms</h3>
                   <p>
-                    Welcome to PathPilot.AI. By accessing or using our platform (the "Service"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
+                    Welcome to PathPilot. By accessing or using our platform, you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
                   </p>
-                  <h3 className="text-white font-bold text-base">2. Description of Service</h3>
+                  <h3 className="text-[#F4F1EA] font-bold text-sm">2. Description of Service</h3>
                   <p>
-                    PathPilot.AI is an AI-powered career development ecosystem designed to assist students and professionals with roadmap creation, resume optimization, mock interviews, and RAG context question answering. AI suggestions are generated by large language models and are intended solely for educational and development purposes.
+                    PathPilot is a career development ecosystem designed to assist users with roadmaps, resume score evaluation, mock interviews, and reference context question answering. AI suggestions are generated by LLMs and are intended solely for educational purposes.
                   </p>
-                  <h3 className="text-white font-bold text-base">3. User Obligations & Account</h3>
+                  <h3 className="text-[#F4F1EA] font-bold text-sm">3. User Obligations & Account</h3>
                   <p>
-                    You agree to provide true, accurate, and complete information during registration. You are responsible for keeping your account password secure and for all activities that occur under your account.
-                  </p>
-                  <h3 className="text-white font-bold text-base">4. Disclaimer of Warranties</h3>
-                  <p>
-                    THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE". PATHPILOT.AI MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, REGARDING THE ACCURACY, RELIABILITY, OR COMPLETENESS OF AI-GENERATED CHECKLISTS, FEEDBACK, OR ROADMAPS.
-                  </p>
-                  <h3 className="text-white font-bold text-base">5. Modifications to Service</h3>
-                  <p>
-                    We reserve the right to modify, suspend, or discontinue the Service (or any part thereof) at any time with or without notice.
+                    You agree to provide true, accurate, and complete information during registration. You are responsible for keeping your account password secure.
                   </p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <h3 className="text-white font-bold text-base">1. Information We Collect</h3>
+                  <h3 className="text-[#F4F1EA] font-bold text-sm">1. Information We Collect</h3>
                   <p>
-                    We collect personal information that you provide to us directly, such as your name, email address, password hash, and files/resumes you upload to the ATS analyzer or RAG context database.
+                    We collect personal information that you provide directly, such as your name, email address, password hash, and files/resumes you upload to the platform.
                   </p>
-                  <h3 className="text-white font-bold text-base">2. How We Use Your Information</h3>
+                  <h3 className="text-[#F4F1EA] font-bold text-sm">2. How We Use Your Information</h3>
                   <p>
-                    We use the information collected to:
+                    We use information to maintain your career dashboard, generate roadmaps, and review resumes.
                   </p>
-                  <ul className="list-disc pl-5 space-y-1">
-                    <li>Maintain and personalize your career dashboard.</li>
-                    <li>Generate tailored syllabus roadmaps and simulate developer sandboxes.</li>
-                    <li>Analyze resumes and crosscheck tech stack alignment.</li>
-                    <li>Verify account status using email-delivered verification codes.</li>
-                  </ul>
-                  <h3 className="text-white font-bold text-base">3. Data Sharing & Third-Party APIs</h3>
+                  <h3 className="text-[#F4F1EA] font-bold text-sm">3. Data Sharing & Third-Party APIs</h3>
                   <p>
-                    We use the Google Gemini API and local vector storage to implement AI features. Uploaded resumes and context files are indexed and processed using these services. We do not sell or trade your personal data.
-                  </p>
-                  <h3 className="text-white font-bold text-base">4. Security Measures</h3>
-                  <p>
-                    We use modern industry-standard security protocols, including JSON Web Tokens (JWT) for session authorization and password hashing, to guard your personal information.
-                  </p>
-                  <h3 className="text-white font-bold text-base">5. Cookies & Tracking</h3>
-                  <p>
-                    We utilize local storage keys (such as auth token and user profile indicators) to store session state and keep you logged in.
+                    We use the Google Gemini API and local vector storage to implement AI features. Resumes and context files are indexed and processed using these services. We do not sell your personal data.
                   </p>
                 </div>
               )}
             </div>
 
             {/* Modal Footer */}
-            <div className="p-6 border-t border-slate-800/60 flex justify-end">
+            <div className="p-6 border-t border-slate-900 flex justify-end bg-[#11151D]/20">
               <button
                 onClick={() => setShowTermsModal(false)}
-                className="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-purple-600/10 cursor-pointer"
+                className="px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer"
               >
                 Close
               </button>
@@ -598,7 +542,8 @@ export const Auth: React.FC = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
-
+export default Auth;
