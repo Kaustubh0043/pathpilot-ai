@@ -5,13 +5,16 @@ import { api } from '../services/api';
 import { 
   Compass, 
   ArrowRight, 
-  ArrowLeft,
   CheckCircle, 
   Mail,
   Phone,
   AlertCircle,
+  RefreshCw,
+  FolderTree,
+  Terminal,
+  MessageSquare,
   HelpCircle,
-  RefreshCw
+  Award
 } from 'lucide-react';
 
 export const Landing: React.FC = () => {
@@ -74,7 +77,7 @@ export const Landing: React.FC = () => {
       a: 'RAG (Retrieval-Augmented Generation) allows you to index your own local files (PDF lectures, study notes, slide decks). The Career Coach references this data directly during conversations to answer questions based only on your uploads.'
     },
     {
-      q: 'How does the Developer Sandbox work?',
+      q: 'How does Project Architect work?',
       a: 'When you specify your target features and tech stacks, the AI generator maps out modular file trees, database relational schemas (SQL/NoSQL), and controller endpoint boilerplate structures to jumpstart your development sandbox.'
     },
     {
@@ -86,29 +89,29 @@ export const Landing: React.FC = () => {
   return (
     <div className="relative min-h-screen text-[#F4F1EA] flex flex-col overflow-hidden selection:bg-[#9B5CFF]/30 selection:text-[#C49AFF] bg-[#07080C]">
       
-      {/* Navbar (Clean details, Point 28) */}
-      <header className="relative z-10 w-full max-w-7xl mx-auto px-6 h-20 flex items-center justify-between border-b border-slate-900 bg-[#07080C]/40 backdrop-blur-md">
+      {/* Navbar (Point 9) */}
+      <header className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 h-24 flex items-center justify-between border-b border-slate-900 bg-[#07080C]/40 backdrop-blur-md">
         <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
           <div className="p-1.5 rounded bg-[#9B5CFF]/10 border border-[#9B5CFF]/20">
             <Compass className="w-5 h-5 text-[#9B5CFF]" />
           </div>
-          <span className="text-base font-bold tracking-tight text-[#F4F1EA] font-display">
+          <span className="text-sm font-bold tracking-tight text-[#F4F1EA] font-display">
             PATHPILOT
           </span>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+        <nav className="hidden lg:flex items-center gap-10 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">
           <a href="#problem" className="hover:text-[#F4F1EA] transition-colors">01 / The Problem</a>
-          <a href="#narrative" className="hover:text-[#F4F1EA] transition-colors">02 / Narrative</a>
+          <a href="#chapters" className="hover:text-[#F4F1EA] transition-colors">02 / Path</a>
           <a href="#faq" className="hover:text-[#F4F1EA] transition-colors">03 / FAQ</a>
           <a href="#contact" className="hover:text-[#F4F1EA] transition-colors">04 / Contact</a>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
           {user ? (
             <button
               onClick={() => navigate('/dashboard')}
-              className="flex items-center gap-1.5 px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-[11px] font-bold rounded transition-all cursor-pointer"
             >
               <span>Dashboard</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -117,13 +120,13 @@ export const Landing: React.FC = () => {
             <>
               <button
                 onClick={() => navigate('/auth')}
-                className="text-xs font-bold text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="text-[11px] font-bold text-slate-450 hover:text-white transition-colors cursor-pointer"
               >
                 Sign In
               </button>
               <button
                 onClick={() => navigate('/auth?mode=signup')}
-                className="px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer"
+                className="px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-[11px] font-bold rounded transition-all cursor-pointer"
               >
                 Get Started
               </button>
@@ -132,24 +135,24 @@ export const Landing: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Section (Points 16, 19, 24) */}
-      <section className="relative z-10 w-full max-w-5xl mx-auto px-6 pt-20 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* Hero Section (Points 1, 2, 3, 10, 12) */}
+      <section className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-32 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
         
-        {/* Left Side: Statement Title Casing (Point 3, 16) */}
-        <div className="lg:col-span-7 space-y-6 text-left">
-          <p className="eyebrow-text">SaaS / Career OS</p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight font-display text-[#F4F1EA]">
-            YOUR CAREER ISN'T A STRAIGHT LINE.
+        {/* Left Side: Editorial Typography & Microcopy (Point 1, 2, 10) */}
+        <div className="lg:col-span-7 space-y-8 text-left">
+          <p className="eyebrow-text">PATHPILOT / CAREER OPERATING SYSTEM</p>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight font-display text-[#F4F1EA]">
+            YOUR CAREER<br />ISN'T A STRAIGHT LINE.
           </h1>
-          <p className="text-sm text-[#9299A8] leading-relaxed max-w-lg font-medium">
-            PathPilot helps you find the next step. Optimize baseline resume scores, check off learning path chapters, build custom database architectures, and prepare mock interviews.
+          <p className="text-sm text-[#9299A8] leading-relaxed max-w-md font-medium">
+            PathPilot helps you navigate the developer journey. Track progress, optimize skills, and prepare for interviews in one single system.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
             {user ? (
               <button
                 onClick={() => navigate('/dashboard')}
-                className="flex items-center justify-center gap-1.5 px-5 py-3 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer"
+                className="flex items-center justify-center gap-1.5 px-6 py-3.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer transition-all"
               >
                 <span>Access Dashboard</span>
                 <ArrowRight className="w-4 h-4" />
@@ -158,13 +161,13 @@ export const Landing: React.FC = () => {
               <>
                 <button
                   onClick={() => navigate('/auth?mode=signup')}
-                  className="flex items-center justify-center gap-1.5 px-5 py-3 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer"
+                  className="flex items-center justify-center gap-1.5 px-6 py-3.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer transition-all"
                 >
                   <span>Build my path →</span>
                 </button>
                 <a
-                  href="#narrative"
-                  className="flex items-center justify-center gap-1.5 px-5 py-3 bg-[#11151D] hover:bg-[#151A23] border border-slate-900 text-[#F4F1EA] text-xs font-bold rounded"
+                  href="#chapters"
+                  className="flex items-center justify-center gap-1.5 px-6 py-3.5 bg-[#11151D] hover:bg-[#151A23] border border-slate-900 text-[#F4F1EA] text-xs font-bold rounded transition-all"
                 >
                   <span>Explore PathPilot</span>
                 </a>
@@ -173,59 +176,68 @@ export const Landing: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Side: Drawing Route Animation Visual (Point 16, 19, 24) */}
-        <div className="lg:col-span-5 bg-[#0D1016] border border-slate-900 p-8 rounded-lg space-y-6 select-none relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-3 text-[9px] font-mono font-bold text-slate-600">
-            SYSTEM // SIMULATOR
+        {/* Right Side: Signature Career Route Milestone Tracker (Point 2, 3) */}
+        <div className="lg:col-span-5 bg-[#0D1016]/40 border border-slate-900/60 p-8 rounded-lg space-y-6 relative overflow-hidden select-none">
+          <div className="absolute top-0 right-0 p-4 text-[9px] font-mono font-bold text-slate-600">
+            METAPHOR // ROUTE
           </div>
           
           <div className="space-y-4">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Career Route</span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Navigation Map</span>
             
-            <div className="flex flex-col gap-6 relative pl-4 border-l border-slate-800">
+            <div className="flex flex-col gap-6 relative pl-4 border-l border-slate-800/80">
               
-              {/* Node 1 */}
-              <div className="flex items-center gap-3 relative">
+              {/* Completed stage */}
+              <div className="flex items-center gap-3 relative opacity-60">
                 <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-[#55D39A]" />
                 <div className="space-y-0.5">
-                  <p className="text-xs font-bold text-[#F4F1EA]">YOU</p>
-                  <p className="text-[10px] text-slate-500">Starting Point</p>
+                  <p className="text-xs font-bold text-[#F4F1EA]">START</p>
+                  <p className="text-[10px] text-slate-500">Initial checkout</p>
                 </div>
               </div>
 
-              {/* Node 2 */}
-              <div className="flex items-center gap-3 relative">
+              {/* Completed stage */}
+              <div className="flex items-center gap-3 relative opacity-60">
                 <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-[#55D39A]" />
                 <div className="space-y-0.5">
-                  <p className="text-xs font-bold text-[#F4F1EA]">Resume Scored</p>
-                  <p className="text-[10px] text-[#55D39A]">ATS Complete</p>
+                  <p className="text-xs font-bold text-[#F4F1EA]">Resume</p>
+                  <p className="text-[10px] text-[#55D39A]">Evaluation uploaded</p>
                 </div>
               </div>
 
-              {/* Node 3 */}
-              <div className="flex items-center gap-3 relative">
-                <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15" />
+              {/* Active stage (PathPilot Violet glow) */}
+              <div className="flex items-center gap-3 relative animate-pulse-slow">
+                <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/20" />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">Skills Map</p>
                   <p className="text-[10px] text-[#9B5CFF]">Active Checkpoint (Spring Boot)</p>
                 </div>
               </div>
 
-              {/* Node 4 */}
-              <div className="flex items-center gap-3 relative">
+              {/* Future stage */}
+              <div className="flex items-center gap-3 relative opacity-40">
                 <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-slate-800" />
                 <div className="space-y-0.5">
-                  <p className="text-xs font-bold text-slate-550">Project Blueprint</p>
-                  <p className="text-[10px] text-slate-600">Scaffolding Sandbox</p>
+                  <p className="text-xs font-bold text-[#F4F1EA]">Project Blueprint</p>
+                  <p className="text-[10px] text-slate-550">Scaffolding sandbox</p>
                 </div>
               </div>
 
-              {/* Node 5 */}
-              <div className="flex items-center gap-3 relative">
+              {/* Future stage */}
+              <div className="flex items-center gap-3 relative opacity-40">
                 <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-slate-800" />
                 <div className="space-y-0.5">
-                  <p className="text-xs font-bold text-slate-550">Interview Coach</p>
-                  <p className="text-[10px] text-slate-600">Simulations</p>
+                  <p className="text-xs font-bold text-[#F4F1EA]">Interviews</p>
+                  <p className="text-[10px] text-slate-550">Mock prep simulation</p>
+                </div>
+              </div>
+
+              {/* Future stage */}
+              <div className="flex items-center gap-3 relative opacity-40">
+                <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-slate-800" />
+                <div className="space-y-0.5">
+                  <p className="text-xs font-bold text-[#F4F1EA]">Destination</p>
+                  <p className="text-[10px] text-slate-550">Target target</p>
                 </div>
               </div>
 
@@ -235,123 +247,192 @@ export const Landing: React.FC = () => {
 
       </section>
 
-      {/* Chapter Storytelling Sections (Point 17, 18) */}
-      <section id="problem" className="relative z-10 w-full max-w-5xl mx-auto px-6 py-20 border-t border-slate-900">
-        <div className="space-y-4 max-w-xl text-left">
-          <p className="eyebrow-text">01 — The Problem</p>
-          <h2 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">The developer journey is fragmented.</h2>
-          <p className="text-xs text-[#9299A8] leading-relaxed">
-            Most platforms serve single courses or isolated coding challenges. PathPilot links everything together under a single cohesive Career Operating System—guiding you from uploaded resumes directly to checklisted paths and mock prep modules.
+      {/* Chapter 01 — THE PROBLEM: Large Editorial Statement (Points 4, 12) */}
+      <section id="problem" className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32 border-t border-slate-900">
+        <div className="space-y-8 max-w-3xl text-left">
+          <p className="eyebrow-text">CAREER OPERATING SYSTEM / 01</p>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#F4F1EA] leading-tight font-display">
+            The developer journey is fragmented. challenges and portfolios exist in isolation.
+          </h2>
+          <p className="text-sm text-[#9299A8] leading-relaxed max-w-xl">
+            PathPilot bridges these tools under a unified system. By aligning your resume directly with syllabus roadmaps, blueprints, and interviews, it creates a single cohesive journey.
           </p>
         </div>
       </section>
 
-      {/* Chapters Feature Narrative */}
-      <section id="narrative" className="relative z-10 w-full max-w-5xl mx-auto px-6 py-10 space-y-16">
+      {/* Chapters Feature Narrative (Points 4, 5, 12) */}
+      <section id="chapters" className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-16 space-y-40">
         
-        {/* Chapter 02 */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pb-12 border-b border-slate-900/60">
-          <div className="md:col-span-4 space-y-2">
-            <p className="font-mono text-xs font-bold text-[#9B5CFF]">02 — STARTING POINT</p>
-            <h3 className="text-base font-extrabold text-[#F4F1EA] uppercase">Resume Analyzer</h3>
+        {/* Chapter 02 — Starting Point: Asymmetric 2-Column with score display (Point 4) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start border-t border-slate-900 pt-16">
+          <div className="lg:col-span-5 space-y-4">
+            <p className="font-mono text-xs font-bold text-[#9B5CFF]">02 — YOUR STARTING POINT</p>
+            <h3 className="text-3xl font-extrabold text-[#F4F1EA] font-display">Know what you're bringing with you.</h3>
           </div>
-          <div className="md:col-span-8 text-xs text-[#9299A8] leading-relaxed space-y-3">
-            <p>
-              Upload your resume profile to scan technical keyword densities. PathPilot extracts key frameworks and generates structured checksheet suggestions to fix presentation weaknesses.
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <p className="text-xs text-[#9299A8] leading-relaxed">
+              PathPilot reads your resume, identifies your strongest signals, and shows where your profile needs work. We check keyword densities and formats to establish a baseline ATS compatibility rating.
             </p>
+            <div className="bg-[#0D1016] border border-slate-900 p-5 rounded-lg space-y-3">
+              <div className="flex justify-between text-[11px] font-bold text-[#9299A8]">
+                <span>ATS SCORE</span>
+                <span>84 / 100</span>
+              </div>
+              <div className="w-full h-1 bg-[#11151D] rounded overflow-hidden">
+                <div className="h-full bg-[#55D39A]" style={{ width: '84%' }} />
+              </div>
+              <p className="text-[10px] text-slate-500 leading-normal">
+                +12 increase from baseline after resolving Docker terminology recommendations.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Chapter 03 */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pb-12 border-b border-slate-900/60">
-          <div className="md:col-span-4 space-y-2">
+        {/* Chapter 03 — Find Gaps: Large Number + Visual Grid representation (Point 4) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center border-t border-slate-900 pt-16">
+          <div className="lg:col-span-5 space-y-4">
             <p className="font-mono text-xs font-bold text-[#9B5CFF]">03 — FIND THE GAPS</p>
-            <h3 className="text-base font-extrabold text-[#F4F1EA] uppercase">Job Matcher</h3>
-          </div>
-          <div className="md:col-span-8 text-xs text-[#9299A8] leading-relaxed space-y-3">
-            <p>
-              Paste target job descriptions to analyze fit compatibility. The engine checks framework alignments, reveals missing technologies, and models recovery roadmaps.
+            <h3 className="text-3xl font-extrabold text-[#F4F1EA] font-display">Know what's missing.</h3>
+            <p className="text-xs text-[#9299A8] leading-relaxed">
+              Compare your profile against target role requirements. We extract direct matches and stack gaps, so you know exactly where you stand.
             </p>
+          </div>
+          <div className="lg:col-span-7 flex flex-col sm:flex-row items-center gap-8 justify-around">
+            <div className="text-center space-y-1">
+              <span className="font-display font-black text-7xl sm:text-8xl text-[#9B5CFF]">78%</span>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Compatibility Fit</p>
+            </div>
+            <div className="space-y-3 w-full max-w-[280px]">
+              <div className="space-y-1">
+                <span className="text-[10px] text-slate-500 font-bold uppercase">Matches</span>
+                <p className="text-xs text-[#55D39A] font-semibold">Java, Spring Boot, REST APIs</p>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[10px] text-slate-500 font-bold uppercase">Gaps</span>
+                <p className="text-xs text-[#FF6577] font-semibold">Docker, AWS, Spring Testing</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Chapter 04 */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pb-12 border-b border-slate-900/60">
-          <div className="md:col-span-4 space-y-2">
+        {/* Chapter 04 — Build the Path: Career Route visual timeline (Point 4) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start border-t border-slate-900 pt-16">
+          <div className="lg:col-span-5 space-y-4">
             <p className="font-mono text-xs font-bold text-[#9B5CFF]">04 — BUILD THE PATH</p>
-            <h3 className="text-base font-extrabold text-[#F4F1EA] uppercase">Learning Paths</h3>
-          </div>
-          <div className="md:col-span-8 text-xs text-[#9299A8] leading-relaxed space-y-3">
-            <p>
-              Build customized curricula checksheets covering target systems. Progress through week-by-week syllabi chapters to systematically check off learning objectives.
+            <h3 className="text-3xl font-extrabold text-[#F4F1EA] font-display">Chapter-based learning roadmaps.</h3>
+            <p className="text-xs text-[#9299A8] leading-relaxed">
+              Generate target checksheets broken down by week and hours. Follow structured timelines designed to fill core engineering gaps.
             </p>
+          </div>
+          <div className="lg:col-span-7 space-y-4 w-full max-w-md bg-[#0D1016] border border-slate-900 p-6 rounded-lg">
+            <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">SPRING DEVELOPER TIMELINE</span>
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between text-xs border-b border-slate-900 pb-2">
+                <span className="text-[#9299A8] font-bold">01 FOUNDATIONS</span>
+                <span className="text-[#55D39A] font-bold text-[10px]">✓ Completed</span>
+              </div>
+              <div className="flex items-center justify-between text-xs border-b border-slate-900 pb-2">
+                <span className="text-[#9299A8] font-bold">02 SPRING INITIALIZER</span>
+                <span className="text-[#55D39A] font-bold text-[10px]">✓ Completed</span>
+              </div>
+              <div className="space-y-2 pt-1 pb-1">
+                <div className="flex items-center justify-between text-xs font-bold">
+                  <span className="text-[#F4F1EA]">03 EXCEPTION HANDLERS</span>
+                  <span className="text-[#9B5CFF] text-[10px]">◉ Active week</span>
+                </div>
+                <p className="text-[10px] text-slate-500 leading-normal pl-4">
+                  DTO mapping validations and custom global response mappings.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Chapter 05 */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pb-12 border-b border-slate-900/60">
-          <div className="md:col-span-4 space-y-2">
+        {/* Chapter 05 — Build Proof: Monospace technical directory structure (Point 4) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center border-t border-slate-900 pt-16">
+          <div className="lg:col-span-5 space-y-4">
             <p className="font-mono text-xs font-bold text-[#9B5CFF]">05 — BUILD PROOF</p>
-            <h3 className="text-base font-extrabold text-[#F4F1EA] uppercase">Project Architect</h3>
-          </div>
-          <div className="md:col-span-8 text-xs text-[#9299A8] leading-relaxed space-y-3">
-            <p>
-              Generate directory structures, SQL designs, and endpoint boilerplate files to scaffold code solutions, providing direct portfolio proof of your technical skills.
+            <h3 className="text-3xl font-extrabold text-[#F4F1EA] font-display">Generate blueprint directories.</h3>
+            <p className="text-xs text-[#9299A8] leading-relaxed">
+              Stop guessing file patterns. Model clean folders, schema structures, and api controller templates based directly on stack setups.
             </p>
+          </div>
+          <div className="lg:col-span-7 bg-[#07080C] border border-slate-900 rounded p-6 font-mono text-[11px] text-[#cbd5e1] leading-relaxed overflow-x-auto shadow-inner max-w-md w-full">
+            <span className="text-slate-500">// Project Blueprint scaffold</span><br />
+            Backend<br />
+            ├── Controllers<br />
+            │   └── UserController.java<br />
+            ├── Services<br />
+            │   └── UserService.java<br />
+            └── Repositories<br />
+                └── UserRepository.java
           </div>
         </div>
 
-        {/* Chapter 06 */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pb-12 border-b border-slate-900/60">
-          <div className="md:col-span-4 space-y-2">
+        {/* Chapter 06 — Prepare: Mock screening preview dialog view (Point 4) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start border-t border-slate-900 pt-16">
+          <div className="lg:col-span-5 space-y-4">
             <p className="font-mono text-xs font-bold text-[#9B5CFF]">06 — PREPARE</p>
-            <h3 className="text-base font-extrabold text-[#F4F1EA] uppercase">Interview Coach</h3>
-          </div>
-          <div className="md:col-span-8 text-xs text-[#9299A8] leading-relaxed space-y-3">
-            <p>
-              Simulate high-pressure technical mock interviews. Ambiguous or brief replies get graded strictly, pushing you to refine descriptions and prove core technical concepts.
+            <h3 className="text-3xl font-extrabold text-[#F4F1EA] font-display">Speak technical concepts clearly.</h3>
+            <p className="text-xs text-[#9299A8] leading-relaxed">
+              Practice mock developer sessions. Short or generic explanations are graded strictly, prompting you to justify tradeoffs and details.
             </p>
+          </div>
+          <div className="lg:col-span-7 space-y-4 w-full max-w-md bg-[#0D1016] border border-slate-900 p-6 rounded-lg">
+            <div className="border-b border-slate-900 pb-3 flex justify-between text-[10px] font-bold text-[#9B5CFF]">
+              <span>MOCK SIMULATION</span>
+              <span>QUESTION 03 / 10</span>
+            </div>
+            <p className="text-xs font-bold text-[#F4F1EA] leading-relaxed">
+              "Explain how heap space memory builds in O(N) complexity."
+            </p>
+            <div className="p-3 bg-[#07080C] border border-slate-900 rounded text-[11px] text-[#FF6577] leading-relaxed">
+              ⚠️ Score: 42%. Include binary tree heights and convergence proofs to optimize grading metrics.
+            </div>
           </div>
         </div>
 
-        {/* Chapter 07 */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-          <div className="md:col-span-4 space-y-2">
-            <p className="font-mono text-xs font-bold text-[#9B5CFF]">07 — DESTINATION</p>
-            <h3 className="text-base font-extrabold text-[#F4F1EA] uppercase">Career Coach Q&A</h3>
-          </div>
-          <div className="md:col-span-8 text-xs text-[#9299A8] leading-relaxed space-y-3">
-            <p>
-              Ask your personal tech mentor preparation questions. Backed by ChromaDB retrieval bases, get answers drawn directly from your study materials or PDFs.
-            </p>
-          </div>
+        {/* Chapter 07 — Destination: Large Destination statement (Point 4) */}
+        <div className="border-t border-slate-900 pt-20 pb-10 text-center max-w-3xl mx-auto space-y-6">
+          <p className="font-mono text-xs font-bold text-[#9B5CFF]">07 — DESTINATION</p>
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-[#F4F1EA] leading-tight font-display tracking-tight">
+            Be ready when the call comes.
+          </h2>
+          <p className="text-xs text-[#9299A8] max-w-md mx-auto leading-relaxed font-medium">
+            PathPilot organizes your preparation so you can approach your target software engineering roles with structured confidence.
+          </p>
         </div>
 
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="relative z-10 w-full max-w-4xl mx-auto px-6 py-20 border-t border-slate-900">
-        <div className="space-y-4 mb-12 text-left">
-          <p className="eyebrow-text">Syllabus / Guide</p>
-          <h2 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">Frequently Asked Questions</h2>
+      {/* Editorial FAQ Section (Point 6) */}
+      <section id="faq" className="relative z-10 w-full max-w-5xl mx-auto px-6 md:px-12 py-32 border-t border-slate-900 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        {/* Left column statement */}
+        <div className="lg:col-span-5 space-y-3 text-left">
+          <p className="eyebrow-text">03 / FAQ</p>
+          <h2 className="text-4xl font-extrabold text-[#F4F1EA] font-display leading-none">
+            QUESTIONS,<br />BEFORE YOU<br />START.
+          </h2>
         </div>
 
-        <div className="space-y-3">
+        {/* Right column Accordions */}
+        <div className="lg:col-span-7 space-y-3 w-full">
           {faqs.map((faq, index) => (
             <div 
               key={index}
-              className="bg-[#0D1016] border border-slate-900 rounded overflow-hidden"
+              className="border-b border-slate-900 pb-4"
             >
               <button
                 onClick={() => setActiveFaq(activeFaq === index ? null : index)}
-                className="w-full flex items-center justify-between p-5 text-left text-xs font-bold text-[#F4F1EA] hover:text-[#9B5CFF] transition-colors focus:outline-none"
+                className="w-full flex items-center justify-between text-left py-3 text-xs font-bold text-[#F4F1EA] hover:text-[#9B5CFF] transition-colors focus:outline-none"
               >
                 <span>{faq.q}</span>
                 <span className="text-slate-500 font-mono text-sm">{activeFaq === index ? '−' : '+'}</span>
               </button>
               <div 
                 className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  activeFaq === index ? 'max-h-40 border-t border-slate-900/60 p-5' : 'max-h-0'
+                  activeFaq === index ? 'max-h-40 pt-2 pb-1' : 'max-h-0'
                 }`}
               >
                 <p className="text-xs text-[#9299A8] leading-relaxed">{faq.a}</p>
@@ -361,72 +442,79 @@ export const Landing: React.FC = () => {
         </div>
       </section>
 
-      {/* Contact Form Section */}
-      <section id="contact" className="relative z-10 w-full max-w-2xl mx-auto px-6 py-20 border-t border-slate-900">
-        <div className="bg-[#0D1016] border border-slate-900 p-8 rounded-lg space-y-6">
-          <div className="text-center space-y-2">
-            <h2 className="text-xl font-bold text-[#F4F1EA]">Contact & Send Feedback</h2>
-            <p className="text-slate-500 text-xs max-w-md mx-auto">
-              Have questions, issues, or suggestions? Submit your feedback here to forward it directly to the developer's inbox.
-            </p>
-          </div>
+      {/* Editorial Contact & Feedback Form Section (Point 7) */}
+      <section id="contact" className="relative z-10 w-full max-w-5xl mx-auto px-6 md:px-12 py-32 border-t border-slate-900 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        {/* Left Column title */}
+        <div className="lg:col-span-5 space-y-3 text-left">
+          <p className="eyebrow-text">04 / Contact</p>
+          <h2 className="text-4xl font-extrabold text-[#F4F1EA] font-display leading-none">
+            LET'S TALK.
+          </h2>
+          <p className="text-xs text-[#9299A8] leading-relaxed max-w-xs pt-2">
+            Submit questions, feedback, or suggestions directly to the developer's inbox.
+          </p>
+        </div>
 
+        {/* Right Column minimal form fields */}
+        <div className="lg:col-span-7 w-full space-y-6">
           {contactSuccess && (
-            <div className="p-3.5 rounded bg-[#55D39A]/10 border border-[#55D39A]/20 text-[#55D39A] text-xs">
+            <div className="p-3.5 bg-[#55D39A]/10 border border-[#55D39A]/20 text-[#55D39A] text-xs rounded">
               <span>{contactSuccess}</span>
             </div>
           )}
 
           {contactError && (
-            <div className="p-3.5 rounded bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs">
+            <div className="p-3.5 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs rounded">
               <span>{contactError}</span>
             </div>
           )}
 
-          <form onSubmit={handleContactSubmit} className="space-y-4 text-left">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Name</label>
+          <form onSubmit={handleContactSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="space-y-1">
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Name</span>
                 <input
                   type="text"
                   required
                   placeholder="Your Name"
                   value={contactName}
                   onChange={(e) => setContactName(e.target.value)}
-                  className="w-full text-xs"
+                  className="w-full text-xs bg-transparent border-0 border-b border-slate-900 focus:border-[#9B5CFF] focus:ring-0 px-0 py-2 rounded-none transition-all placeholder-slate-700"
                 />
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Email</label>
+              <div className="space-y-1">
+                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Email</span>
                 <input
                   type="email"
                   required
                   placeholder="name@domain.com"
                   value={contactEmail}
                   onChange={(e) => setContactEmail(e.target.value)}
-                  className="w-full text-xs"
+                  className="w-full text-xs bg-transparent border-0 border-b border-slate-900 focus:border-[#9B5CFF] focus:ring-0 px-0 py-2 rounded-none transition-all placeholder-slate-700"
                 />
               </div>
             </div>
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Message</label>
+            
+            <div className="space-y-1">
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Message</span>
               <textarea
                 required
                 rows={4}
-                placeholder="Write your suggestions or feedback here..."
+                placeholder="Write your feedback here..."
                 value={contactMessage}
                 onChange={(e) => setContactMessage(e.target.value)}
-                className="w-full text-xs"
+                className="w-full text-xs bg-transparent border-0 border-b border-slate-900 focus:border-[#9B5CFF] focus:ring-0 px-0 py-2 rounded-none transition-all resize-none placeholder-slate-700"
               />
             </div>
             
             <button
               type="submit"
               disabled={contactLoading}
-              className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded text-xs font-bold transition-all cursor-pointer mt-4"
+              className="flex items-center gap-1.5 px-6 py-2.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded transition-all cursor-pointer"
             >
               {contactLoading ? (
-                <RefreshCw className="w-4 h-4 animate-spin" />
+                <RefreshCw className="w-4 h-4 animate-spin text-[#07080C]" />
               ) : (
                 <span>Submit Message</span>
               )}
@@ -435,50 +523,50 @@ export const Landing: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 w-full border-t border-slate-900 bg-[#0D1016]/40 py-12 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+      {/* Spacious Footer (Point 8) */}
+      <footer className="relative z-10 w-full border-t border-slate-900 bg-[#07080C] py-20 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-12">
           
-          <div className="space-y-3 col-span-1 text-left">
+          <div className="space-y-4 text-left">
             <div className="flex items-center gap-2">
               <Compass className="w-5 h-5 text-[#9B5CFF]" />
               <span className="text-sm font-bold text-[#F4F1EA] tracking-tight font-display">PathPilot</span>
             </div>
-            <p className="leading-relaxed text-[11px] text-slate-655">
-              Interactive career preparation operating system designed to map syllabus guidelines, perform ATS checks, and simulate mock screenings.
+            <p className="leading-relaxed text-[11px] text-slate-600 max-w-xs">
+              Ecosystem designed to map developer profiles, analyze ATS score keyword alignments, and simulate screening preparation.
             </p>
-            <div className="space-y-1.5 text-[11px] font-medium text-slate-500 pt-1">
+            <div className="space-y-1.5 text-[11px] text-slate-600 pt-1 font-medium">
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#9B5CFF]" />
+                <Phone className="w-3.5 h-3.5 text-[#9B5CFF] opacity-60" />
                 <span>+91 8805565585</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#9B5CFF]" />
+                <Mail className="w-3.5 h-3.5 text-[#9B5CFF] opacity-60" />
                 <span>pathpilot.ai.info@gmail.com</span>
               </div>
             </div>
           </div>
 
-          <div className="space-y-3 col-span-1 text-left">
-            <h4 className="font-bold text-[#F4F1EA] uppercase text-[10px] tracking-wider">Quick Navigation</h4>
-            <ul className="space-y-2 font-medium">
-              <li><a href="#problem" className="hover:text-white transition-colors">The Problem</a></li>
-              <li><a href="#narrative" className="hover:text-white transition-colors">Narrative Chapters</a></li>
-              <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
-              <li><a href="#contact" className="hover:text-white transition-colors">Contact us</a></li>
+          <div className="space-y-4 text-left">
+            <h4 className="font-bold text-[#F4F1EA] uppercase text-[10px] tracking-[0.15em]">Navigation</h4>
+            <ul className="space-y-2.5 font-bold text-slate-655 text-[11px]">
+              <li><a href="#problem" className="hover:text-white transition-colors">01 / The Problem</a></li>
+              <li><a href="#chapters" className="hover:text-white transition-colors">02 / Path</a></li>
+              <li><a href="#faq" className="hover:text-white transition-colors">03 / FAQ</a></li>
+              <li><a href="#contact" className="hover:text-white transition-colors">04 / Contact</a></li>
             </ul>
           </div>
 
-          <div className="space-y-3 col-span-1 text-left">
-            <h4 className="font-bold text-[#F4F1EA] uppercase text-[10px] tracking-wider">Contact Developer</h4>
+          <div className="space-y-4 text-left">
+            <h4 className="font-bold text-[#F4F1EA] uppercase text-[10px] tracking-[0.15em]">Developer</h4>
             <div className="space-y-2">
-              <p className="font-bold text-[#F4F1EA]">Kaustubh Jadhav</p>
-              <div className="flex gap-2.5">
+              <p className="font-bold text-[#F4F1EA] text-[11px]">Kaustubh Jadhav</p>
+              <div className="flex gap-2">
                 <a 
                   href="https://www.linkedin.com/in/kaustubh-jadhav-6a2216248/" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="hover:text-white transition-colors p-1.5 rounded bg-[#07080C] border border-slate-900 flex items-center justify-center cursor-pointer"
+                  className="hover:text-white transition-colors p-1.5 rounded bg-[#0D1016] border border-slate-900 flex items-center justify-center cursor-pointer"
                 >
                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
@@ -490,7 +578,7 @@ export const Landing: React.FC = () => {
                   href="https://github.com/Kaustubh0043" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="hover:text-white transition-colors p-1.5 rounded bg-[#07080C] border border-slate-900 flex items-center justify-center cursor-pointer"
+                  className="hover:text-white transition-colors p-1.5 rounded bg-[#0D1016] border border-slate-900 flex items-center justify-center cursor-pointer"
                 >
                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
@@ -500,7 +588,7 @@ export const Landing: React.FC = () => {
                   href="https://www.instagram.com/kaustubhh.jadhav/?hl=en" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="hover:text-white transition-colors p-1.5 rounded bg-[#07080C] border border-slate-900 flex items-center justify-center cursor-pointer"
+                  className="hover:text-white transition-colors p-1.5 rounded bg-[#0D1016] border border-slate-900 flex items-center justify-center cursor-pointer"
                 >
                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -512,9 +600,9 @@ export const Landing: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-3 col-span-1 text-left">
-            <h4 className="font-bold text-[#F4F1EA] uppercase text-[10px] tracking-wider">Legal Framework</h4>
-            <div className="space-y-2 font-medium flex flex-col">
+          <div className="space-y-4 text-left">
+            <h4 className="font-bold text-[#F4F1EA] uppercase text-[10px] tracking-[0.15em]">Legals</h4>
+            <div className="space-y-2.5 font-bold text-slate-550 flex flex-col text-[11px]">
               <span 
                 onClick={() => openModal('terms')} 
                 className="hover:text-white transition-colors cursor-pointer"
@@ -532,7 +620,7 @@ export const Landing: React.FC = () => {
 
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 border-t border-slate-900 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between text-slate-600 text-[10px] font-bold">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 border-t border-slate-900 mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between text-slate-600 text-[10px] font-bold uppercase tracking-wider">
           <span>PathPilot is an independent career preparation platform.</span>
           <span>© {new Date().getFullYear()} PathPilot. All Rights Reserved.</span>
         </div>
@@ -540,15 +628,16 @@ export const Landing: React.FC = () => {
 
       {/* Terms & Privacy Modal (Preserving logic, styling as outline) */}
       {showTermsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in">
           <div className="bg-[#0D1016] border border-slate-900 w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden rounded-lg z-50 shadow-2xl">
+            
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-slate-900 bg-[#11151D]/30">
               <div className="flex gap-4">
                 <button
                   onClick={() => setActiveModalTab('terms')}
                   className={`text-xs font-bold pb-1 uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                    activeModalTab === 'terms' ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-500 hover:text-slate-350'
+                    activeModalTab === 'terms' ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-550 hover:text-white'
                   }`}
                 >
                   Terms of Service
@@ -556,7 +645,7 @@ export const Landing: React.FC = () => {
                 <button
                   onClick={() => setActiveModalTab('privacy')}
                   className={`text-xs font-bold pb-1 uppercase tracking-wider border-b-2 transition-all cursor-pointer ${
-                    activeModalTab === 'privacy' ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-500 hover:text-slate-355'
+                    activeModalTab === 'privacy' ? 'border-[#9B5CFF] text-[#F4F1EA]' : 'border-transparent text-slate-555 hover:text-white'
                   }`}
                 >
                   Privacy Policy
