@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { 
-  Sparkles, 
-  HelpCircle, 
-  Send, 
-  CheckCircle, 
   Loader2, 
-  Award,
-  ArrowRight
+  ArrowRight,
+  HelpCircle,
+  Clock,
+  ArrowLeft,
+  CheckCircle2,
+  Award
 } from 'lucide-react';
 
 export const Interviews: React.FC = () => {
@@ -17,8 +17,11 @@ export const Interviews: React.FC = () => {
   const [expectedPoints, setExpectedPoints] = useState<string | null>(null);
   const [userAnswer, setUserAnswer] = useState('');
   const [evaluation, setEvaluation] = useState<any>(null);
+  
+  // Track current question number in simulation session (Point 33)
+  const [questionIndex, setQuestionIndex] = useState(1);
 
-  // Generate question mutation
+  // Generate question mutation (Preserving existing logic)
   const generateQuestionMutation = useMutation({
     mutationFn: async (role: string) => {
       const res = await api.post('/api/ai/interview/generate', { role });
@@ -32,7 +35,7 @@ export const Interviews: React.FC = () => {
     },
   });
 
-  // Evaluate answer mutation
+  // Evaluate answer mutation (Preserving existing logic)
   const evaluateAnswerMutation = useMutation({
     mutationFn: async (payload: { question: string; answer: string }) => {
       const res = await api.post('/api/ai/interview/evaluate', payload);
@@ -46,6 +49,7 @@ export const Interviews: React.FC = () => {
   const handleStart = (e: React.FormEvent) => {
     e.preventDefault();
     if (!roleInput.trim()) return;
+    setQuestionIndex(1);
     generateQuestionMutation.mutate(roleInput);
   };
 
@@ -59,85 +63,100 @@ export const Interviews: React.FC = () => {
   };
 
   const handleNext = () => {
+    setQuestionIndex(prev => prev + 1);
     generateQuestionMutation.mutate(roleInput);
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10';
-    if (score >= 60) return 'text-amber-400 border-amber-500/20 bg-amber-500/10';
-    return 'text-rose-400 border-rose-500/20 bg-rose-500/10';
+    if (score >= 80) return 'text-[#55D39A]';
+    if (score >= 60) return 'text-[#E9B84B]';
+    return 'text-[#FF6577]';
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-12">
       
-      {/* Role configuration bar */}
+      {/* Title Header (Point 33) */}
+      <div className="space-y-2">
+        <p className="eyebrow-text">Prepare / 05</p>
+        <h3 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">Practice the conversation before it matters</h3>
+        <p className="text-xs text-[#9299A8] leading-relaxed max-w-xl">
+          Simulate high-pressure technical mock interviews. Input your target engineering role or stack parameters to generate interactive question sets.
+        </p>
+      </div>
+
+      {/* Role configuration form (Point 33) */}
       {!currentQuestion ? (
-        <div className="glass-card p-6 border border-slate-800 bg-slate-900/30 max-w-xl mx-auto text-center space-y-6">
+        <div className="bg-[#0D1016] border border-slate-900 p-8 rounded-lg max-w-lg mx-auto space-y-6 text-center">
           <div className="space-y-2">
-            <HelpCircle className="w-12 h-12 text-purple-500 mx-auto animate-bounce" />
-            <h4 className="text-lg font-bold text-white">AI Mock Interview Simulator</h4>
-            <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto">
-              Simulate high-pressure technical or HR discussions. Input your target role and PathPilot will serve questions, analyze your replies, and assign score benchmarks.
+            <div className="p-3 bg-[#11151D] border border-slate-900 rounded-lg w-fit mx-auto">
+              <HelpCircle className="w-8 h-8 text-[#9B5CFF]" />
+            </div>
+            <h4 className="text-base font-bold text-[#F4F1EA]">Mock Interview Coach</h4>
+            <p className="text-xs text-[#9299A8] leading-relaxed max-w-sm mx-auto">
+              Enter your target role and PathPilot will generate tailored interview questions, evaluate your feedback structure, and assign scoring grades.
             </p>
           </div>
 
-          <form onSubmit={handleStart} className="space-y-4">
-            <input
-              type="text"
-              required
-              placeholder="e.g. Senior Java Spring Boot Developer, HR Freshers Panel"
-              value={roleInput}
-              onChange={(e) => setRoleInput(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-600 transition-all text-center"
-            />
+          <form onSubmit={handleStart} className="space-y-4 text-left">
+            <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Target Role / Core Stack</label>
+              <input
+                type="text"
+                required
+                placeholder="e.g. Senior Java Spring Boot Developer, AWS Engineer"
+                value={roleInput}
+                onChange={(e) => setRoleInput(e.target.value)}
+                className="w-full text-xs text-center"
+              />
+            </div>
             <button
               type="submit"
               disabled={generateQuestionMutation.isPending || !roleInput.trim()}
-              className="w-full py-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-sm font-semibold transition-all cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-purple-600/10"
+              className="w-full py-2.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] rounded text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2"
             >
               {generateQuestionMutation.isPending ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                <>
-                  <Sparkles className="w-4 h-4" />
-                  <span>Initiate Interview Session</span>
-                </>
+                <span>Start interview →</span>
               )}
             </button>
           </form>
         </div>
       ) : (
-        /* Active Interview Viewport */
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        /* Active Interview Viewport (Point 33) */
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start animate-fade-up-header">
           
-          {/* Left Panel - Question & Answer Area */}
-          <div className="space-y-6 md:col-span-3">
+          {/* Left Panel: Question & Response (No nested cards) */}
+          <div className="md:col-span-8 space-y-8">
             
-            {/* The Question */}
-            <div className="glass-card p-5 border border-slate-800 bg-slate-900/30 space-y-3">
-              <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Interviewer Question</span>
-              </span>
-              <p className="text-sm font-semibold text-white leading-relaxed">
+            {/* Immersive Question Header */}
+            <div className="space-y-3 pb-6 border-b border-slate-900">
+              <div className="flex items-center justify-between text-[11px] font-mono text-[#9B5CFF]">
+                <span>QUESTION {String(questionIndex).padStart(2, '0')} / 10</span>
+                <span className="flex items-center gap-1 text-slate-500 font-semibold">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span>Timed simulator</span>
+                </span>
+              </div>
+              <p className="text-base font-extrabold text-[#F4F1EA] leading-relaxed">
                 {currentQuestion}
               </p>
             </div>
 
             {/* Answer Input Area */}
             {!evaluation && (
-              <div className="glass-card p-5 border border-slate-800 bg-slate-900/30">
+              <div className="space-y-4">
                 <form onSubmit={handleEvaluate} className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Your Technical Answer</label>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Your Technical Response</label>
                     <textarea
                       required
                       rows={8}
-                      placeholder="Compose your structural explanation, system designs, or programmatic solutions..."
+                      placeholder="Compose your structural explanation, system architecture patterns, or algorithmic examples..."
                       value={userAnswer}
                       onChange={(e) => setUserAnswer(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-600 transition-all font-sans leading-relaxed"
+                      className="w-full text-xs font-sans leading-relaxed"
                     />
                   </div>
 
@@ -145,23 +164,21 @@ export const Interviews: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setCurrentQuestion(null)}
-                      className="px-4 py-2 border border-slate-800 hover:bg-slate-900 text-xs font-semibold text-slate-400 rounded-lg cursor-pointer"
+                      className="flex items-center gap-1 px-4 py-2 border border-slate-900 text-slate-500 hover:text-[#FF6577] text-xs font-bold rounded cursor-pointer transition-all"
                     >
-                      Exit Session
+                      <ArrowLeft className="w-3.5 h-3.5" />
+                      <span>Exit Session</span>
                     </button>
                     
                     <button
                       type="submit"
                       disabled={evaluateAnswerMutation.isPending || !userAnswer.trim()}
-                      className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 shadow-lg shadow-purple-600/10"
+                      className="px-5 py-2.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded transition-all cursor-pointer flex items-center gap-1.5"
                     >
                       {evaluateAnswerMutation.isPending ? (
-                        <Loader2 className="w-4.5 h-4.5 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
-                        <>
-                          <Send className="w-3.5 h-3.5" />
-                          <span>Submit Answer for AI Review</span>
-                        </>
+                        <span>Submit answer →</span>
                       )}
                     </button>
                   </div>
@@ -171,39 +188,39 @@ export const Interviews: React.FC = () => {
 
             {/* Active Evaluation Panel */}
             {evaluation && (
-              <div className="glass-card p-5 border border-slate-800 bg-slate-900/30 space-y-5 animate-fade-in">
-                <div className="flex items-center justify-between border-b border-slate-850 pb-3">
-                  <h5 className="text-sm font-bold text-white flex items-center gap-1.5">
-                    <CheckCircle className="w-4.5 h-4.5 text-purple-400" />
+              <div className="space-y-6 animate-fade-in border-t border-slate-900 pt-6">
+                <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+                  <h5 className="text-xs font-bold text-[#F4F1EA] uppercase tracking-wider flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4.5 h-4.5 text-[#55D39A]" />
                     <span>Answer Evaluation Report</span>
                   </h5>
                   
                   <div className="flex items-baseline gap-1">
-                    <span className={`text-2xl font-black px-2.5 py-0.5 rounded-lg border ${getScoreColor(evaluation.score)}`}>
-                      {evaluation.score}
+                    <span className={`text-2xl font-extrabold tracking-tight ${getScoreColor(evaluation.score)}`}>
+                      {evaluation.score}%
                     </span>
-                    <span className="text-[10px] text-slate-500 font-semibold uppercase">/100 score</span>
+                    <span className="text-[10px] text-slate-500 font-bold uppercase">Score</span>
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">AI Critic Feedback</span>
-                  <p className="text-xs text-slate-300 leading-relaxed bg-slate-950/20 p-3 rounded-lg border border-slate-900/60">
+                <div className="space-y-2">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Critic Feedback</span>
+                  <p className="text-xs text-[#9299A8] leading-relaxed bg-[#0D1016] p-4 rounded border border-slate-900">
                     {evaluation.feedback}
                   </p>
                 </div>
 
-                <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">AI Recommendation Model Answer</span>
-                  <p className="text-xs text-slate-350 leading-relaxed font-mono whitespace-pre-wrap bg-slate-950 p-4 rounded-lg border border-slate-850">
-                    {evaluation.model_answer}
-                  </p>
+                <div className="space-y-2">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Model Reference Answer</span>
+                  <pre className="p-4 overflow-auto font-mono text-[11px] text-[#cbd5e1] leading-relaxed select-text bg-[#07080C] border border-slate-900 rounded max-h-[250px] custom-scrollbar">
+                    <code>{evaluation.model_answer}</code>
+                  </pre>
                 </div>
 
                 <div className="flex justify-between items-center pt-2">
                   <button
                     onClick={() => setCurrentQuestion(null)}
-                    className="px-4 py-2 border border-slate-850 hover:bg-slate-900 text-xs font-semibold text-slate-400 rounded-lg cursor-pointer"
+                    className="px-4 py-2 border border-slate-900 text-slate-500 hover:text-slate-200 text-xs font-bold rounded cursor-pointer"
                   >
                     Close Session
                   </button>
@@ -211,9 +228,9 @@ export const Interviews: React.FC = () => {
                   <button
                     onClick={handleNext}
                     disabled={generateQuestionMutation.isPending}
-                    className="flex items-center gap-1.5 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-semibold cursor-pointer shadow-lg shadow-purple-600/10"
+                    className="flex items-center gap-1 px-5 py-2.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded cursor-pointer"
                   >
-                    <span>Fetch Next Question</span>
+                    <span>Next question →</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -222,25 +239,25 @@ export const Interviews: React.FC = () => {
 
           </div>
 
-          {/* Right Panel - Evaluator Context / Expected criteria */}
-          <div className="space-y-6 md:col-span-2">
-            <div className="glass-card p-5 border border-slate-800 bg-slate-900/30 space-y-4">
-              <h5 className="text-xs font-bold text-white flex items-center gap-1.5 border-b border-slate-850 pb-2">
-                <Award className="w-4 h-4 text-purple-400" />
-                <span>Interviewer Target Criteria</span>
+          {/* Right Panel: Criteria & Coaching Tips */}
+          <div className="md:col-span-4 space-y-6">
+            <div className="bg-[#0D1016] border border-slate-900 p-6 rounded-lg space-y-4">
+              <h5 className="text-xs font-bold text-[#F4F1EA] uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-800/60 pb-2">
+                <Award className="w-4.5 h-4.5 text-[#9B5CFF]" />
+                <span>Target Evaluation Criteria</span>
               </h5>
               
-              <p className="text-xs text-slate-400 leading-relaxed">
-                To maximize your rating score, verify that your answer addresses these key domain concepts:
+              <p className="text-xs text-[#9299A8] leading-relaxed">
+                To optimize score grades, address these architectural system design and programming terms:
               </p>
               
-              <div className="p-3.5 rounded-lg bg-slate-950/40 border border-slate-850 text-xs text-slate-300 font-medium font-sans leading-relaxed">
-                {expectedPoints || "Initiate interview to view targeted key topics."}
+              <div className="p-4 rounded bg-[#07080C] border border-slate-900 text-xs text-[#9299A8] font-mono leading-relaxed select-text">
+                {expectedPoints || "Start mock session to map targeted topics."}
               </div>
             </div>
 
-            <div className="glass-card p-5 border border-slate-850 bg-slate-950/20 text-xs text-slate-500 leading-relaxed">
-              <strong>Coaching Tip:</strong> Be precise. Elaborate on performance trade-offs, architecture selections, and production failure recoveries rather than just explaining definitions.
+            <div className="bg-[#0D1016]/40 border border-slate-900 p-6 rounded text-xs text-slate-500 leading-relaxed">
+              <strong>Coach Note:</strong> Answer structure is key. Frame responses utilizing the STAR technique, clarifying context, constraints, outcomes, and code specifics.
             </div>
           </div>
 

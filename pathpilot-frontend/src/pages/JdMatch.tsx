@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { 
-  Sparkles, 
   Loader2, 
-  GitBranch, 
-  BookOpen, 
   Terminal,
-  HelpCircle
+  AlertCircle,
+  CheckCircle,
+  HelpCircle,
+  ArrowRight
 } from 'lucide-react';
 
 export const JdMatch: React.FC = () => {
@@ -15,7 +15,7 @@ export const JdMatch: React.FC = () => {
   const [jdText, setJdText] = useState('');
   const [result, setResult] = useState<any>(null);
 
-  // Fetch resumes list
+  // Fetch resumes list (Preserving existing query)
   const { data: documents } = useQuery({
     queryKey: ['documents'],
     queryFn: async () => {
@@ -26,7 +26,7 @@ export const JdMatch: React.FC = () => {
 
   const resumes = documents?.filter((d: any) => d.fileType === 'RESUME') || [];
 
-  // Match Job Description mutation
+  // Match Job Description mutation (Preserving existing logic)
   const matchJdMutation = useMutation({
     mutationFn: async (payload: { resumeId: string; jdText: string }) => {
       const res = await api.post(`/api/documents/${payload.resumeId}/compare-jd`, {
@@ -49,28 +49,36 @@ export const JdMatch: React.FC = () => {
   };
 
   const getMatchColor = (percent: number) => {
-    if (percent >= 75) return 'text-emerald-400 border-emerald-500/20 bg-emerald-500/10';
-    if (percent >= 50) return 'text-amber-400 border-amber-500/20 bg-amber-500/10';
-    return 'text-rose-400 border-rose-500/20 bg-rose-500/10';
+    if (percent >= 75) return 'text-[#55D39A]';
+    if (percent >= 50) return 'text-[#E9B84B]';
+    return 'text-[#FF6577]';
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-12">
       
-      {/* Input panel Form */}
-      <div className="glass-card p-6 border border-slate-800 bg-slate-900/30">
-        <h4 className="text-base font-bold text-white mb-4">Job Description Matcher</h4>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Title Header (Point 31) */}
+      <div className="space-y-2">
+        <p className="eyebrow-text">Career / 04</p>
+        <h3 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">See how your skills fit the role</h3>
+        <p className="text-xs text-[#9299A8] leading-relaxed max-w-xl">
+          Compare your active profile resume against target job description criteria. PathPilot will map matching skills and highlight development gaps.
+        </p>
+      </div>
+
+      {/* Input panel Form (Point 31) */}
+      <div className="bg-[#0D1016] border border-slate-900 p-6 rounded-lg space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
             {/* Resume Selector */}
             <div className="space-y-1.5 md:col-span-1">
-              <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Select Resume Profile</label>
+              <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Select Resume Profile</label>
               <select
                 required
                 value={selectedResumeId}
                 onChange={(e) => setSelectedResumeId(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-950 border border-slate-850 rounded-lg text-xs text-slate-200 focus:outline-none focus:border-purple-600"
+                className="w-full px-3 py-2.5 bg-[#07080C] border border-slate-900 rounded text-xs text-[#F4F1EA] focus:outline-none focus:border-[#9B5CFF]"
               >
                 <option value="">-- Choose Profile --</option>
                 {resumes.map((doc: any) => (
@@ -80,127 +88,135 @@ export const JdMatch: React.FC = () => {
             </div>
 
             {/* Hint message */}
-            <div className="md:col-span-2 text-xs text-slate-400 pb-2">
-              PathPilot will compare the selected resume content against the job description to calculate fit compatibility and recommend targeted tech learning nodes.
+            <div className="md:col-span-2 text-xs text-[#9299A8] pb-1.5 leading-relaxed">
+              Ensure your uploaded file contains the latest stack milestones for an accurate gap alignment comparison.
             </div>
           </div>
 
           {/* Job Description Textarea */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Target Job Description</label>
+            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Target Job Description</label>
             <textarea
               required
               rows={6}
-              placeholder="Paste the complete job description details, role criteria, tech stacks..."
+              placeholder="Paste the complete job description details, requirements, or core stack criteria..."
               value={jdText}
               onChange={(e) => setJdText(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-600 transition-all font-sans leading-relaxed"
+              className="w-full text-xs font-sans leading-relaxed"
             />
           </div>
 
           <button
             type="submit"
             disabled={matchJdMutation.isPending || !selectedResumeId || !jdText.trim()}
-            className="w-full flex items-center justify-center gap-2 py-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 disabled:bg-slate-900 disabled:text-slate-600 text-white rounded-xl text-sm font-semibold transition-all cursor-pointer shadow-lg shadow-purple-600/10"
+            className="flex items-center justify-center gap-2 px-6 py-2.5 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded transition-all cursor-pointer"
           >
             {matchJdMutation.isPending ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <>
-                <Sparkles className="w-4 h-4" />
-                <span>Calculate Tech Compatibility Match</span>
-              </>
+              <span>Run analysis →</span>
             )}
           </button>
         </form>
       </div>
 
-      {/* Results panel Display */}
+      {/* Results panel Display (Point 31) */}
       {result && (
-        <div className="glass-card border border-slate-800 bg-slate-900/30 p-6 space-y-6 animate-fade-in">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start animate-fade-up-header border-t border-slate-900 pt-8">
           
-          {/* Header Match Ratio */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-950/30 border border-slate-850">
-            <div className="space-y-1">
-              <span className="text-xs text-slate-500 font-semibold uppercase tracking-wider">Skill Compatibility Ratio</span>
-              <div className="flex items-baseline gap-2">
-                <span className={`text-4xl font-extrabold px-3 py-1 rounded-lg border ${getMatchColor(result.match_percentage)}`}>
-                  {result.match_percentage}%
-                </span>
-                <span className="text-sm text-slate-400 font-medium">compatibility fit</span>
+          {/* Left Column: Match Score Scorecard */}
+          <div className="md:col-span-4 bg-[#0D1016] border border-slate-900 p-6 rounded-lg space-y-4">
+            <p className="eyebrow-text">Compatibility Fit</p>
+            <div className="space-y-2">
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Match Score</span>
+              <div className="text-4xl font-extrabold tracking-tight">
+                <span className={getMatchColor(result.match_percentage)}>{result.match_percentage}%</span>
               </div>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed max-w-md">
-              The ATS mapping engine has calculated a match of {result.match_percentage}%. Read the gap reports below to optimize alignment.
+            <div className="w-full h-1 bg-[#11151D] rounded overflow-hidden">
+              <div 
+                className="h-full bg-[#9B5CFF] transition-all duration-500" 
+                style={{ width: `${result.match_percentage}%` }}
+              />
+            </div>
+            <p className="text-xs text-[#9299A8] leading-relaxed">
+              Your profile shares a {result.match_percentage}% keyword alignment with the target description.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Right Column: Key Details, Gaps, and Recommended Actions */}
+          <div className="md:col-span-8 space-y-8">
             
-            {/* Missing Technologies */}
+            {/* Missing Tech / Gaps */}
             <div className="space-y-3">
-              <h5 className="text-sm font-bold text-white flex items-center gap-1.5 border-b border-slate-850 pb-2">
-                <Terminal className="w-4 h-4 text-purple-400" />
-                <span>Missing Stacks & Technologies</span>
+              <h5 className="text-xs font-bold text-[#F4F1EA] uppercase tracking-wider flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4 text-[#FF6577]" />
+                <span>Gaps / Missing Technologies</span>
               </h5>
-              <div className="flex flex-wrap gap-2">
-                {result.missing_technologies?.map((tech: string, idx: number) => (
-                  <span 
-                    key={idx}
-                    className="px-2.5 py-1 bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold rounded-full"
-                  >
-                    {tech}
-                  </span>
-                ))}
+              <div className="flex flex-wrap gap-1.5">
+                {result.missing_technologies && result.missing_technologies.length > 0 ? (
+                  result.missing_technologies.map((tech: string, idx: number) => (
+                    <span 
+                      key={idx}
+                      className="px-2 py-0.5 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-[10px] font-bold rounded"
+                    >
+                      {tech}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-xs text-slate-500">No major stack gaps detected.</span>
+                )}
               </div>
             </div>
 
-            {/* Gap Analysis */}
+            {/* Bulletins Analysis */}
             <div className="space-y-3">
-              <h5 className="text-sm font-bold text-white flex items-center gap-1.5 border-b border-slate-850 pb-2">
-                <GitBranch className="w-4 h-4 text-amber-500" />
-                <span>Core Skill Gap Bulletins</span>
+              <h5 className="text-xs font-bold text-[#F4F1EA] uppercase tracking-wider">
+                <span>Gap Details</span>
               </h5>
               <ul className="space-y-2">
                 {result.skill_gap_analysis?.map((gap: string, idx: number) => (
-                  <li key={idx} className="flex gap-2 items-start text-xs text-slate-350 leading-relaxed">
-                    <span className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0 mt-1.5" />
+                  <li key={idx} className="flex gap-2 items-start text-xs text-[#9299A8] leading-relaxed">
+                    <span className="w-1.5 h-1.5 bg-[#FF6577] rounded-full shrink-0 mt-1.5" />
                     <span>{gap}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Learning Path */}
-            <div className="space-y-3">
-              <h5 className="text-sm font-bold text-white flex items-center gap-1.5 border-b border-slate-850 pb-2">
-                <BookOpen className="w-4 h-4 text-cyan-400" />
-                <span>Skill Recovery Pathways</span>
-              </h5>
-              <ul className="space-y-2">
-                {result.recommended_learning_path?.map((path: string, idx: number) => (
-                  <li key={idx} className="flex gap-2 items-start text-xs text-slate-350 leading-relaxed">
-                    <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full shrink-0 mt-1.5" />
-                    <span>{path}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Recovery Pathways & Prep */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-900/60">
+              
+              <div className="space-y-3">
+                <h5 className="text-xs font-bold text-[#F4F1EA] uppercase tracking-wider flex items-center gap-1.5">
+                  <CheckCircle className="w-4 h-4 text-[#55D39A]" />
+                  <span>Next Steps / Learning Paths</span>
+                </h5>
+                <ul className="space-y-2">
+                  {result.recommended_learning_path?.map((path: string, idx: number) => (
+                    <li key={idx} className="flex gap-2 items-start text-xs text-[#9299A8] leading-relaxed">
+                      <span className="w-1 h-1 bg-[#9B5CFF] rounded-full shrink-0 mt-2" />
+                      <span>{path}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Interview Topics */}
-            <div className="space-y-3">
-              <h5 className="text-sm font-bold text-white flex items-center gap-1.5 border-b border-slate-850 pb-2">
-                <HelpCircle className="w-4 h-4 text-emerald-400" />
-                <span>Recommended Mock Prep Topics</span>
-              </h5>
-              <ul className="space-y-2">
-                {result.interview_prep_topics?.map((topic: string, idx: number) => (
-                  <li key={idx} className="flex gap-2 items-start text-xs text-slate-350 leading-relaxed">
-                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0 mt-1.5" />
-                    <span>{topic}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="space-y-3">
+                <h5 className="text-xs font-bold text-[#F4F1EA] uppercase tracking-wider flex items-center gap-1.5">
+                  <HelpCircle className="w-4 h-4 text-[#55C8E8]" />
+                  <span>Interview Preparation</span>
+                </h5>
+                <ul className="space-y-2">
+                  {result.interview_prep_topics?.map((topic: string, idx: number) => (
+                    <li key={idx} className="flex gap-2 items-start text-xs text-[#9299A8] leading-relaxed">
+                      <span className="w-1 h-1 bg-[#55C8E8] rounded-full shrink-0 mt-2" />
+                      <span>{topic}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
             </div>
 
           </div>

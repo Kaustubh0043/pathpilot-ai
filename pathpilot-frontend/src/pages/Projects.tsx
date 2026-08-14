@@ -7,7 +7,6 @@ import {
   Cpu, 
   FolderTree, 
   Loader2, 
-  Sparkles,
   Copy,
   Check
 } from 'lucide-react';
@@ -17,7 +16,7 @@ export const Projects: React.FC = () => {
   const [result, setResult] = useState<any>(null);
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
 
-  // Generate project design mutation
+  // Generate project design mutation (Preserving existing logic)
   const generateProjectMutation = useMutation({
     mutationFn: async (stack: string) => {
       const res = await api.post('/api/ai/project', { stack });
@@ -41,139 +40,121 @@ export const Projects: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-12">
       
-      {/* Input query bar */}
-      <div className="glass-card p-6 border border-slate-800 bg-slate-900/30">
-        <h4 className="text-base font-bold text-white mb-3">AI Project Architect Sandbox</h4>
-        <p className="text-xs text-slate-400 leading-relaxed mb-4">
-          Provide a stack definition or specific idea (e.g. 'NextJS, Tailwind and PostgreSQL ecommerce app'). PathPilot AI will model directory layouts, relational schemas, and API routes.
-        </p>
+      {/* Title & Query Box (Points 30, 35, 36) */}
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <p className="eyebrow-text">Build / 06</p>
+          <h3 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">What do you want to build?</h3>
+          <p className="text-xs text-[#9299A8] leading-relaxed max-w-xl">
+            Provide a stack definition or specific product idea. PathPilot will model the directory layouts, relational SQL database schemas, and REST API controller gateway endpoints.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-2xl bg-[#0D1016] p-2 border border-slate-900 rounded-lg">
           <input
             type="text"
             required
-            placeholder="e.g. React Native, Spring Boot, ChromaDB, FastAPI..."
+            placeholder="e.g. ecommerce app with React, Spring Boot, and PostgreSQL"
             value={stackInput}
             onChange={(e) => setStackInput(e.target.value)}
-            className="flex-1 px-4 py-3 bg-slate-950 border border-slate-850 rounded-xl text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-600 transition-all font-mono"
+            className="flex-1 bg-[#07080C] border-none text-xs text-[#F4F1EA] px-3 focus:outline-none placeholder-slate-600 focus:ring-0 focus:border-none"
           />
           <button
             type="submit"
             disabled={generateProjectMutation.isPending || !stackInput.trim()}
-            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 disabled:bg-slate-900 disabled:text-slate-600 text-white rounded-xl text-sm font-semibold transition-all cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-purple-600/10"
+            className="px-5 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded transition-all cursor-pointer flex items-center justify-center gap-2"
           >
             {generateProjectMutation.isPending ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
-              <>
-                <Sparkles className="w-4 h-4" />
-                <span>Generate Project Architecture</span>
-              </>
+              <span>Generate architecture →</span>
             )}
           </button>
         </form>
       </div>
 
-      {/* Results grid */}
+      {/* Blueprint Visual Workspace Results (Point 30) */}
       {result && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start animate-fade-up-header">
           
-          {/* Ideas & Architectural Suggestion */}
-          <div className="glass-card p-6 border border-slate-800 bg-slate-900/30 md:col-span-2">
-            <h5 className="text-sm font-bold text-white flex items-center gap-2 border-b border-slate-850 pb-2 mb-3">
-              <Cpu className="w-4.5 h-4.5 text-purple-400" />
+          {/* Concept Overview Box */}
+          <div className="bg-[#0D1016] border border-slate-900 p-6 rounded-lg md:col-span-2 space-y-3">
+            <h5 className="text-xs font-bold text-[#F4F1EA] flex items-center gap-2 border-b border-slate-800/60 pb-2">
+              <Cpu className="w-4.5 h-4.5 text-[#9B5CFF]" />
               <span>Project Concept & Overview</span>
             </h5>
-            <p className="text-xs text-slate-350 leading-relaxed font-sans">
+            <p className="text-xs text-[#9299A8] leading-relaxed font-sans select-text">
               {result.ideas}
             </p>
           </div>
 
-          {/* Folder Structure */}
-          <div className="glass-card border border-slate-800 bg-slate-900/30 flex flex-col h-[350px]">
-            <div className="flex items-center justify-between px-5 py-3 border-b border-slate-850 bg-slate-950/20">
-              <h5 className="text-xs font-bold text-slate-250 flex items-center gap-2">
-                <FolderTree className="w-4 h-4 text-purple-400" />
-                <span>Directory Blueprint</span>
+          {/* Directory Blueprint */}
+          <div className="bg-[#0D1016] border border-slate-900 flex flex-col h-[380px] rounded-lg">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-slate-900 bg-[#11151D]/40">
+              <h5 className="text-[11px] font-bold text-[#9299A8] flex items-center gap-2 uppercase tracking-wide">
+                <FolderTree className="w-4 h-4 text-[#9B5CFF]" />
+                <span>Directory Layout</span>
               </h5>
               <button 
                 onClick={() => copyText(result.folder_structure, 'folder')}
-                className="text-[10px] text-slate-500 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
+                className="text-[10px] text-slate-500 hover:text-[#F4F1EA] flex items-center gap-1 cursor-pointer transition-colors font-semibold"
               >
                 {copiedSection === 'folder' ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied</span>
-                  </>
+                  <span className="text-[#55D39A]">Copied</span>
                 ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copy</span>
-                  </>
+                  <span>Copy</span>
                 )}
               </button>
             </div>
-            <pre className="p-4 overflow-auto flex-1 font-mono text-xs text-purple-300/90 leading-relaxed select-text bg-slate-950/30">
+            <pre className="p-4 overflow-auto flex-1 font-mono text-[11px] text-[#C49AFF] leading-relaxed select-text bg-[#07080C] custom-scrollbar">
               <code>{result.folder_structure}</code>
             </pre>
           </div>
 
-          {/* API Suggestions */}
-          <div className="glass-card border border-slate-800 bg-slate-900/30 flex flex-col h-[350px]">
-            <div className="flex items-center justify-between px-5 py-3 border-b border-slate-850 bg-slate-950/20">
-              <h5 className="text-xs font-bold text-slate-250 flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-cyan-400" />
-                <span>API Endpoint Specifications</span>
+          {/* API Controller Specs */}
+          <div className="bg-[#0D1016] border border-slate-900 flex flex-col h-[380px] rounded-lg">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-slate-900 bg-[#11151D]/40">
+              <h5 className="text-[11px] font-bold text-[#9299A8] flex items-center gap-2 uppercase tracking-wide">
+                <Terminal className="w-4 h-4 text-[#55C8E8]" />
+                <span>REST Controllers Gateway</span>
               </h5>
               <button 
                 onClick={() => copyText(result.api_suggestions, 'api')}
-                className="text-[10px] text-slate-500 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
+                className="text-[10px] text-slate-500 hover:text-[#F4F1EA] flex items-center gap-1 cursor-pointer transition-colors font-semibold"
               >
                 {copiedSection === 'api' ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied</span>
-                  </>
+                  <span className="text-[#55D39A]">Copied</span>
                 ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copy</span>
-                  </>
+                  <span>Copy</span>
                 )}
               </button>
             </div>
-            <pre className="p-4 overflow-auto flex-1 font-mono text-xs text-slate-200/90 leading-relaxed select-text bg-slate-950/30">
+            <pre className="p-4 overflow-auto flex-1 font-mono text-[11px] text-[#CBD5E1] leading-relaxed select-text bg-[#07080C] custom-scrollbar">
               <code>{result.api_suggestions}</code>
             </pre>
           </div>
 
-          {/* Database Schema model */}
-          <div className="glass-card border border-slate-800 bg-slate-900/30 flex flex-col h-[350px] md:col-span-2">
-            <div className="flex items-center justify-between px-5 py-3 border-b border-slate-850 bg-slate-950/20">
-              <h5 className="text-xs font-bold text-slate-250 flex items-center gap-2">
-                <Database className="w-4 h-4 text-amber-500" />
-                <span>Database DBML/SQL Design</span>
+          {/* Database SQL Design Schema */}
+          <div className="bg-[#0D1016] border border-slate-900 flex flex-col h-[380px] md:col-span-2 rounded-lg">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-slate-900 bg-[#11151D]/40">
+              <h5 className="text-[11px] font-bold text-[#9299A8] flex items-center gap-2 uppercase tracking-wide">
+                <Database className="w-4 h-4 text-[#E9B84B]" />
+                <span>Relational Schema (SQL / DDL)</span>
               </h5>
               <button 
                 onClick={() => copyText(result.database_design, 'db')}
-                className="text-[10px] text-slate-500 hover:text-white flex items-center gap-1 cursor-pointer transition-colors"
+                className="text-[10px] text-slate-500 hover:text-[#F4F1EA] flex items-center gap-1 cursor-pointer transition-colors font-semibold"
               >
                 {copiedSection === 'db' ? (
-                  <>
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span className="text-emerald-400">Copied</span>
-                  </>
+                  <span className="text-[#55D39A]">Copied</span>
                 ) : (
-                  <>
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Copy</span>
-                  </>
+                  <span>Copy</span>
                 )}
               </button>
             </div>
-            <pre className="p-4 overflow-auto flex-1 font-mono text-xs text-amber-250/90 leading-relaxed select-text bg-slate-950/30">
+            <pre className="p-4 overflow-auto flex-1 font-mono text-[11px] text-[#E9B84B]/90 leading-relaxed select-text bg-[#07080C] custom-scrollbar">
               <code>{result.database_design}</code>
             </pre>
           </div>
