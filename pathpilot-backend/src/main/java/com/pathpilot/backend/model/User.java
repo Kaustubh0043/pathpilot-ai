@@ -50,7 +50,11 @@ public class User {
 
     @Column(name = "onboarding_completed")
     @Builder.Default
-    private boolean onboardingCompleted = false;
+    private Boolean onboardingCompleted = false;
+
+    public boolean isOnboardingCompleted() {
+        return onboardingCompleted != null && onboardingCompleted;
+    }
 
     @Column(name = "career_goal")
     private String careerGoal;
