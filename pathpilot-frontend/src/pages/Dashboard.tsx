@@ -169,8 +169,20 @@ export const Dashboard: React.FC = () => {
                 window.dispatchEvent(new Event('careerGoalUpdated'));
               }}
               placeholder="e.g. Software Engineer"
-              className="bg-transparent border-b border-dashed border-slate-700 text-[#F4F1EA] font-semibold focus:outline-none focus:border-[#9B5CFF] px-1 py-0.5"
-              style={{ width: `${Math.max(careerGoal.length * 8.5, 120)}px`, fontSize: '14px', lineHeight: 'normal' }}
+              className="focus:outline-none font-semibold text-[#F4F1EA]"
+              style={{ 
+                width: `${(careerGoal.length || 10) + 1.2}ch`, 
+                background: 'transparent', 
+                border: 'none', 
+                borderBottom: '1px dashed #475569', 
+                padding: '0px 4px', 
+                margin: '0px',
+                borderRadius: '0px',
+                fontSize: '14px', 
+                lineHeight: 'normal',
+                outline: 'none',
+                boxShadow: 'none'
+              }}
             />
             <span>is currently <span className="text-[#9B5CFF] font-bold">{pathProgress}%</span> complete.</span>
           </div>

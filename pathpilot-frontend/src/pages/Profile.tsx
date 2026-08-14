@@ -433,38 +433,38 @@ export const Profile: React.FC = () => {
           <div className="space-y-5">
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Target Career Goal</span>
-              <p className="font-semibold text-base text-[#F4F1EA]">{profile.careerGoal || 'Not set'}</p>
+              <p className="font-semibold text-base text-[#F4F1EA]">{profile?.careerGoal || 'Not set'}</p>
             </div>
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Experience Level</span>
-              <p className="font-semibold text-sm text-[#F4F1EA]">{profile.experienceLevel || 'Not set'}</p>
+              <p className="font-semibold text-sm text-[#F4F1EA]">{profile?.experienceLevel || 'Not set'}</p>
             </div>
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Primary Objective</span>
-              <p className="font-semibold text-[#F4F1EA]">{profile.careerObjective || 'Not set'}</p>
+              <p className="font-semibold text-[#F4F1EA]">{profile?.careerObjective || 'Not set'}</p>
             </div>
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Weekly Time Commitment</span>
-              <p className="font-semibold text-[#F4F1EA]">{profile.weeklyCommitment || 'Not set'}</p>
+              <p className="font-semibold text-[#F4F1EA]">{profile?.weeklyCommitment || 'Not set'}</p>
             </div>
           </div>
 
           <div className="space-y-5">
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Skill Gaps / Focus Areas</span>
-              <p className="font-semibold text-[#F4F1EA]">{profile.skillGaps || 'None set'}</p>
+              <p className="font-semibold text-[#F4F1EA]">{profile?.skillGaps || 'None set'}</p>
             </div>
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Currently Working With (Technologies)</span>
-              <p className="font-semibold text-[#F4F1EA]">{profile.technologies || 'None'}</p>
+              <p className="font-semibold text-[#F4F1EA]">{profile?.technologies || 'None'}</p>
             </div>
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Learning Style Preference</span>
-              <p className="font-semibold text-[#F4F1EA]">{profile.optionalLearningStyle || 'Mixed'}</p>
+              <p className="font-semibold text-[#F4F1EA]">{profile?.optionalLearningStyle || 'Mixed'}</p>
             </div>
             <div className="space-y-0.5">
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Job Location Preference</span>
-              <p className="font-semibold text-[#F4F1EA]">{profile.optionalJobPreference || 'Open'}</p>
+              <p className="font-semibold text-[#F4F1EA]">{profile?.optionalJobPreference || 'Open'}</p>
             </div>
           </div>
         </div>
