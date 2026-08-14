@@ -20,6 +20,15 @@ export const Dashboard: React.FC = () => {
   const [newSkillName, setNewSkillName] = useState('');
   const [newSkillProgress, setNewSkillProgress] = useState(50);
 
+  // Editable Career Goal from localStorage
+  const [careerGoal, setCareerGoal] = useState(() => {
+    return localStorage.getItem('careerGoal') || 'Software Engineer';
+  });
+
+  // Dynamic route ticks based on actual feature completions
+  const interviewCompleted = localStorage.getItem('interviewCompleted') === 'true';
+  const jobMatchCompleted = localStorage.getItem('jobMatchCompleted') === 'true';
+
   // Fetch Dashboard statistics (Preserving existing query)
   const { data: stats, isLoading } = useQuery({
     queryKey: ['dashboardStats'],
@@ -143,9 +152,23 @@ export const Dashboard: React.FC = () => {
           <h2 className="text-3xl font-extrabold text-[#F4F1EA] tracking-tight">
             Good evening, {stats?.fullName || 'Developer'}.
           </h2>
-          <p className="text-sm text-[#9299A8] max-w-xl font-medium">
-            Your path to Software Engineer is currently <span className="text-[#9B5CFF] font-bold">{pathProgress}%</span> complete.
-          </p>
+          <div className="text-sm text-[#9299A8] max-w-xl font-medium flex items-center gap-1.5 flex-wrap">
+            <span>Your path to</span>
+            <input
+              type="text"
+              value={careerGoal}
+              onChange={(e) => {
+                const val = e.target.value;
+                setCareerGoal(val);
+                localStorage.setItem('careerGoal', val);
+                window.dispatchEvent(new Event('careerGoalUpdated'));
+              }}
+              placeholder="e.g. Software Engineer"
+              className="bg-transparent border-b border-dashed border-slate-700 text-[#F4F1EA] font-semibold focus:outline-none focus:border-[#9B5CFF] px-1 py-0.5"
+              style={{ width: `${Math.max(careerGoal.length * 8.5, 120)}px`, fontSize: '14px', lineHeight: 'normal' }}
+            />
+            <span>is currently <span className="text-[#9B5CFF] font-bold">{pathProgress}%</span> complete.</span>
+          </div>
           <div className="pt-2">
             <Link 
               to={nextMoveLink.startsWith('#') ? '/dashboard' : nextMoveLink}
@@ -229,17 +252,27 @@ export const Dashboard: React.FC = () => {
             {/* Interviews Node */}
             <div className="flex flex-col items-center gap-2 relative z-10">
               <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                activeStage === 'Interviews' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
+                interviewCompleted 
+                  ? 'bg-[#55D39A] border-[#55D39A]' 
+                  : activeStage === 'Interviews' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
               }`}>
-                {activeStage === 'Interviews' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
+                {interviewCompleted && <span className="text-[8px] text-[#07080C] font-bold">✓</span>}
+                {!interviewCompleted && activeStage === 'Interviews' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
               </div>
               <span className={`text-[10px] font-bold uppercase tracking-wider ${activeStage === 'Interviews' ? 'text-[#9B5CFF]' : 'text-slate-500'}`}>Interviews</span>
             </div>
 
             {/* Applications Node */}
             <div className="flex flex-col items-center gap-2 relative z-10">
-              <div className="w-4 h-4 rounded-full border-2 border-slate-800 bg-[#07080C] flex items-center justify-center" />
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Applications</span>
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                jobMatchCompleted 
+                  ? 'bg-[#55D39A] border-[#55D39A]' 
+                  : activeStage === 'Applications' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
+              }`}>
+                {jobMatchCompleted && <span className="text-[8px] text-[#07080C] font-bold">✓</span>}
+                {!jobMatchCompleted && activeStage === 'Applications' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
+              </div>
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${activeStage === 'Applications' ? 'text-[#9B5CFF]' : 'text-slate-500'}`}>Applications</span>
             </div>
 
             {/* DESTINATION Node */}

@@ -39,6 +39,18 @@ export const DashboardLayout: React.FC = () => {
     }
   };
 
+  const [careerGoal, setCareerGoal] = useState(() => {
+    return localStorage.getItem('careerGoal') || 'Software Engineer';
+  });
+
+  React.useEffect(() => {
+    const handleGoalUpdate = () => {
+      setCareerGoal(localStorage.getItem('careerGoal') || 'Software Engineer');
+    };
+    window.addEventListener('careerGoalUpdated', handleGoalUpdate);
+    return () => window.removeEventListener('careerGoalUpdated', handleGoalUpdate);
+  }, []);
+
   return (
     <div className="relative min-h-screen text-[#F4F1EA] flex overflow-hidden bg-[#07080C]">
       {/* Background Container */}
@@ -74,7 +86,7 @@ export const DashboardLayout: React.FC = () => {
 
             {/* Muted Path Indicator */}
             <div className="hidden sm:block text-[11px] font-medium text-[#606979]">
-              Software Engineer path
+              {careerGoal} path
             </div>
           </div>
         </header>

@@ -34,13 +34,20 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
 
-        // Reset streak if last active date was before yesterday
+        // Automatically sync and update daily active streak
         LocalDate today = LocalDate.now();
-        if (user.getLastActiveDate() != null) {
-            if (user.getLastActiveDate().isBefore(today.minusDays(1))) {
-                user.setStreakCount(0);
-                userRepository.save(user);
+        if (user.getLastActiveDate() == null) {
+            user.setStreakCount(1);
+            user.setLastActiveDate(today);
+            userRepository.save(user);
+        } else if (user.getLastActiveDate().isBefore(today)) {
+            if (user.getLastActiveDate().isEqual(today.minusDays(1))) {
+                user.setStreakCount(user.getStreakCount() + 1);
+            } else {
+                user.setStreakCount(1); // Restart streak if broken
             }
+            user.setLastActiveDate(today);
+            userRepository.save(user);
         }
 
         List<UserSkill> skills = userSkillRepository.findByUserId(user.getId());

@@ -43,6 +43,7 @@ export const Interviews: React.FC = () => {
     },
     onSuccess: (data) => {
       setEvaluation(data);
+      localStorage.setItem('interviewCompleted', 'true');
     },
   });
 
