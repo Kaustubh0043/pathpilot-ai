@@ -237,7 +237,7 @@ export const Landing: React.FC = () => {
                 <div className="absolute -left-[21px] w-2.5 h-2.5 rounded-full bg-slate-800" />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">Destination</p>
-                  <p className="text-[10px] text-slate-550">Target target</p>
+                  <p className="text-[10px] text-slate-550">Target role</p>
                 </div>
               </div>
 
@@ -271,9 +271,10 @@ export const Landing: React.FC = () => {
           </div>
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
             <p className="text-xs text-[#9299A8] leading-relaxed">
-              PathPilot reads your resume, identifies your strongest signals, and shows where your profile needs work. We check keyword densities and formats to establish a baseline ATS compatibility rating.
+              PathPilot reads your resume, identifies your strongest signals, and shows where your profile needs work. It turns your resume into a clear starting point for the journey ahead.
             </p>
             <div className="bg-[#0D1016] border border-slate-900 p-5 rounded-lg space-y-3">
+              <div className="text-[9px] font-mono font-bold text-[#9B5CFF] uppercase tracking-wider mb-1">EXAMPLE ANALYSIS</div>
               <div className="flex justify-between text-[11px] font-bold text-[#9299A8]">
                 <span>ATS SCORE</span>
                 <span>84 / 100</span>
@@ -302,14 +303,14 @@ export const Landing: React.FC = () => {
               <span className="font-display font-black text-7xl sm:text-8xl text-[#9B5CFF]">78%</span>
               <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Compatibility Fit</p>
             </div>
-            <div className="space-y-3 w-full max-w-[280px]">
-              <div className="space-y-1">
-                <span className="text-[10px] text-slate-500 font-bold uppercase">Matches</span>
-                <p className="text-xs text-[#55D39A] font-semibold">Java, Spring Boot, REST APIs</p>
+            <div className="space-y-4 w-full max-w-[280px]">
+              <div className="space-y-0.5">
+                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Matches</span>
+                <p className="text-xs text-[#55D39A] font-semibold">Java · Spring Boot · REST APIs</p>
               </div>
-              <div className="space-y-1">
-                <span className="text-[10px] text-slate-500 font-bold uppercase">Gaps</span>
-                <p className="text-xs text-[#FF6577] font-semibold">Docker, AWS, Spring Testing</p>
+              <div className="space-y-0.5">
+                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Gaps</span>
+                <p className="text-xs text-[#FF6577] font-semibold">Docker · AWS · Testing</p>
               </div>
             </div>
           </div>
@@ -343,6 +344,10 @@ export const Landing: React.FC = () => {
                 <p className="text-[10px] text-slate-500 leading-normal pl-4">
                   DTO mapping validations and custom global response mappings.
                 </p>
+                <div className="flex items-center justify-between text-[9px] font-mono text-slate-600 pl-4 pt-1">
+                  <span>2h 40m remaining</span>
+                  <span className="text-[#9B5CFF] font-bold">Continue →</span>
+                </div>
               </div>
             </div>
           </div>
@@ -386,8 +391,10 @@ export const Landing: React.FC = () => {
             <p className="text-xs font-bold text-[#F4F1EA] leading-relaxed">
               "Explain how heap space memory builds in O(N) complexity."
             </p>
-            <div className="p-3 bg-[#07080C] border border-slate-900 rounded text-[11px] text-[#FF6577] leading-relaxed">
-              ⚠️ Score: 42%. Include binary tree heights and convergence proofs to optimize grading metrics.
+            <div className="p-3.5 bg-[#07080C] border border-slate-900 rounded space-y-2">
+              <div className="text-[9px] font-mono font-bold text-[#FF6577] uppercase tracking-wider">AI FEEDBACK</div>
+              <p className="text-[11px] text-[#FF6577] font-semibold">"Needs more depth"</p>
+              <p className="text-[10px] text-slate-500 leading-relaxed font-medium">"Explain the relationship between heap height and the number of nodes."</p>
             </div>
           </div>
         </div>
@@ -452,7 +459,7 @@ export const Landing: React.FC = () => {
             LET'S TALK.
           </h2>
           <p className="text-xs text-[#9299A8] leading-relaxed max-w-xs pt-2">
-            Submit questions, feedback, or suggestions directly to the developer's inbox.
+            Questions, feedback, or ideas? Send them directly to the developer.
           </p>
         </div>
 
@@ -533,7 +540,7 @@ export const Landing: React.FC = () => {
               <span className="text-sm font-bold text-[#F4F1EA] tracking-tight font-display">PathPilot</span>
             </div>
             <p className="leading-relaxed text-[11px] text-slate-600 max-w-xs">
-              Ecosystem designed to map developer profiles, analyze ATS score keyword alignments, and simulate screening preparation.
+              A career operating system for developers — from your first resume scan to the interview that matters.
             </p>
             <div className="space-y-1.5 text-[11px] text-slate-600 pt-1 font-medium">
               <div className="flex items-center gap-2">
