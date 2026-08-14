@@ -1,238 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
 @import "tailwindcss";
 
 /* 
   Fonts:
-  - Syne: Wide, futuristic, display font for brutalist headings
-  - Plus Jakarta Sans: Clean geometric sans-serif for body
+  - Space Grotesk: Clean Display font for titles and coordinate stats
+  - Inter: Standard, legible sans-serif for UI body and reading text
 */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap');
 
 :root {
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Syne', sans-serif;
-  --bg-dark: #08070c;              /* Deep architectural charcoal */
-  --bg-card: #0d0c13;              /* Layer 1 background */
-  --bg-card-hover: #12111a;        /* Layer 2 background */
-  --border-color: #171520;         /* Razor thin custom borders */
-  --primary-brand: #7c3aed;        /* Crisp royal violet */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  /* Redesigned Color Tokens (Point 6) */
+  --bg-dark: #07080C;
+  --surface-primary: #0D1016;
+  --surface-secondary: #11151D;
+  --surface-elevated: #151A23;
+
+  --text-primary: #F4F1EA;
+  --text-secondary: #9299A8;
+  --text-muted: #606979;
+
+  --violet-primary: #9B5CFF;
+  --violet-soft: #C49AFF;
+
+  --color-success: #55D39A;
+  --color-warning: #E9B84B;
+  --color-info: #55C8E8;
+  --color-error: #FF6577;
+
+  /* Borders & Radius */
+  --border-default: rgba(255, 255, 255, 0.07);
+  --border-active: rgba(155, 92, 255, 0.45);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
 }
 
-/* Global resets for custom agency-style design */
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-dark);
-  color: #e2e8f0;
+  color: var(--text-primary);
   overflow-x: hidden;
   margin: 0;
   min-height: 100vh;
   letter-spacing: -0.01em;
 }
 
-/* Organic Noise / Grain overlay (applied over entire viewport) */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.038; /* Faint organic paper texture */
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* Typography styles */
+/* Sophisticated Typography Hierarchy (Points 7, 8) */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.04em;
-  color: #ffffff;
-  /* Smooth scale transition for hover */
-  transition: letter-spacing 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  animation: entrance-fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-h1:hover, h2:hover, h3:hover {
+  font-weight: 700;
+  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
-/* Subheadings & Mini Headers */
-label, .uppercase-label {
-  font-family: var(--font-sans) !important;
-  font-size: 0.65rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.2em !important;
-  text-transform: uppercase !important;
-  color: var(--primary-brand) !important;
+.display-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
 }
 
-@keyframes entrance-fade-up {
-  0% {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.eyebrow-text {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--violet-primary);
 }
 
-/* Elegant Text Gradients */
 .text-gradient {
-  background: linear-gradient(135deg, #ffffff 40%, #c084fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
 }
 
-.text-gradient-cyan {
-  background: linear-gradient(135deg, #ffffff 40%, #22d3ee 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
+.text-gradient-cyan,
 .text-gradient-gold {
-  background: linear-gradient(135deg, #ffffff 40%, #f59e0b 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
 }
 
-/* Brutalist Button Overrides (Clean, solid borders that fill on hover) */
+/* Button Refactor: Removed pill shapes, using rounded-md/rounded-lg (Point 36) */
 button, 
 .btn-style {
   font-family: var(--font-sans);
-  font-weight: 700;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: var(--radius-md) !important;
 }
 
-/* Primary buttons style */
 button.bg-purple-600, 
 button[type="submit"] {
-  background: transparent !important;
-  border: 1.5px solid var(--primary-brand) !important;
-  color: #ffffff !important;
-  border-radius: 6px !important; /* Tight corners */
-  padding: 0.75rem 1.75rem !important;
+  background: var(--violet-primary) !important;
+  color: #07080C !important; /* High contrast dark text on purple button */
+  border: 1px solid var(--violet-primary) !important;
+  padding: 0.625rem 1.25rem !important;
   box-shadow: none !important;
+  border-radius: var(--radius-md) !important;
 }
 
 button.bg-purple-600:hover, 
 button[type="submit"]:hover:not(:disabled) {
-  background: var(--primary-brand) !important;
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.18) !important;
-  transform: translateY(-2px);
+  background: var(--violet-soft) !important;
+  border-color: var(--violet-soft) !important;
+  transform: translateY(-1px);
 }
 
 button.bg-purple-600:active, 
 button[type="submit"]:active:not(:disabled) {
-  transform: translateY(-0.5px);
+  transform: translateY(0);
 }
 
-/* Secondary outline buttons */
+/* Secondary outline buttons override */
 button.bg-slate-900, 
 button.bg-slate-900\/50,
 button.border-slate-800 {
-  background: transparent !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  border-radius: 6px !important;
-  color: #cbd5e1 !important;
+  background: var(--surface-primary) !important;
+  border: 1px solid var(--border-default) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text-primary) !important;
+  padding: 0.625rem 1.25rem !important;
 }
 
 button.bg-slate-900:hover, 
 button.bg-slate-900\/50:hover,
 button.border-slate-800:hover {
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
+  background: var(--surface-secondary) !important;
+  border-color: var(--border-active) !important;
+  transform: translateY(-1px);
 }
 
-/* Architectural Card Layouts (Square corners, drafting marks) */
+/* Restructured Cards (Points 12, 13, 14) */
 .glass-panel {
-  background: rgba(8, 7, 12, 0.95);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid var(--border-color);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  background: var(--surface-primary);
+  border: 1px solid var(--border-default);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .glass-card, 
 .premium-glass-card {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 8px; /* High-end sharp corner radius */
-  padding: 2rem;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: visible; /* To allow drafting marks to hang out */
+  background: var(--surface-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+  overflow: visible;
 }
 
-/* Corner Drafting Marker (+) */
-.glass-card::before,
-.premium-glass-card::before {
-  content: "+";
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  color: var(--primary-brand);
-  font-family: monospace;
-  font-size: 14px;
-  font-weight: 300;
-  opacity: 0.65;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.glass-card:hover,
+.glass-card:hover, 
 .premium-glass-card:hover {
-  background: var(--bg-card-hover);
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 
-              0 0 20px rgba(124, 58, 237, 0.04);
-  transform: translateY(-2px);
+  border-color: var(--border-active);
+  background: var(--surface-secondary);
+  transform: translateY(-1px);
 }
 
-/* Dotted Blueprint Grid Backdrop */
-.cyber-grid-2d {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(147, 51, 234, 0.06) 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
-  mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
-  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
-  opacity: 0.9;
-  z-index: 1;
-  pointer-events: none;
+/* Remove decorative intersecting '+' markers & orbs (Points 9, 39) */
+.glass-card::before,
+.premium-glass-card::before,
+.glass-card::after,
+.premium-glass-card::after {
+  display: none !important;
 }
 
-/* Inputs override */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-textarea {
-  background: #040306 !important;
-  border: 1px solid var(--border-color) !important;
-  color: #f8fafc !important;
-  border-radius: 6px !important;
-  padding: 0.875rem 1.125rem !important;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-textarea:focus {
-  border-color: rgba(147, 51, 234, 0.5) !important;
-  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.15) !important;
-  outline: none !important;
-}
-
-/* Disable generic templates details */
+/* Disable generic templates details (Points 4, 39) */
 .aurora-container {
   position: absolute;
   inset: 0;
@@ -242,6 +181,7 @@ textarea:focus {
   background: var(--bg-dark);
 }
 
+.cyber-grid-2d,
 .aurora-orb, 
 .glow-orb,
 .glow-particle,
@@ -250,10 +190,33 @@ textarea:focus {
   display: none !important;
 }
 
+/* Minimalist Form Controls */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  background: var(--surface-primary) !important;
+  border: 1px solid var(--border-default) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 0.75rem 1rem !important;
+  font-family: var(--font-sans) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  border-color: var(--border-active) !important;
+  box-shadow: 0 0 0 2px rgba(155, 92, 255, 0.15) !important;
+  outline: none !important;
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -261,10 +224,37 @@ textarea:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
+  background: var(--surface-secondary);
+  border-radius: var(--radius-sm);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(147, 51, 234, 0.3);
+  background: var(--violet-primary);
+}
+
+/* Custom Career Route Nodes Helper classes (Point 15) */
+.route-track {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.route-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.route-dot.active {
+  background-color: var(--violet-primary);
+  box-shadow: 0 0 8px var(--violet-primary);
+}
+
+.route-dot.completed {
+  background-color: var(--color-success);
+}
+
+.route-dot.upcoming {
+  background-color: var(--text-muted);
 }

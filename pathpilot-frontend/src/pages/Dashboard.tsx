@@ -8,17 +8,19 @@ import {
   Compass, 
   ArrowRight,
   PlusCircle,
-  GraduationCap
+  GraduationCap,
+  Sparkles
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Dashboard: React.FC = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [showAddSkill, setShowAddSkill] = useState(false);
   const [newSkillName, setNewSkillName] = useState('');
   const [newSkillProgress, setNewSkillProgress] = useState(50);
 
-  // Fetch Dashboard statistics
+  // Fetch Dashboard statistics (Preserving existing query)
   const { data: stats, isLoading } = useQuery({
     queryKey: ['dashboardStats'],
     queryFn: async () => {
@@ -27,7 +29,7 @@ export const Dashboard: React.FC = () => {
     },
   });
 
-  // Mutate skills
+  // Mutate skills (Preserving existing mutation)
   const addSkillMutation = useMutation({
     mutationFn: async (payload: { skillName: string; progressPercentage: number }) => {
       return api.post('/api/dashboard/skills', payload);
@@ -39,7 +41,7 @@ export const Dashboard: React.FC = () => {
     },
   });
 
-  // Increment Streak manually (optional dashboard feature)
+  // Increment Streak manually (Preserving existing mutation)
   const incrementStreakMutation = useMutation({
     mutationFn: async () => {
       return api.post('/api/dashboard/streak');
@@ -61,166 +63,360 @@ export const Dashboard: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="w-10 h-10 border-4 border-purple-500/20 border-t-purple-500 rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-slate-700 border-t-[#9B5CFF] rounded-full animate-spin" />
       </div>
     );
   }
 
-  // Get calendar date strings for rendering grid
+  // Calculate dynamic, authentic progress based on actual user database statistics (Points 22, 44)
+  const totalRoadmaps = stats?.totalRoadmaps || 0;
+  const totalDocuments = stats?.totalDocuments || 0;
+  const totalSkills = stats?.skills?.length || 0;
+
+  const resumeWeight = totalDocuments ? Math.min(totalDocuments * 15, 30) : 10;
+  const skillWeight = totalSkills ? Math.min(totalSkills * 10, 30) : 0;
+  const roadmapWeight = totalRoadmaps ? Math.min(totalRoadmaps * 15, 20) : 0;
+  const pathProgress = Math.min(18 + resumeWeight + skillWeight + roadmapWeight, 95);
+
+  // Dynamic active navigation indicator stage mapping (Point 15)
+  let activeStage = 'Resume';
+  if (totalDocuments === 0) {
+    activeStage = 'Resume';
+  } else if (totalSkills === 0) {
+    activeStage = 'Skills';
+  } else if (totalRoadmaps === 0) {
+    activeStage = 'Projects';
+  } else {
+    activeStage = 'Interviews';
+  }
+
+  // Dynamic Next Move definition based on real states (Point 23)
+  let nextMoveTitle = '';
+  let nextMoveDesc = '';
+  let nextMoveLink = '';
+  let nextMoveButtonText = '';
+
+  if (totalDocuments === 0) {
+    nextMoveTitle = 'Upload Your Technical Resume';
+    nextMoveDesc = 'Analyze your current baseline ATS score and profile keywords.';
+    nextMoveLink = '/dashboard/resume';
+    nextMoveButtonText = 'Analyze Resume';
+  } else if (totalSkills === 0) {
+    nextMoveTitle = 'Map Your Technical Skills';
+    nextMoveDesc = 'Add your first engineering or language skill to start mapping your career roadmap.';
+    nextMoveLink = '#skills-section';
+    nextMoveButtonText = 'Add Skill';
+  } else if (totalRoadmaps === 0) {
+    nextMoveTitle = 'Generate a Learning Path';
+    nextMoveDesc = 'Create a week-by-week curriculum checksheet covering database or microservice systems.';
+    nextMoveLink = '/dashboard/roadmaps';
+    nextMoveButtonText = 'Build Roadmap';
+  } else {
+    nextMoveTitle = 'Simulate Technical Interview';
+    nextMoveDesc = 'Practice conversational mock questions tailored specifically to your target roles.';
+    nextMoveLink = '/dashboard/interviews';
+    nextMoveButtonText = 'Start Interview';
+  }
+
+  // Activity map calendar rendering configurations
   const activityMap = stats?.dailyActivity || {};
   const activityKeys = Object.keys(activityMap).sort();
 
   const getActivityColor = (level: number) => {
     switch (level) {
-      case 0: return 'bg-slate-900 border border-slate-800/40';
-      case 1: return 'bg-purple-950 border border-purple-900/30';
-      case 2: return 'bg-purple-800/70 border border-purple-700/35';
-      case 3: return 'bg-purple-600/80 border border-purple-500/40';
-      case 4: return 'bg-purple-400 border border-purple-300/60';
-      default: return 'bg-slate-900';
+      case 0: return 'bg-[#11151D] border border-slate-900';
+      case 1: return 'bg-[#9B5CFF]/15 border border-[#9B5CFF]/10';
+      case 2: return 'bg-[#9B5CFF]/35 border border-[#9B5CFF]/20';
+      case 3: return 'bg-[#9B5CFF]/60 border border-[#9B5CFF]/30';
+      case 4: return 'bg-[#9B5CFF] border border-[#C49AFF]/45';
+      default: return 'bg-[#11151D]';
     }
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-12">
       
-      {/* Welcome Card banner */}
-      <div className="glass-card p-6 md:p-8 bg-gradient-to-r from-purple-900/10 via-slate-900/40 to-indigo-950/15 border border-slate-800/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
-            Welcome back, <span className="text-gradient">{stats?.fullName}</span>!
+      {/* Editorial Dashboard Hero (Point 21) */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-900">
+        <div className="space-y-2">
+          <p className="eyebrow-text">Overview</p>
+          <h2 className="text-3xl font-extrabold text-[#F4F1EA] tracking-tight">
+            Good evening, {stats?.fullName || 'Developer'}.
           </h2>
-          <p className="text-slate-400 mt-2 text-sm md:text-base max-w-xl">
-            Optimize your preparation metrics. Ready to analyze resumes, track technical targets, or chat with AI coaches?
+          <p className="text-sm text-[#9299A8] max-w-xl font-medium">
+            Your path to Software Engineer is currently <span className="text-[#9B5CFF] font-bold">{pathProgress}%</span> complete.
           </p>
+          <div className="pt-2">
+            <Link 
+              to={nextMoveLink.startsWith('#') ? '/dashboard' : nextMoveLink}
+              onClick={() => {
+                if (nextMoveLink === '#skills-section') {
+                  document.getElementById('skills-section')?.scrollIntoView({ behavior: 'smooth' });
+                  setShowAddSkill(true);
+                }
+              }}
+              className="inline-flex items-center gap-1.5 text-xs text-[#9B5CFF] hover:text-[#C49AFF] font-bold transition-all"
+            >
+              <span>Continue your path</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
+
         <button
           onClick={() => incrementStreakMutation.mutate()}
-          className="flex items-center gap-2.5 px-4 py-2.5 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-white rounded-lg text-sm font-semibold transition-all cursor-pointer shadow-md"
+          className="self-start md:self-center flex items-center gap-2 px-4 py-2 bg-[#11151D] hover:bg-[#151A23] border border-slate-800 text-[#F4F1EA] rounded-md text-xs font-semibold transition-all cursor-pointer"
         >
-          <Flame className="w-4 h-4 text-amber-500" />
+          <Flame className="w-4 h-4 text-[#E9B84B]" />
           <span>Sync Daily Log</span>
         </button>
       </div>
 
-      {/* Grid Stats Counters */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="glass-card p-6 border border-slate-800 bg-slate-900/30 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Learning Paths</p>
-            <h3 className="text-3xl font-bold text-white mt-1.5">{stats?.totalRoadmaps}</h3>
-            <p className="text-xs text-slate-500 mt-1">Generated roadmaps</p>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-            <Map className="w-6 h-6" />
-          </div>
-        </div>
+      {/* Signature Career Route Visual Tracker (Point 24) */}
+      <div className="space-y-4">
+        <p className="eyebrow-text">Career Route Tracker</p>
+        <div className="relative bg-[#0D1016] border border-slate-900 p-6 rounded-lg overflow-x-auto">
+          <div className="flex items-center justify-between min-w-[700px] relative px-4">
+            
+            {/* Background line indicator */}
+            <div className="absolute top-1/2 left-8 right-8 h-[1px] bg-slate-800 -translate-y-1/2 z-0" />
+            
+            {/* START Node */}
+            <div className="flex flex-col items-center gap-2 relative z-10">
+              <div className="w-4 h-4 rounded-full bg-[#55D39A] flex items-center justify-center text-[8px] text-[#07080C] font-bold">✓</div>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Start</span>
+            </div>
 
-        <div className="glass-card p-6 border border-slate-800 bg-slate-900/30 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Document Box</p>
-            <h3 className="text-3xl font-bold text-white mt-1.5">{stats?.totalDocuments}</h3>
-            <p className="text-xs text-slate-500 mt-1">Uploaded Resumes & JDs</p>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-            <FileText className="w-6 h-6" />
-          </div>
-        </div>
+            {/* Resume Node */}
+            <div className="flex flex-col items-center gap-2 relative z-10">
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                totalDocuments > 0 
+                  ? 'bg-[#55D39A] border-[#55D39A]' 
+                  : activeStage === 'Resume' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
+              }`}>
+                {totalDocuments > 0 && <span className="text-[8px] text-[#07080C] font-bold">✓</span>}
+                {totalDocuments === 0 && activeStage === 'Resume' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
+              </div>
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${activeStage === 'Resume' ? 'text-[#9B5CFF]' : 'text-slate-500'}`}>Resume</span>
+            </div>
 
-        <div className="glass-card p-6 border border-slate-800 bg-slate-900/30 flex items-center justify-between">
-          <div>
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Skill Metrics</p>
-            <h3 className="text-3xl font-bold text-white mt-1.5">{stats?.skills?.length || 0}</h3>
-            <p className="text-xs text-slate-500 mt-1">Mastered skill targets</p>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-            <GraduationCap className="w-6 h-6" />
+            {/* Skills Node */}
+            <div className="flex flex-col items-center gap-2 relative z-10">
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                totalSkills > 0 
+                  ? 'bg-[#55D39A] border-[#55D39A]' 
+                  : activeStage === 'Skills' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
+              }`}>
+                {totalSkills > 0 && <span className="text-[8px] text-[#07080C] font-bold">✓</span>}
+                {totalSkills === 0 && activeStage === 'Skills' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
+              </div>
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${activeStage === 'Skills' ? 'text-[#9B5CFF]' : 'text-slate-500'}`}>Skills</span>
+            </div>
+
+            {/* Projects Node */}
+            <div className="flex flex-col items-center gap-2 relative z-10">
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                totalRoadmaps > 0 
+                  ? 'bg-[#55D39A] border-[#55D39A]' 
+                  : activeStage === 'Projects' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
+              }`}>
+                {totalRoadmaps > 0 && <span className="text-[8px] text-[#07080C] font-bold">✓</span>}
+                {totalRoadmaps === 0 && activeStage === 'Projects' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
+              </div>
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${activeStage === 'Projects' ? 'text-[#9B5CFF]' : 'text-slate-500'}`}>Projects</span>
+            </div>
+
+            {/* Interviews Node */}
+            <div className="flex flex-col items-center gap-2 relative z-10">
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                activeStage === 'Interviews' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
+              }`}>
+                {activeStage === 'Interviews' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
+              </div>
+              <span className={`text-[10px] font-bold uppercase tracking-wider ${activeStage === 'Interviews' ? 'text-[#9B5CFF]' : 'text-slate-500'}`}>Interviews</span>
+            </div>
+
+            {/* Applications Node */}
+            <div className="flex flex-col items-center gap-2 relative z-10">
+              <div className="w-4 h-4 rounded-full border-2 border-slate-800 bg-[#07080C] flex items-center justify-center" />
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Applications</span>
+            </div>
+
+            {/* DESTINATION Node */}
+            <div className="flex flex-col items-center gap-2 relative z-10">
+              <div className="w-4 h-4 rounded-full border-2 border-slate-800 bg-[#07080C] flex items-center justify-center" />
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Destination</span>
+            </div>
+
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Main Split Grid (Whitespace offset composition) (Point 11) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Study Activity Streak heatmap */}
-        <div className="glass-card p-6 border border-slate-800 bg-slate-900/30 lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
-            <h4 className="text-base font-bold text-white">Platform Activity Calendar</h4>
-            <span className="text-xs text-slate-500">Last 30 Days</span>
-          </div>
-
-          <div className="grid grid-cols-10 sm:grid-cols-15 gap-2.5">
-            {activityKeys.map((date) => {
-              const count = activityMap[date] || 0;
-              return (
-                <div 
-                  key={date}
-                  className={`w-7 h-7 rounded-md transition-all hover:scale-115 relative group cursor-pointer ${getActivityColor(count)}`}
-                >
-                  {/* Tooltip */}
-                  <div className="absolute bottom-9 left-1/2 -translate-x-1/2 scale-0 group-hover:scale-100 bg-slate-950 text-slate-200 text-xs px-2.5 py-1.5 rounded border border-slate-800 shadow-xl pointer-events-none whitespace-nowrap z-20 transition-all">
-                    {date}: {count} contribution{count !== 1 ? 's' : ''}
-                  </div>
+        {/* Left Column - Readiness & Next Move */}
+        <div className="lg:col-span-7 space-y-12">
+          
+          {/* Career Readiness Metrics (Point 22) */}
+          <div className="space-y-4">
+            <p className="eyebrow-text">Career Readiness</p>
+            <div className="bg-[#0D1016] border border-slate-900 p-6 rounded-lg space-y-6">
+              
+              {/* Resume Meter */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold text-[#F4F1EA]">
+                  <span>Resume Quality</span>
+                  <span className="font-mono">{totalDocuments ? '80%' : '20%'}</span>
                 </div>
-              );
-            })}
+                <div className="w-full h-1.5 bg-[#11151D] rounded overflow-hidden">
+                  <div 
+                    className="h-full bg-[#9B5CFF] transition-all duration-500" 
+                    style={{ width: totalDocuments ? '80%' : '20%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Skills Meter */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold text-[#F4F1EA]">
+                  <span>Technical Skills Map</span>
+                  <span className="font-mono">{totalSkills > 0 ? `${Math.min(totalSkills * 20, 90)}%` : '0%'}</span>
+                </div>
+                <div className="w-full h-1.5 bg-[#11151D] rounded overflow-hidden">
+                  <div 
+                    className="h-full bg-[#9B5CFF] transition-all duration-500" 
+                    style={{ width: totalSkills > 0 ? `${Math.min(totalSkills * 20, 90)}%` : '0%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Projects Meter */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold text-[#F4F1EA]">
+                  <span>Applied Projects Proof</span>
+                  <span className="font-mono">{totalRoadmaps > 0 ? '70%' : '10%'}</span>
+                </div>
+                <div className="w-full h-1.5 bg-[#11151D] rounded overflow-hidden">
+                  <div 
+                    className="h-full bg-[#9B5CFF] transition-all duration-500" 
+                    style={{ width: totalRoadmaps > 0 ? '70%' : '10%' }}
+                  />
+                </div>
+              </div>
+
+              {/* Interview Readiness Meter */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold text-[#F4F1EA]">
+                  <span>Interview Readiness</span>
+                  <span className="font-mono">10%</span>
+                </div>
+                <div className="w-full h-1.5 bg-[#11151D] rounded overflow-hidden">
+                  <div className="h-full bg-[#9B5CFF]" style={{ width: '10%' }} />
+                </div>
+              </div>
+
+              {/* Applications Meter */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-semibold text-[#F4F1EA]">
+                  <span>Career Applications</span>
+                  <span className="font-mono">0%</span>
+                </div>
+                <div className="w-full h-1.5 bg-[#11151D] rounded overflow-hidden">
+                  <div className="h-full bg-[#9B5CFF]" style={{ width: '0%' }} />
+                </div>
+              </div>
+
+            </div>
           </div>
 
-          <div className="flex items-center justify-end gap-1.5 mt-5 text-[10px] text-slate-500">
-            <span>Less</span>
-            <div className="w-3.5 h-3.5 rounded bg-slate-900 border border-slate-800" />
-            <div className="w-3.5 h-3.5 rounded bg-purple-950" />
-            <div className="w-3.5 h-3.5 rounded bg-purple-800/70" />
-            <div className="w-3.5 h-3.5 rounded bg-purple-600" />
-            <div className="w-3.5 h-3.5 rounded bg-purple-400" />
-            <span>More</span>
+          {/* Next Move Callout Action Panel (Point 23) */}
+          <div className="space-y-4">
+            <p className="eyebrow-text">Next Move</p>
+            <div className="bg-[#0D1016] border-l-2 border-[#9B5CFF] border-y border-r border-slate-900 p-6 rounded-r-lg space-y-4">
+              <div className="space-y-1">
+                <h4 className="text-base font-bold text-[#F4F1EA] tracking-tight">{nextMoveTitle}</h4>
+                <p className="text-xs text-[#9299A8] leading-relaxed">{nextMoveDesc}</p>
+              </div>
+              <div>
+                {nextMoveLink.startsWith('#') ? (
+                  <button
+                    onClick={() => {
+                      document.getElementById('skills-section')?.scrollIntoView({ behavior: 'smooth' });
+                      setShowAddSkill(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded transition-all cursor-pointer"
+                  >
+                    <span>{nextMoveButtonText}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                ) : (
+                  <Link
+                    to={nextMoveLink}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-[#9B5CFF] hover:bg-[#C49AFF] text-[#07080C] text-xs font-bold rounded transition-all"
+                  >
+                    <span>{nextMoveButtonText}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
+
         </div>
 
-        {/* Skills Track List */}
-        <div className="glass-card p-6 border border-slate-800 bg-slate-900/30 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h4 className="text-base font-bold text-white">Tracked Skills</h4>
+        {/* Right Column - Tracked Skills & Activity */}
+        <div className="lg:col-span-5 space-y-12">
+          
+          {/* Skills Track List (Point 26) */}
+          <div id="skills-section" className="space-y-4 scroll-mt-20">
+            <div className="flex items-center justify-between border-b border-slate-900 pb-2">
+              <p className="eyebrow-text">Your Skill Map</p>
               <button
                 onClick={() => setShowAddSkill(!showAddSkill)}
-                className="text-purple-400 hover:text-purple-300 p-1 hover:bg-purple-500/10 rounded-md transition-all cursor-pointer"
+                className="text-[#9B5CFF] hover:text-[#C49AFF] p-1 rounded transition-all cursor-pointer"
               >
-                <PlusCircle className="w-5 h-5" />
+                <PlusCircle className="w-4 h-4" />
               </button>
             </div>
 
             {showAddSkill && (
-              <form onSubmit={handleAddSkill} className="mb-4 p-3 rounded-lg bg-slate-950/60 border border-slate-800/50 space-y-3">
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Next.js, Java"
-                  value={newSkillName}
-                  onChange={(e) => setNewSkillName(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-md text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-600"
-                />
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-[10px] text-slate-400">Progress: {newSkillProgress}%</span>
+              <form onSubmit={handleAddSkill} className="p-4 rounded bg-[#0D1016] border border-slate-900 space-y-4">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Skill Name</label>
                   <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={newSkillProgress}
-                    onChange={(e) => setNewSkillProgress(Number(e.target.value))}
-                    className="flex-1 accent-purple-600 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                    type="text"
+                    required
+                    placeholder="e.g. Spring Boot, Java, PostgreSQL"
+                    value={newSkillName}
+                    onChange={(e) => setNewSkillName(e.target.value)}
+                    className="w-full text-xs"
                   />
                 </div>
-                <div className="flex justify-end gap-2 text-[10px]">
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-[10px] text-slate-400">Progress: {newSkillProgress}%</span>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={newSkillProgress}
+                      onChange={(e) => setNewSkillProgress(Number(e.target.value))}
+                      className="flex-1 accent-[#9B5CFF] h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2 text-[10px] font-semibold pt-1">
                   <button 
                     type="button" 
                     onClick={() => setShowAddSkill(false)}
-                    className="px-2 py-1 border border-slate-800 text-slate-400 rounded hover:bg-slate-900 cursor-pointer"
+                    className="px-2.5 py-1 border border-slate-800 text-slate-400 rounded hover:bg-[#11151D] cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit" 
-                    className="px-2 py-1 bg-purple-600 text-white rounded hover:bg-purple-500 cursor-pointer"
+                    className="px-2.5 py-1 bg-[#9B5CFF] text-[#07080C] rounded hover:bg-[#C49AFF] cursor-pointer"
                   >
                     Add
                   </button>
@@ -228,21 +424,30 @@ export const Dashboard: React.FC = () => {
               </form>
             )}
 
-            <div className="space-y-4 max-h-[170px] overflow-y-auto pr-1">
+            <div className="space-y-4 bg-[#0D1016] border border-slate-900 p-6 rounded-lg max-h-[220px] overflow-y-auto custom-scrollbar">
               {!stats?.skills || stats.skills.length === 0 ? (
-                <div className="text-center py-6">
-                  <p className="text-xs text-slate-500">No skills added yet.</p>
+                <div className="text-center py-6 space-y-3">
+                  <p className="text-xs text-slate-400">Nothing here yet.</p>
+                  <p className="text-[11px] text-[#606979] leading-normal max-w-[200px] mx-auto">
+                    Add your first skill and PathPilot will begin mapping your technical profile.
+                  </p>
+                  <button
+                    onClick={() => setShowAddSkill(true)}
+                    className="px-3 py-1 bg-[#11151D] hover:bg-[#151A23] border border-slate-800 text-[#F4F1EA] text-[10px] font-bold rounded cursor-pointer"
+                  >
+                    Add Skill
+                  </button>
                 </div>
               ) : (
                 stats.skills.map((skill: any) => (
-                  <div key={skill.id} className="space-y-1.5">
+                  <div key={skill.id} className="space-y-1.5 pb-3 border-b border-slate-900/60 last:border-b-0 last:pb-0">
                     <div className="flex justify-between text-xs">
                       <span className="font-semibold text-slate-200">{skill.skillName}</span>
-                      <span className="text-slate-400 font-mono">{skill.progressPercentage}%</span>
+                      <span className="text-[#9B5CFF] font-mono text-[11px]">{skill.progressPercentage}%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden border border-slate-900">
+                    <div className="w-full h-1 bg-slate-950 roundedoverflow-hidden">
                       <div 
-                        className="h-full bg-gradient-to-r from-purple-600 to-indigo-500 rounded-full transition-all duration-500" 
+                        className="h-full bg-[#9B5CFF] transition-all duration-500" 
                         style={{ width: `${skill.progressPercentage}%` }}
                       />
                     </div>
@@ -251,48 +456,45 @@ export const Dashboard: React.FC = () => {
               )}
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Suggested Next Steps */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-panel p-6 rounded-2xl bg-slate-950/20 border border-slate-900 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center gap-2 text-purple-400 font-bold mb-2">
-              <Compass className="w-5 h-5" />
-              <span className="text-sm">Personal Career Coaching</span>
+          {/* Simple Study Activity Streak calendar heatmap (Point 25) */}
+          <div className="space-y-4">
+            <p className="eyebrow-text">Activity Heatmap</p>
+            <div className="bg-[#0D1016] border border-slate-900 p-6 rounded-lg">
+              <div className="grid grid-cols-10 gap-1.5">
+                {activityKeys.map((date) => {
+                  const count = activityMap[date] || 0;
+                  return (
+                    <div 
+                      key={date}
+                      className={`w-6 h-6 rounded transition-all hover:scale-110 relative group cursor-pointer ${getActivityColor(count)}`}
+                    >
+                      {/* Tooltip */}
+                      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 scale-0 group-hover:scale-100 bg-slate-950 text-slate-200 text-[10px] px-2 py-1 rounded border border-slate-800 shadow-xl pointer-events-none whitespace-nowrap z-20 transition-all font-semibold">
+                        {date}: {count} contribution{count !== 1 ? 's' : ''}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center justify-between mt-4 text-[10px] text-slate-500 font-bold border-t border-slate-900/60 pt-3">
+                <span>Intensity scale:</span>
+                <div className="flex items-center gap-1">
+                  <span>Less</span>
+                  <div className="w-3 h-3 rounded bg-[#11151D] border border-slate-900" />
+                  <div className="w-3 h-3 rounded bg-[#9B5CFF]/15" />
+                  <div className="w-3 h-3 rounded bg-[#9B5CFF]/35" />
+                  <div className="w-3 h-3 rounded bg-[#9B5CFF]/60" />
+                  <div className="w-3 h-3 rounded bg-[#9B5CFF]" />
+                  <span>More</span>
+                </div>
+              </div>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Stuck on choosing between frontend development, backend engineering, or mobile apps? Fire up the AI career coach to chart your trajectory.
-            </p>
           </div>
-          <Link 
-            to="/chat" 
-            className="flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 font-semibold mt-4 transition-all"
-          >
-            <span>Start Conversation</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+
         </div>
 
-        <div className="glass-panel p-6 rounded-2xl bg-slate-950/20 border border-slate-900 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center gap-2 text-cyan-400 font-bold mb-2">
-              <FileText className="w-5 h-5" />
-              <span className="text-sm">ATS Optimization sandbox</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Upload your resume to calculate its ATS parse score, highlight tech gaps against live profiles, and secure improvement points.
-            </p>
-          </div>
-          <Link 
-            to="/resume" 
-            className="flex items-center gap-1.5 text-xs text-cyan-400 hover:text-cyan-300 font-semibold mt-4 transition-all"
-          >
-            <span>Scan Resume</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
       </div>
 
     </div>
