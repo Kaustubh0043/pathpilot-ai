@@ -144,7 +144,7 @@ export const Auth: React.FC = () => {
         {/* Brand Header */}
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2.5 mb-2">
-            <img src={logoImg} alt="PathPilot Logo" className="w-8 h-8 object-contain" />
+            <img src={logoImg} alt="PathPilot Logo" className="w-12 h-12 object-contain" />
             <h1 className="text-xl font-bold tracking-tight text-[#F4F1EA] font-display m-0">
               PATHPILOT
             </h1>
