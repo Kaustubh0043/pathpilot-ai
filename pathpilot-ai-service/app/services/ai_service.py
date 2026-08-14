@@ -89,10 +89,28 @@ class AIService:
         import json
         return json.loads(text)
 
-    def chat_session(self, message: str, history: List[dict]) -> str:
-        """Runs standard conversational dialogue using history."""
+    def chat_session(self, message: str, history: List[dict], profile: dict = None) -> str:
+        """Runs standard conversational dialogue using history and user profile context."""
+        system_prompt = (
+            "You are PathPilot's senior AI career coach. Offer actionable, concrete advice on software development, "
+            "portfolio building, and job searching. Support code snippet formatting using standard markdown backticks."
+        )
+        if profile:
+            system_prompt += (
+                f"\n\nUser Profile Context for Personalization:\n"
+                f"- Target Career Goal: {profile.get('careerGoal') or 'Software Engineer'}\n"
+                f"- Experience Level: {profile.get('experienceLevel') or 'Not specified'}\n"
+                f"- Primary Objective: {profile.get('careerObjective') or 'Not specified'}\n"
+                f"- Identified Gaps / Focus Areas: {profile.get('skillGaps') or 'Not specified'}\n"
+                f"- Technologies Stack: {profile.get('technologies') or 'Not specified'}\n"
+                f"- Weekly Time Commitment: {profile.get('weeklyCommitment') or 'Not specified'}\n"
+                f"- Preferred Learning Style: {profile.get('optionalLearningStyle') or 'Not specified'}\n"
+                f"- Job Location Preference: {profile.get('optionalJobPreference') or 'Not specified'}\n"
+                f"Use this context to tailor advice directly to this user's situation so they don't have to re-explain."
+            )
+
         messages = [
-            ("system", "You are PathPilot's senior AI career coach. Offer actionable, concrete advice on software development, portfolio building, and job searching. Support code snippet formatting using standard markdown backticks.")
+            ("system", system_prompt)
         ]
         # Append history
         for item in history:

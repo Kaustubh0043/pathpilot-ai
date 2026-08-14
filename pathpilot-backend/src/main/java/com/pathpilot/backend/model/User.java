@@ -48,6 +48,40 @@ public class User {
     @Column(name = "verification_code_expires_at")
     private LocalDateTime verificationCodeExpiresAt;
 
+    @Column(name = "onboarding_completed", nullable = false)
+    @Builder.Default
+    private boolean onboardingCompleted = false;
+
+    @Column(name = "career_goal")
+    private String careerGoal;
+
+    @Column(name = "custom_career_goal")
+    private String customCareerGoal;
+
+    @Column(name = "experience_level")
+    private String experienceLevel;
+
+    @Column(name = "technologies", length = 1000)
+    private String technologies;
+
+    @Column(name = "career_objective")
+    private String careerObjective;
+
+    @Column(name = "skill_gaps", length = 1000)
+    private String skillGaps;
+
+    @Column(name = "weekly_commitment")
+    private String weeklyCommitment;
+
+    @Column(name = "optional_learning_style")
+    private String optionalLearningStyle;
+
+    @Column(name = "optional_job_preference")
+    private String optionalJobPreference;
+
+    @Column(name = "onboarding_completed_at")
+    private LocalDateTime onboardingCompletedAt;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

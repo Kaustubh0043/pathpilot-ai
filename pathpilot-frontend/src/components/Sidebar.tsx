@@ -83,10 +83,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
         </div>
 
         {/* User Card */}
-        <div className="px-6 py-4 border-b border-slate-900 bg-slate-950/20">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Signed In As</p>
-          <p className="font-semibold text-[#F4F1EA] truncate text-sm mt-0.5">{user?.fullName || 'Developer'}</p>
-          <p className="text-[11px] text-[#606979] truncate">{user?.email}</p>
+        <div className="px-6 py-4 border-b border-slate-900 bg-slate-950/20 flex flex-col gap-1.5">
+          <div>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Signed In As</p>
+            <p className="font-semibold text-[#F4F1EA] truncate text-sm mt-0.5">{user?.fullName || 'Developer'}</p>
+            <p className="text-[11px] text-[#606979] truncate">{user?.email}</p>
+          </div>
+          <NavLink 
+            to="/dashboard/profile"
+            className={({ isActive }) => 
+              `text-[10px] font-bold tracking-wider uppercase text-left transition-colors cursor-pointer ${
+                isActive ? 'text-[#9B5CFF]' : 'text-slate-500 hover:text-white'
+              }`
+            }
+          >
+            Edit Career Profile →
+          </NavLink>
         </div>
 
         {/* Reorganized grouped Nav Links (Point 27) */}

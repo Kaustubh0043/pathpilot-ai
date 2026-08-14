@@ -126,9 +126,24 @@ public class ChatServiceImpl implements ChatService {
         // 3. Make HTTP request to FastAPI Python AI Service
         String aiResponseText;
         try {
+            User user = conversation.getUser();
             Map<String, Object> requestPayload = new HashMap<>();
             requestPayload.put("message", content);
             requestPayload.put("history", historyPayload);
+
+            // Add user profile context for AI career coach personalization (Point 18)
+            if (user != null) {
+                Map<String, Object> profileMap = new HashMap<>();
+                profileMap.put("careerGoal", user.getCareerGoal());
+                profileMap.put("experienceLevel", user.getExperienceLevel());
+                profileMap.put("careerObjective", user.getCareerObjective());
+                profileMap.put("skillGaps", user.getSkillGaps());
+                profileMap.put("technologies", user.getTechnologies());
+                profileMap.put("weeklyCommitment", user.getWeeklyCommitment());
+                profileMap.put("optionalLearningStyle", user.getOptionalLearningStyle());
+                profileMap.put("optionalJobPreference", user.getOptionalJobPreference());
+                requestPayload.put("profile", profileMap);
+            }
 
             Map<?, ?> response = restClient.post()
                     .uri("/api/ai/chat")

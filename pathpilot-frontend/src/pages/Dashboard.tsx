@@ -106,25 +106,30 @@ export const Dashboard: React.FC = () => {
   let nextMoveButtonText = '';
 
   if (totalDocuments === 0) {
-    nextMoveTitle = 'Upload Your Technical Resume';
-    nextMoveDesc = 'Analyze your current baseline ATS score and profile keywords.';
+    nextMoveTitle = 'Upload your resume.';
+    nextMoveDesc = 'PathPilot needs your baseline profile before it can calculate your ATS score.';
     nextMoveLink = '/dashboard/resume';
-    nextMoveButtonText = 'Analyze Resume';
+    nextMoveButtonText = 'UPLOAD RESUME →';
   } else if (totalSkills === 0) {
-    nextMoveTitle = 'Map Your Technical Skills';
+    nextMoveTitle = 'Map your technical skills.';
     nextMoveDesc = 'Add your first engineering or language skill to start mapping your career roadmap.';
     nextMoveLink = '#skills-section';
-    nextMoveButtonText = 'Add Skill';
+    nextMoveButtonText = 'ADD SKILL →';
   } else if (totalRoadmaps === 0) {
-    nextMoveTitle = 'Generate a Learning Path';
+    nextMoveTitle = 'Generate a Learning Path.';
     nextMoveDesc = 'Create a week-by-week curriculum checksheet covering database or microservice systems.';
     nextMoveLink = '/dashboard/roadmaps';
-    nextMoveButtonText = 'Build Roadmap';
-  } else {
-    nextMoveTitle = 'Simulate Technical Interview';
-    nextMoveDesc = 'Practice conversational mock questions tailored specifically to your target roles.';
+    nextMoveButtonText = 'BUILD ROADMAP →';
+  } else if (!interviewCompleted) {
+    nextMoveTitle = 'Complete your first mock interview.';
+    nextMoveDesc = 'You identified interview preparation as a priority in onboarding.';
     nextMoveLink = '/dashboard/interviews';
-    nextMoveButtonText = 'Start Interview';
+    nextMoveButtonText = 'START INTERVIEW →';
+  } else {
+    nextMoveTitle = 'Consult AI Career Coach.';
+    nextMoveDesc = 'Ask about custom project designs or architecture reviews.';
+    nextMoveLink = '/dashboard/chat';
+    nextMoveButtonText = 'TALK TO COACH →';
   }
 
   // Activity map calendar rendering configurations
@@ -277,8 +282,14 @@ export const Dashboard: React.FC = () => {
 
             {/* DESTINATION Node */}
             <div className="flex flex-col items-center gap-2 relative z-10">
-              <div className="w-4 h-4 rounded-full border-2 border-slate-800 bg-[#07080C] flex items-center justify-center" />
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Destination</span>
+              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
+                activeStage === 'Destination' ? 'border-[#9B5CFF] bg-[#07080C] ring-4 ring-[#9B5CFF]/15' : 'border-slate-800 bg-[#07080C]'
+              }`}>
+                {activeStage === 'Destination' && <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF]" />}
+              </div>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                {careerGoal.toUpperCase()}
+              </span>
             </div>
 
           </div>
@@ -342,10 +353,13 @@ export const Dashboard: React.FC = () => {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-semibold text-[#F4F1EA]">
                   <span>Interview Readiness</span>
-                  <span className="font-mono">10%</span>
+                  <span className="font-mono">{interviewCompleted ? '80%' : '0%'}</span>
                 </div>
                 <div className="w-full h-1.5 bg-[#11151D] rounded overflow-hidden">
-                  <div className="h-full bg-[#9B5CFF]" style={{ width: '10%' }} />
+                  <div 
+                    className="h-full bg-[#9B5CFF] transition-all duration-500" 
+                    style={{ width: interviewCompleted ? '80%' : '0%' }} 
+                  />
                 </div>
               </div>
 
@@ -353,10 +367,13 @@ export const Dashboard: React.FC = () => {
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-semibold text-[#F4F1EA]">
                   <span>Career Applications</span>
-                  <span className="font-mono">0%</span>
+                  <span className="font-mono">{jobMatchCompleted ? '60%' : '0%'}</span>
                 </div>
                 <div className="w-full h-1.5 bg-[#11151D] rounded overflow-hidden">
-                  <div className="h-full bg-[#9B5CFF]" style={{ width: '0%' }} />
+                  <div 
+                    className="h-full bg-[#9B5CFF] transition-all duration-500" 
+                    style={{ width: jobMatchCompleted ? '60%' : '0%' }} 
+                  />
                 </div>
               </div>
 

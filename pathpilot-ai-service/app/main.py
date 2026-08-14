@@ -48,6 +48,7 @@ class ChatMessage(BaseModel):
 class ChatRequest(BaseModel):
     message: str
     history: List[ChatMessage]
+    profile: Optional[dict] = None
 
 class RoadmapRequest(BaseModel):
     topic: str
@@ -73,7 +74,7 @@ class RagQueryRequest(BaseModel):
 @app.post("/api/ai/chat")
 async def chat(request: ChatRequest):
     history_list = [{"role": msg.role, "content": msg.content} for msg in request.history]
-    response = ai_service.chat_session(request.message, history_list)
+    response = ai_service.chat_session(request.message, history_list, request.profile)
     return {"response": response}
 
 @app.post("/api/ai/roadmap")

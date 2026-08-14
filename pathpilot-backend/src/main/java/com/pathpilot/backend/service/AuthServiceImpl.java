@@ -67,6 +67,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(savedUser.getEmail())
                 .fullName(savedUser.getFullName())
                 .message("verified")
+                .onboardingCompleted(savedUser.isOnboardingCompleted())
                 .build();
     }
 
@@ -98,6 +99,7 @@ public class AuthServiceImpl implements AuthService {
                 .userId(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
+                .onboardingCompleted(user.isOnboardingCompleted())
                 .build();
     }
 
@@ -121,6 +123,7 @@ public class AuthServiceImpl implements AuthService {
                 .userId(user.getId())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
+                .onboardingCompleted(user.isOnboardingCompleted())
                 .build();
     }
 
@@ -157,6 +160,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(savedUser.getEmail())
                 .fullName(savedUser.getFullName())
                 .message("verified")
+                .onboardingCompleted(savedUser.isOnboardingCompleted())
                 .build();
     }
 
