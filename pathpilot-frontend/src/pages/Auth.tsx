@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import logoImg from '../assets/logo.png';
 import { useAuth } from '../context/AuthContext';
 import { Compass, Mail, Lock, User, AlertCircle, RefreshCw, KeyRound, ArrowLeft, CheckCircle } from 'lucide-react';
 
@@ -143,9 +144,7 @@ export const Auth: React.FC = () => {
         {/* Brand Header */}
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2.5 mb-2">
-            <div className="p-1.5 rounded bg-[#9B5CFF]/10 border border-[#9B5CFF]/20">
-              <Compass className="w-5 h-5 text-[#9B5CFF]" />
-            </div>
+            <img src={logoImg} alt="PathPilot Logo" className="w-8 h-8 object-contain" />
             <h1 className="text-xl font-bold tracking-tight text-[#F4F1EA] font-display m-0">
               PATHPILOT
             </h1>

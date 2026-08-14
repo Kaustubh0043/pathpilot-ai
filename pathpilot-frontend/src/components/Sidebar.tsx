@@ -12,6 +12,7 @@ import {
   LogOut,
   Compass
 } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -74,9 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
       `}>
         {/* Logo Section */}
         <div className="flex items-center gap-3 px-6 h-16 border-b border-slate-900">
-          <div className="p-1.5 rounded bg-purple-500/10 border border-purple-500/20">
-            <Compass className="w-5 h-5 text-[#9B5CFF]" />
-          </div>
+          <img src={logoImg} alt="PathPilot Logo" className="w-6 h-6 object-contain" />
           <span className="text-lg font-bold tracking-tight text-[#F4F1EA] font-display">
             PATHPILOT
           </span>

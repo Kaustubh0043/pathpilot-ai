@@ -9,6 +9,7 @@ import {
   Phone,
   RefreshCw
 } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 export const Landing: React.FC = () => {
   const { user } = useAuth();
@@ -181,9 +182,7 @@ export const Landing: React.FC = () => {
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
       }`}>
         <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="p-1.5 rounded bg-[#9B5CFF]/10 border border-[#9B5CFF]/20">
-            <Compass className="w-5 h-5 text-[#9B5CFF]" />
-          </div>
+          <img src={logoImg} alt="PathPilot Logo" className="w-7 h-7 object-contain" />
           <span className="text-sm font-bold tracking-tight text-[#F4F1EA] font-display">
             PATHPILOT
           </span>
@@ -747,7 +746,7 @@ export const Landing: React.FC = () => {
           
           <div className="space-y-4 text-left">
             <div className="flex items-center gap-2">
-              <Compass className="w-5 h-5 text-[#9B5CFF]" />
+              <img src={logoImg} alt="PathPilot Logo" className="w-6 h-6 object-contain" />
               <span className="text-sm font-bold text-[#F4F1EA] tracking-tight font-display">PathPilot</span>
             </div>
             <p className="leading-relaxed text-[11px] text-slate-600 max-w-xs">
