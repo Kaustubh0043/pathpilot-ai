@@ -182,10 +182,8 @@ export const Landing: React.FC = () => {
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
       }`}>
         <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
-          <img src={logoImg} alt="VertexPath Logo" className="w-18 h-18 object-contain" />
-          <span className="text-sm font-bold tracking-tight text-[#F4F1EA] font-display">
-            VERTEXPATH
-          </span>
+          <img src={logoImg} alt="VertexPath Logo" className="w-24 h-24 object-contain" />
+          <span className="text-xl font-extrabold tracking-tight text-[#F4F1EA] font-display">VertexPath</span>
         </div>
 
         <nav className="hidden lg:flex items-center gap-10 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">
@@ -746,8 +744,8 @@ export const Landing: React.FC = () => {
           
           <div className="space-y-4 text-left">
             <div className="flex items-center gap-2">
-              <img src={logoImg} alt="VertexPath Logo" className="w-14 h-14 object-contain" />
-              <span className="text-sm font-bold text-[#F4F1EA] tracking-tight font-display">VertexPath</span>
+              <img src={logoImg} alt="VertexPath Logo" className="w-18 h-18 object-contain" />
+              <span className="text-lg font-extrabold text-[#F4F1EA] tracking-tight font-display">VertexPath</span>
             </div>
             <p className="leading-relaxed text-[11px] text-slate-600 max-w-xs">
               A career operating system for developers — from your first resume scan to the interview that matters.

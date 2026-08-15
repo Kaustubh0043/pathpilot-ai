@@ -144,10 +144,8 @@ export const Auth: React.FC = () => {
         {/* Brand Header */}
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2.5 mb-2">
-            <img src={logoImg} alt="VertexPath Logo" className="w-24 h-24 object-contain" />
-            <h1 className="text-xl font-bold tracking-tight text-[#F4F1EA] font-display m-0">
-              VERTEXPATH
-            </h1>
+            <img src={logoImg} alt="VertexPath Logo" className="w-32 h-32 object-contain" />
+            <h1 className="text-3xl font-extrabold tracking-tight text-[#F4F1EA] font-display m-0">VertexPath</h1>
           </div>
           <p className="text-[#9299A8] text-xs text-center font-medium max-w-xs leading-normal">
             The Career Operating System
