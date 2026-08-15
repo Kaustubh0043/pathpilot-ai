@@ -68,7 +68,7 @@ export const JdMatch: React.FC = () => {
         <p className="eyebrow-text">Career / 04</p>
         <h3 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">See how your skills fit the role</h3>
         <p className="text-xs text-[#9299A8] leading-relaxed max-w-xl">
-          Compare your active profile resume against target job description criteria. PathPilot will map matching skills and highlight development gaps.
+          Compare your active profile resume against target job description criteria. VertexPath will map matching skills and highlight development gaps.
         </p>
       </div>
 

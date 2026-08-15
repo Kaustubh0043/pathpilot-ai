@@ -107,7 +107,7 @@ export const Dashboard: React.FC = () => {
 
   if (totalDocuments === 0) {
     nextMoveTitle = 'Upload your resume.';
-    nextMoveDesc = 'PathPilot needs your baseline profile before it can calculate your ATS score.';
+    nextMoveDesc = 'VertexPath needs your baseline profile before it can calculate your ATS score.';
     nextMoveLink = '/dashboard/resume';
     nextMoveButtonText = 'UPLOAD RESUME →';
   } else if (totalSkills === 0) {
@@ -491,7 +491,7 @@ export const Dashboard: React.FC = () => {
                 <div className="text-center py-6 space-y-3">
                   <p className="text-xs text-slate-400">Nothing here yet.</p>
                   <p className="text-[11px] text-[#606979] leading-normal max-w-[200px] mx-auto">
-                    Add your first skill and PathPilot will begin mapping your technical profile.
+                    Add your first skill and VertexPath will begin mapping your technical profile.
                   </p>
                   <button
                     onClick={() => setShowAddSkill(true)}

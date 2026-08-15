@@ -95,7 +95,7 @@ export const Interviews: React.FC = () => {
             </div>
             <h4 className="text-base font-bold text-[#F4F1EA]">Mock Interview Coach</h4>
             <p className="text-xs text-[#9299A8] leading-relaxed max-w-sm mx-auto">
-              Enter your target role and PathPilot will generate tailored interview questions, evaluate your feedback structure, and assign scoring grades.
+              Enter your target role and VertexPath will generate tailored interview questions, evaluate your feedback structure, and assign scoring grades.
             </p>
           </div>
 

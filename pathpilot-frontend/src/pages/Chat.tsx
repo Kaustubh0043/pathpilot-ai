@@ -430,7 +430,7 @@ export const Chat: React.FC = () => {
               <div className="p-3 bg-[#11151D] border border-slate-900 rounded-lg">
                 <MessageSquare className="w-8 h-8 text-[#9B5CFF]" />
               </div>
-              <h4 className="text-base font-bold text-[#F4F1EA]">PathPilot Career Coach</h4>
+              <h4 className="text-base font-bold text-[#F4F1EA]">VertexPath Career Coach</h4>
               <p className="text-xs text-[#9299A8] max-w-xs leading-normal">
                 Select a conversation history from the sidebar or type a new message below to begin map planning.
               </p>
@@ -470,7 +470,7 @@ export const Chat: React.FC = () => {
             <div className="flex gap-3 items-start justify-start">
               <div className="bg-[#07080C] border border-slate-900 rounded rounded-tl-none p-3.5 flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin text-[#9B5CFF]" />
-                <span className="text-[10px] text-slate-400 font-semibold">PathPilot is drafting...</span>
+                <span className="text-[10px] text-slate-400 font-semibold">VertexPath is drafting...</span>
               </div>
             </div>
           )}

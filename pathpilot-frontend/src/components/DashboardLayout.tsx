@@ -35,7 +35,7 @@ export const DashboardLayout: React.FC = () => {
       case '/dashboard/roadmaps': return 'Learning Paths';
       case '/dashboard/projects': return 'Projects';
       case '/dashboard/interviews': return 'Interviews';
-      default: return 'PathPilot';
+      default: return 'VertexPath';
     }
   };
 

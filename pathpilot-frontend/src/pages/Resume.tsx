@@ -417,7 +417,7 @@ export const Resume: React.FC = () => {
                   </div>
                   <h4 className="text-base font-bold text-[#F4F1EA]">Ask your Context Files</h4>
                   <p className="text-xs text-[#9299A8] max-w-xs leading-normal">
-                    Query your files. PathPilot will search documents inside ChromaDB and return contextual Q&A facts.
+                    Query your files. VertexPath will search documents inside ChromaDB and return contextual Q&A facts.
                   </p>
                 </div>
               ) : (

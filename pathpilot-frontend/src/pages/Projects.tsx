@@ -54,7 +54,7 @@ export const Projects: React.FC = () => {
           <p className="eyebrow-text">Build / 06</p>
           <h3 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">What do you want to build?</h3>
           <p className="text-xs text-[#9299A8] leading-relaxed max-w-xl">
-            Provide a stack definition or specific product idea. PathPilot will model the directory layouts, relational SQL database schemas, and REST API controller gateway endpoints.
+            Provide a stack definition or specific product idea. VertexPath will model the directory layouts, relational SQL database schemas, and REST API controller gateway endpoints.
           </p>
         </div>
 

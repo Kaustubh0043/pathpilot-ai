@@ -182,9 +182,9 @@ export const Landing: React.FC = () => {
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
       }`}>
         <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
-          <img src={logoImg} alt="PathPilot Logo" className="w-14 h-14 object-contain" />
+          <img src={logoImg} alt="VertexPath Logo" className="w-14 h-14 object-contain" style={{ transform: 'scale(1.8)', transformOrigin: 'center' }} />
           <span className="text-sm font-bold tracking-tight text-[#F4F1EA] font-display">
-            PATHPILOT
+            VERTEXPATH
           </span>
         </div>
 
@@ -231,7 +231,7 @@ export const Landing: React.FC = () => {
           <p className={`eyebrow-text transition-all duration-700 delay-200 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
           }`}>
-            PATHPILOT / CAREER OPERATING SYSTEM
+            VERTEXPATH / CAREER OPERATING SYSTEM
           </p>
           <h1 className={`text-5xl sm:text-6xl md:text-7xl font-extrabold leading-[1.05] tracking-tight font-display text-[#F4F1EA] transition-all duration-700 delay-300 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
@@ -241,7 +241,7 @@ export const Landing: React.FC = () => {
           <p className={`text-sm text-[#9299A8] leading-relaxed max-w-md font-medium transition-all duration-700 delay-400 ${
             isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
           }`}>
-            PathPilot helps you navigate the developer journey. Track progress, optimize skills, and prepare for interviews in one single system.
+            VertexPath helps you navigate the developer journey. Track progress, optimize skills, and prepare for interviews in one single system.
           </p>
 
           <div className={`flex flex-col sm:flex-row gap-4 pt-4 transition-all duration-700 delay-500 ${
@@ -267,7 +267,7 @@ export const Landing: React.FC = () => {
                   href="#chapters"
                   className="flex items-center justify-center gap-1.5 px-6 py-3.5 bg-[#11151D] hover:bg-[#151A23] border border-slate-900 text-[#F4F1EA] text-xs font-bold rounded transition-all hover:translate-x-1 group"
                 >
-                  <span>Explore PathPilot</span>
+                  <span>Explore VertexPath</span>
                 </a>
               </>
             )}
@@ -392,7 +392,7 @@ export const Landing: React.FC = () => {
             The developer journey is fragmented. challenges and portfolios exist in isolation.
           </h2>
           <p className="text-sm text-[#9299A8] leading-relaxed max-w-xl">
-            PathPilot bridges these tools under a unified system. By aligning your resume directly with syllabus roadmaps, blueprints, and interviews, it creates a single cohesive journey.
+            VertexPath bridges these tools under a unified system. By aligning your resume directly with syllabus roadmaps, blueprints, and interviews, it creates a single cohesive journey.
           </p>
         </div>
       </section>
@@ -414,7 +414,7 @@ export const Landing: React.FC = () => {
             </div>
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
               <p className="text-xs text-[#9299A8] leading-relaxed">
-                PathPilot reads your resume, identifies your strongest signals, and shows where your profile needs work. It turns your resume into a clear starting point for the journey ahead.
+                VertexPath reads your resume, identifies your strongest signals, and shows where your profile needs work. It turns your resume into a clear starting point for the journey ahead.
               </p>
               <div className="bg-[#0D1016] border border-slate-900 p-5 rounded-lg space-y-3">
                 <div className="text-[9px] font-mono font-bold text-[#9B5CFF] uppercase tracking-wider mb-1">EXAMPLE ANALYSIS</div>
@@ -602,7 +602,7 @@ export const Landing: React.FC = () => {
             <p className={`text-xs text-[#9299A8] max-w-md mx-auto leading-relaxed font-medium transition-all duration-700 delay-400 ${
               visibleSections.destination ? 'opacity-100' : 'opacity-0'
             }`}>
-              PathPilot organizes your preparation so you can approach your target software engineering roles with structured confidence.
+              VertexPath organizes your preparation so you can approach your target software engineering roles with structured confidence.
             </p>
             
             <div className={`pt-4 transition-all duration-700 delay-600 ${
@@ -746,8 +746,8 @@ export const Landing: React.FC = () => {
           
           <div className="space-y-4 text-left">
             <div className="flex items-center gap-2">
-              <img src={logoImg} alt="PathPilot Logo" className="w-11 h-11 object-contain" />
-              <span className="text-sm font-bold text-[#F4F1EA] tracking-tight font-display">PathPilot</span>
+              <img src={logoImg} alt="VertexPath Logo" className="w-11 h-11 object-contain" style={{ transform: 'scale(1.6)', transformOrigin: 'center' }} />
+              <span className="text-sm font-bold text-[#F4F1EA] tracking-tight font-display">VertexPath</span>
             </div>
             <p className="leading-relaxed text-[11px] text-slate-600 max-w-xs">
               A career operating system for developers — from your first resume scan to the interview that matters.
@@ -759,7 +759,7 @@ export const Landing: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#9B5CFF] opacity-60" />
-                <span>pathpilot.ai.info@gmail.com</span>
+                <span>vertexpath.ai.info@gmail.com</span>
               </div>
             </div>
           </div>
@@ -838,8 +838,8 @@ export const Landing: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 border-t border-slate-900 mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between text-slate-600 text-[10px] font-bold uppercase tracking-wider">
-          <span>PathPilot is an independent career preparation platform.</span>
-          <span>© {new Date().getFullYear()} PathPilot. All Rights Reserved.</span>
+          <span>VertexPath is an independent career preparation platform.</span>
+          <span>© {new Date().getFullYear()} VertexPath. All Rights Reserved.</span>
         </div>
       </footer>
 
@@ -882,11 +882,11 @@ export const Landing: React.FC = () => {
                 <div className="space-y-4">
                   <h3 className="text-[#F4F1EA] font-bold text-sm">1. Acceptance of Terms</h3>
                   <p>
-                    Welcome to PathPilot. By accessing or using our platform, you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
+                    Welcome to VertexPath. By accessing or using our platform, you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
                   </p>
                   <h3 className="text-[#F4F1EA] font-bold text-sm">2. Description of Service</h3>
                   <p>
-                    PathPilot is a career development ecosystem designed to assist users with roadmaps, resume score evaluation, mock interviews, and reference context question answering. AI suggestions are generated by LLMs and are intended solely for educational purposes.
+                    VertexPath is a career development ecosystem designed to assist users with roadmaps, resume score evaluation, mock interviews, and reference context question answering. AI suggestions are generated by LLMs and are intended solely for educational purposes.
                   </p>
                   <h3 className="text-[#F4F1EA] font-bold text-sm">3. User Obligations & Account</h3>
                   <p>

@@ -267,7 +267,7 @@ export const Onboarding: React.FC = () => {
             <span className="text-[10px] font-mono font-bold text-[#9B5CFF] tracking-[0.25em] uppercase">onboarding complete</span>
             <h2 className="text-3xl font-extrabold text-[#F4F1EA] font-display">YOUR PATH IS READY.</h2>
             <p className="text-xs text-[#9299A8] max-w-md mx-auto">
-              PathPilot has configured a personalized dashboard, checklist blueprint, and interview mock coach to align with your targets.
+              VertexPath has configured a personalized dashboard, checklist blueprint, and interview mock coach to align with your targets.
             </p>
           </div>
 
@@ -380,8 +380,8 @@ export const Onboarding: React.FC = () => {
         {/* Onboarding Header */}
         <div className="flex justify-between items-center border-b border-slate-900 pb-4">
           <div className="flex items-center gap-2">
-            <img src={logoImg} alt="PathPilot Logo" className="w-11 h-11 object-contain" style={{ transform: 'scale(1.6)', transformOrigin: 'center' }} />
-            <span className="text-[11px] font-bold tracking-widest text-[#F4F1EA] font-display">PATHPILOT SETUP</span>
+            <img src={logoImg} alt="VertexPath Logo" className="w-11 h-11 object-contain" style={{ transform: 'scale(1.6)', transformOrigin: 'center' }} />
+            <span className="text-[11px] font-bold tracking-widest text-[#F4F1EA] font-display">VERTEXPATH SETUP</span>
           </div>
           <span className="text-[11px] font-mono text-slate-500 font-bold">{progressSteps[currentStep - 1].num} / 05</span>
         </div>
@@ -537,7 +537,7 @@ export const Onboarding: React.FC = () => {
             <div className="space-y-6">
               <div className="space-y-1.5 text-left">
                 <h3 className="text-xl font-extrabold text-[#F4F1EA] tracking-tight font-display">WHAT'S HOLDING YOU BACK?</h3>
-                <p className="text-xs text-slate-500 font-medium">Choose the areas where you want PathPilot to help most.</p>
+                <p className="text-xs text-slate-500 font-medium">Choose the areas where you want VertexPath to help most.</p>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">

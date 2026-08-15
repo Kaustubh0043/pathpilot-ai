@@ -222,7 +222,7 @@ export const Roadmaps: React.FC = () => {
               <p className="eyebrow-text">Learning / 03</p>
               <h3 className="text-2xl font-extrabold text-[#F4F1EA] tracking-tight">What do you want to learn?</h3>
               <p className="text-xs text-[#9299A8] leading-relaxed">
-                Provide a career domain, technology stack, or target role. PathPilot will generate a week-by-week checksheet roadmap.
+                Provide a career domain, technology stack, or target role. VertexPath will generate a week-by-week checksheet roadmap.
               </p>
             </div>
 

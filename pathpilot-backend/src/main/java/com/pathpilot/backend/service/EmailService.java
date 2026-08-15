@@ -33,12 +33,12 @@ public class EmailService {
                 SimpleMailMessage message = new SimpleMailMessage();
                 message.setFrom(fromEmail);
                 message.setTo(toEmail);
-                message.setSubject("PathPilot.AI - Verify Your Account");
-                message.setText("Welcome to PathPilot.AI!\n\n" +
+                message.setSubject("VertexPath.AI - Verify Your Account");
+                message.setText("Welcome to VertexPath.AI!\n\n" +
                         "Your verification code is: " + code + "\n\n" +
                         "This code will expire in 15 minutes.\n\n" +
                         "Best regards,\n" +
-                        "The PathPilot.AI Team");
+                        "The VertexPath.AI Team");
                 mailSender.send(message);
                 log.info("Verification email sent successfully to {}", toEmail);
             } catch (Exception e) {
@@ -62,15 +62,15 @@ public class EmailService {
             try {
                 SimpleMailMessage message = new SimpleMailMessage();
                 message.setFrom(fromEmail);
-                message.setTo("pathpilot.ai.info@gmail.com");
+                message.setTo("vertexpath.ai.info@gmail.com");
                 message.setReplyTo(fromUserEmail);
-                message.setSubject("PathPilot.AI - New Contact Message from " + fromName);
-                message.setText("You received a new message from the PathPilot.AI contact form:\n\n" +
+                message.setSubject("VertexPath.AI - New Contact Message from " + fromName);
+                message.setText("You received a new message from the VertexPath.AI contact form:\n\n" +
                         "Name: " + fromName + "\n" +
                         "Email: " + fromUserEmail + "\n\n" +
                         "Message:\n" + messageText + "\n\n" +
                         "Best regards,\n" +
-                        "PathPilot.AI System");
+                        "VertexPath.AI System");
                 mailSender.send(message);
                 log.info("Contact email forwarded successfully to developer inbox.");
             } catch (Exception e) {
