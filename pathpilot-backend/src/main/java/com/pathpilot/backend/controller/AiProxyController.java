@@ -106,8 +106,8 @@ public class AiProxyController {
     private Map<String, Object> createMockInterview(String role) {
         log.warn("Using offline mock interview generator for role: {}", role);
         Map<String, Object> mock = new HashMap<>();
-        mock.put("question", "In your experience with " + role + ", how do you approach design optimization and caching strategies under high request load?");
-        mock.put("expected_points", "Mentioning Redis/Memcached, Cache invalidation protocols (LRU), Database connection pooling, and CDN layouts.");
+        mock.put("question", "Offline Fallback: Unable to generate dynamic questions. Please configure your live Render AI_SERVICE_URL variable.");
+        mock.put("expected_points", "Configure live Render settings to fetch AI questions.");
         return mock;
     }
 
