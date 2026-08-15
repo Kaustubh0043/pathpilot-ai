@@ -11,7 +11,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   mail:
     host: ${SMTP_HOST:smtp.gmail.com}
-    port: ${SMTP_PORT:465}
+    port: ${SMTP_PORT:587}
     username: ${SMTP_EMAIL:}
     password: ${SMTP_PASSWORD:}
     properties:
@@ -19,9 +19,10 @@ spring:
         smtp:
           auth: true
           starttls:
-            enable: ${SMTP_STARTTLS_ENABLE:false}
+            enable: ${SMTP_STARTTLS_ENABLE:true}
+            required: ${SMTP_STARTTLS_REQUIRED:true}
           ssl:
-            enable: ${SMTP_SSL_ENABLE:true}
+            enable: ${SMTP_SSL_ENABLE:false}
   jpa:
     hibernate:
       ddl-auto: update
