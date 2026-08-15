@@ -112,8 +112,12 @@ public class ChatServiceImpl implements ChatService {
                 .build();
         messageRepository.save(userMessage);
 
-        // 2. Fetch recent conversation history to provide context to LLM
+        // 2. Fetch recent conversation history to provide context to LLM (limited to last 10 messages for speed optimization)
         List<Message> historyMessages = messageRepository.findByConversationIdOrderByCreatedAtAsc(conversationId);
+        int historySize = historyMessages.size();
+        if (historySize > 10) {
+            historyMessages = historyMessages.subList(historySize - 10, historySize);
+        }
         List<Map<String, String>> historyPayload = historyMessages.stream()
                 .map(m -> {
                     Map<String, String> msgMap = new HashMap<>();
