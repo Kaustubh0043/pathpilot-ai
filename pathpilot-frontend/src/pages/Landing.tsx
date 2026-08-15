@@ -15,6 +15,95 @@ export const Landing: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   
+  // Authenticated database progress state
+  const [userStats, setUserStats] = useState<any>(null);
+
+  useEffect(() => {
+    if (user) {
+      api.get('/api/dashboard/stats')
+        .then(res => {
+          setUserStats(res.data);
+        })
+        .catch(err => console.error("Failed to fetch landing stats", err));
+    }
+  }, [user]);
+
+  const getDotStyle = (node: 'start' | 'resume' | 'skills' | 'projects' | 'interviews' | 'destination') => {
+    if (!user) {
+      if (node === 'start') return activeSection !== 'hero' ? 'bg-[#55D39A]' : 'bg-slate-800';
+      if (node === 'resume') {
+        return activeSection === 'resume' ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' :
+               ['gaps', 'roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'bg-[#55D39A]' : 'bg-slate-800';
+      }
+      if (node === 'skills') {
+        return activeSection === 'gaps' ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' :
+               ['roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'bg-[#55D39A]' : 'bg-slate-800';
+      }
+      if (node === 'projects') {
+        return ['roadmap', 'blueprint'].includes(activeSection) ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' :
+               ['interview', 'destination'].includes(activeSection) ? 'bg-[#55D39A]' : 'bg-slate-800';
+      }
+      if (node === 'interviews') {
+        return activeSection === 'interview' ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' :
+               activeSection === 'destination' ? 'bg-[#55D39A]' : 'bg-slate-800';
+      }
+      return activeSection === 'destination' ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' : 'bg-slate-800';
+    }
+
+    const totalDocs = userStats?.totalDocuments || 0;
+    const totalSkills = userStats?.totalSkills || 0;
+    const totalRoadmaps = userStats?.totalRoadmaps || 0;
+    const interviewCompleted = localStorage.getItem('interviewCompleted') === 'true';
+    const jobMatchCompleted = localStorage.getItem('jobMatchCompleted') === 'true';
+
+    if (node === 'start') return 'bg-[#55D39A]';
+    if (node === 'resume') {
+      if (totalDocs > 0) return 'bg-[#55D39A]';
+      return 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15';
+    }
+    if (node === 'skills') {
+      if (totalSkills > 0) return 'bg-[#55D39A]';
+      if (totalDocs > 0) return 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15';
+      return 'bg-slate-800';
+    }
+    if (node === 'projects') {
+      if (totalRoadmaps > 0) return 'bg-[#55D39A]';
+      if (totalSkills > 0) return 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15';
+      return 'bg-slate-800';
+    }
+    if (node === 'interviews') {
+      if (interviewCompleted) return 'bg-[#55D39A]';
+      if (totalRoadmaps > 0) return 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15';
+      return 'bg-slate-800';
+    }
+    if (jobMatchCompleted) return 'bg-[#55D39A]';
+    if (interviewCompleted) return 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15';
+    return 'bg-slate-800';
+  };
+
+  const getNodeOpacity = (node: 'start' | 'resume' | 'skills' | 'projects' | 'interviews' | 'destination') => {
+    if (!user) {
+      if (node === 'start') return activeSection !== 'hero' ? 'opacity-100' : 'opacity-40';
+      if (node === 'resume') return ['resume', 'gaps', 'roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40';
+      if (node === 'skills') return ['gaps', 'roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40';
+      if (node === 'projects') return ['roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40';
+      if (node === 'interviews') return ['interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40';
+      return activeSection === 'destination' ? 'opacity-100' : 'opacity-40';
+    }
+    
+    const totalDocs = userStats?.totalDocuments || 0;
+    const totalSkills = userStats?.totalSkills || 0;
+    const totalRoadmaps = userStats?.totalRoadmaps || 0;
+    const interviewCompleted = localStorage.getItem('interviewCompleted') === 'true';
+
+    if (node === 'start') return 'opacity-100';
+    if (node === 'resume') return 'opacity-100';
+    if (node === 'skills') return totalDocs > 0 ? 'opacity-100' : 'opacity-40';
+    if (node === 'projects') return totalSkills > 0 ? 'opacity-100' : 'opacity-40';
+    if (node === 'interviews') return totalRoadmaps > 0 ? 'opacity-100' : 'opacity-40';
+    return interviewCompleted ? 'opacity-100' : 'opacity-40';
+  };
+  
   // Terms & Privacy Modals (Preserving existing logic)
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [activeModalTab, setActiveModalTab] = useState<'terms' | 'privacy'>('terms');
@@ -286,12 +375,8 @@ export const Landing: React.FC = () => {
             <div className="flex flex-col gap-6 relative pl-4 border-l border-slate-800/80">
               
               {/* START Node */}
-              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${
-                activeSection !== 'hero' ? 'opacity-100' : 'opacity-40'
-              }`}>
-                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                  activeSection !== 'hero' ? 'bg-[#55D39A]' : 'bg-slate-800'
-                }`} />
+              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${getNodeOpacity('start')}`}>
+                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${getDotStyle('start')}`} />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">START</p>
                   <p className="text-[10px] text-slate-550">Initial checkout</p>
@@ -299,14 +384,8 @@ export const Landing: React.FC = () => {
               </div>
 
               {/* Resume Node */}
-              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${
-                ['resume', 'gaps', 'roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40'
-              }`}>
-                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                  activeSection === 'resume' 
-                    ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' 
-                    : ['gaps', 'roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'bg-[#55D39A]' : 'bg-slate-800'
-                }`} />
+              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${getNodeOpacity('resume')}`}>
+                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${getDotStyle('resume')}`} />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">Resume</p>
                   <p className="text-[10px] text-slate-550">Evaluation uploaded</p>
@@ -314,14 +393,8 @@ export const Landing: React.FC = () => {
               </div>
 
               {/* Skills Node */}
-              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${
-                ['gaps', 'roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40'
-              }`}>
-                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                  activeSection === 'gaps' 
-                    ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' 
-                    : ['roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'bg-[#55D39A]' : 'bg-slate-800'
-                }`} />
+              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${getNodeOpacity('skills')}`}>
+                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${getDotStyle('skills')}`} />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">Skills Map</p>
                   <p className="text-[10px] text-slate-550">Active Checkpoint (Spring Boot)</p>
@@ -329,14 +402,8 @@ export const Landing: React.FC = () => {
               </div>
 
               {/* Projects Node */}
-              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${
-                ['roadmap', 'blueprint', 'interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40'
-              }`}>
-                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                  ['roadmap', 'blueprint'].includes(activeSection) 
-                    ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' 
-                    : ['interview', 'destination'].includes(activeSection) ? 'bg-[#55D39A]' : 'bg-slate-800'
-                }`} />
+              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${getNodeOpacity('projects')}`}>
+                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${getDotStyle('projects')}`} />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">Project Blueprint</p>
                   <p className="text-[10px] text-slate-550">Scaffolding sandbox</p>
@@ -344,14 +411,8 @@ export const Landing: React.FC = () => {
               </div>
 
               {/* Interviews Node */}
-              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${
-                ['interview', 'destination'].includes(activeSection) ? 'opacity-100' : 'opacity-40'
-              }`}>
-                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                  activeSection === 'interview' 
-                    ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' 
-                    : activeSection === 'destination' ? 'bg-[#55D39A]' : 'bg-slate-800'
-                }`} />
+              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${getNodeOpacity('interviews')}`}>
+                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${getDotStyle('interviews')}`} />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">Interviews</p>
                   <p className="text-[10px] text-slate-555">Mock prep simulation</p>
@@ -359,12 +420,8 @@ export const Landing: React.FC = () => {
               </div>
 
               {/* Destination Node */}
-              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${
-                activeSection === 'destination' ? 'opacity-100' : 'opacity-40'
-              }`}>
-                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${
-                  activeSection === 'destination' ? 'bg-[#9B5CFF] ring-4 ring-[#9B5CFF]/15' : 'bg-slate-800'
-                }`} />
+              <div className={`flex items-center gap-3 relative transition-opacity duration-500 ${getNodeOpacity('destination')}`}>
+                <div className={`absolute -left-[21px] w-2.5 h-2.5 rounded-full transition-all duration-500 ${getDotStyle('destination')}`} />
                 <div className="space-y-0.5">
                   <p className="text-xs font-bold text-[#F4F1EA]">Destination</p>
                   <p className="text-[10px] text-slate-550">Target role</p>
