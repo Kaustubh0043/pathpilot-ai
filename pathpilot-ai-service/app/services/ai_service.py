@@ -7,7 +7,7 @@ from app.utils.vector_store import vector_store_manager
 # Initialize Chat Model
 def get_chat_model():
     return ChatGoogleGenerativeAI(
-        model="gemini-flash-latest",
+        model="gemini-3.5-flash",
         google_api_key=settings.GEMINI_API_KEY,
         temperature=0.3
     )
@@ -71,7 +71,7 @@ class AIService:
     def _invoke_json(self, prompt: str) -> dict:
         """Helper to invoke LLM in native JSON mode and parse the response dict."""
         json_llm = ChatGoogleGenerativeAI(
-            model="gemini-flash-latest",
+            model="gemini-3.5-flash",
             google_api_key=settings.GEMINI_API_KEY,
             temperature=0.3,
             model_kwargs={"response_mime_type": "application/json"}
