@@ -26,10 +26,13 @@ public class AiProxyController {
     public AiProxyController(@Value("${ai.service.url}") String aiServiceUrl) {
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
+                .connectTimeout(java.time.Duration.ofSeconds(10))
                 .build();
+        org.springframework.http.client.JdkClientHttpRequestFactory factory = new org.springframework.http.client.JdkClientHttpRequestFactory(httpClient);
+        factory.setReadTimeout(25000);
         this.restClient = RestClient.builder()
                 .baseUrl(aiServiceUrl)
-                .requestFactory(new JdkClientHttpRequestFactory(httpClient))
+                .requestFactory(factory)
                 .build();
     }
 
