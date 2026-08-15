@@ -20,6 +20,24 @@ export const Interviews: React.FC = () => {
   
   // Track current question number in simulation session (Point 33)
   const [questionIndex, setQuestionIndex] = useState(1);
+  
+  // Rotating loading messages
+  const questionLoadingMessages = [
+    "VertexPath is formulating simulated technical questions...",
+    "Analyzing role domain requirements...",
+    "Synthesizing key conceptual criteria & expected points...",
+    "Constructing simulated interview room checkpoints..."
+  ];
+
+  const evaluationLoadingMessages = [
+    "VertexPath is compiling your response evaluation...",
+    "Analyzing response depth and syntax verification...",
+    "Generating constructive grading feedback...",
+    "Drafting ideal production-grade model answers..."
+  ];
+
+  const [qLoadingIndex, setQLoadingIndex] = useState(0);
+  const [eLoadingIndex, setELoadingIndex] = useState(0);
 
   // Generate question mutation (Preserving existing logic)
   const generateQuestionMutation = useMutation({
@@ -67,6 +85,32 @@ export const Interviews: React.FC = () => {
     setQuestionIndex(prev => prev + 1);
     generateQuestionMutation.mutate(roleInput);
   };
+
+  React.useEffect(() => {
+    let interval: any;
+    if (generateQuestionMutation.isPending) {
+      setQLoadingIndex(0);
+      interval = setInterval(() => {
+        setQLoadingIndex((prev) => (prev + 1) % questionLoadingMessages.length);
+      }, 2500);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [generateQuestionMutation.isPending]);
+
+  React.useEffect(() => {
+    let interval: any;
+    if (evaluateAnswerMutation.isPending) {
+      setELoadingIndex(0);
+      interval = setInterval(() => {
+        setELoadingIndex((prev) => (prev + 1) % evaluationLoadingMessages.length);
+      }, 2500);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [evaluateAnswerMutation.isPending]);
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-[#55D39A]';

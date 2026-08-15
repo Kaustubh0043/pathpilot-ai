@@ -20,6 +20,16 @@ export const Roadmaps: React.FC = () => {
   const [topicInput, setTopicInput] = useState('');
   const [isCreating, setIsCreating] = useState(false);
   const [expandedNodeId, setExpandedNodeId] = useState<string | null>(null);
+  
+  // Rotating loading messages
+  const roadmapLoadingMessages = [
+    "VertexPath is contacting Gemini AI...",
+    "Structuring progressive weekly learning modules...",
+    "Drafting curriculum descriptions & syllabus tracks...",
+    "Compiling weekly tasks & reference study resources...",
+    "Polishing estimated time frames & study hours..."
+  ];
+  const [rmLoadingIndex, setRmLoadingIndex] = useState(0);
 
   // Reset scroll of parent main layout when roadmap changes
   useEffect(() => {
