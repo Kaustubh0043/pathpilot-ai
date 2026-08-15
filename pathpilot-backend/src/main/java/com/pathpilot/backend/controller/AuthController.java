@@ -61,4 +61,9 @@ public class AuthController {
         emailService.sendContactEmail(request.getName(), request.getEmail(), request.getMessage());
         return ResponseEntity.ok().build();
     }
+
+    @org.springframework.web.bind.annotation.GetMapping("/health")
+    public org.springframework.http.ResponseEntity<String> health() {
+        return org.springframework.http.ResponseEntity.ok("OK");
+    }
 }
