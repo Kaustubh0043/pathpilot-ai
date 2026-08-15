@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* 
   Fonts:
-  - Space Grotesk: Clean Display font for titles and coordinate stats
-  - Inter: Standard, legible sans-serif for UI body and reading text
+  - Outfit: Modern geometric display font for titles and coordinate stats
+  - Plus Jakarta Sans: Premium, highly legible geometric sans-serif for UI text
 */
 
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Space Grotesk', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', sans-serif;
 
   /* Redesigned Color Tokens (Point 6) */
   --bg-dark: #07080C;
