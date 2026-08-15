@@ -759,7 +759,7 @@ export const Landing: React.FC = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#9B5CFF] opacity-60" />
-                <span>vertexpath.ai.info@gmail.com</span>
+                <span>kaustubhjadhav0043@gmail.com</span>
               </div>
             </div>
           </div>

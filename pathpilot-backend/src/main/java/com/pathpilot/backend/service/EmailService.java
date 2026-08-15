@@ -62,7 +62,7 @@ public class EmailService {
             try {
                 SimpleMailMessage message = new SimpleMailMessage();
                 message.setFrom(fromEmail);
-                message.setTo("vertexpath.ai.info@gmail.com");
+                message.setTo("kaustubhjadhav0043@gmail.com");
                 message.setReplyTo(fromUserEmail);
                 message.setSubject("VertexPath.AI - New Contact Message from " + fromName);
                 message.setText("You received a new message from the VertexPath.AI contact form:\n\n" +
