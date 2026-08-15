@@ -75,7 +75,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
       `}>
         {/* Logo Section */}
         <div className="flex items-center gap-3 px-6 h-16 border-b border-slate-900">
-          <img src={logoImg} alt="VertexPath Logo" className="w-18 h-18 object-contain" />
+          <img src={logoImg} alt="VertexPath Logo" className="w-18 h-18 object-contain -mr-4" />
           <span className="text-lg font-extrabold tracking-tight text-[#F4F1EA] font-display">VertexPath</span>
         </div>
 

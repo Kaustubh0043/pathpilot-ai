@@ -182,7 +182,7 @@ export const Landing: React.FC = () => {
         isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
       }`}>
         <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => navigate('/')}>
-          <img src={logoImg} alt="VertexPath Logo" className="w-24 h-24 object-contain" />
+          <img src={logoImg} alt="VertexPath Logo" className="w-24 h-24 object-contain -mr-6" />
           <span className="text-xl font-extrabold tracking-tight text-[#F4F1EA] font-display">VertexPath</span>
         </div>
 
@@ -744,7 +744,7 @@ export const Landing: React.FC = () => {
           
           <div className="space-y-4 text-left">
             <div className="flex items-center gap-2">
-              <img src={logoImg} alt="VertexPath Logo" className="w-18 h-18 object-contain" />
+              <img src={logoImg} alt="VertexPath Logo" className="w-18 h-18 object-contain -mr-4" />
               <span className="text-lg font-extrabold text-[#F4F1EA] tracking-tight font-display">VertexPath</span>
             </div>
             <p className="leading-relaxed text-[11px] text-slate-600 max-w-xs">
