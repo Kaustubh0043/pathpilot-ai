@@ -380,7 +380,7 @@ export const Onboarding: React.FC = () => {
         {/* Onboarding Header */}
         <div className="flex justify-between items-center border-b border-slate-900 pb-4">
           <div className="flex items-center gap-2">
-            <img src={logoImg} alt="VertexPath Logo" className="w-7 h-7 object-contain" />
+            <img src={logoImg} alt="VertexPath Logo" className="w-10 h-10 object-contain" style={{ mixBlendMode: 'screen' }} />
             <span className="text-[11px] font-bold tracking-widest text-[#F4F1EA] font-display">VERTEXPATH SETUP</span>
           </div>
           <span className="text-[11px] font-mono text-slate-500 font-bold">{progressSteps[currentStep - 1].num} / 05</span>
