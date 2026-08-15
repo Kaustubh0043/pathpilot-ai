@@ -114,9 +114,9 @@ public class AiProxyController {
     private Map<String, Object> createMockEvaluation(String question, String answer) {
         log.warn("Using offline mock interview evaluator for answer length: {}", answer.length());
         Map<String, Object> mock = new HashMap<>();
-        mock.put("score", 78);
-        mock.put("feedback", "Excellent description of caching levels, but you could elaborate more on cache stampede mitigation and CDN TTL configurations.");
-        mock.put("model_answer", "Under load, approach caching hierarchically: Client CDN (edge caches), Application Redis cluster (distributed data query caches), and DB connection pools (reducing context switches).");
+        mock.put("score", 0);
+        mock.put("feedback", "Offline Fallback: The backend service is currently unable to communicate with the AI evaluation model. Please verify that the 'AI_SERVICE_URL' environment variable is correctly configured on your Render backend dashboard.");
+        mock.put("model_answer", "Verify your Render environment configurations to enable live AI mock evaluations.");
         return mock;
     }
 }
