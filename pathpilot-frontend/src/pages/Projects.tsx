@@ -113,7 +113,7 @@ export const Projects: React.FC = () => {
               {projectLoadingMessages[loadingMsgIndex]}
             </p>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-normal">
-              Gemini free-tier takes about 5 to 10 seconds to generate complex project structures. Please stand by.
+              VertexPath is compiling your custom architectural blueprint. Please stand by.
             </p>
           </div>
         </div>
