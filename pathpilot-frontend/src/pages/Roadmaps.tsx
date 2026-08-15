@@ -261,6 +261,15 @@ export const Roadmaps: React.FC = () => {
                 )}
               </button>
             </form>
+            {generateRoadmapMutation.isError && (
+              <div className="flex items-start gap-2 p-3 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs rounded max-w-md mt-4 animate-fade-in">
+                <span>
+                  Error: {((generateRoadmapMutation.error as any)?.response?.data?.message) || 
+                         ((generateRoadmapMutation.error as any)?.message) || 
+                         "Failed to generate learning roadmap. Please verify backend connectivity."}
+                </span>
+              </div>
+            )}
           </div>
         ) : !activeRoadmapId ? (
           /* Landing Empty View (Point 38) */

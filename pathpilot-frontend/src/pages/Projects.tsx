@@ -103,6 +103,15 @@ export const Projects: React.FC = () => {
             )}
           </button>
         </form>
+        {generateProjectMutation.isError && (
+          <div className="flex items-start gap-2 p-3 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs rounded max-w-2xl mt-4 animate-fade-in">
+            <span>
+              Error: {((generateProjectMutation.error as any)?.response?.data?.message) || 
+                     ((generateProjectMutation.error as any)?.message) || 
+                     "Failed to generate project architecture. Please verify backend connectivity."}
+            </span>
+          </div>
+        )}
       </div>
 
       {generateProjectMutation.isPending && (

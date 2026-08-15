@@ -167,6 +167,15 @@ export const Interviews: React.FC = () => {
               )}
             </button>
           </form>
+            {generateQuestionMutation.isError && (
+              <div className="flex items-start gap-2 p-3 bg-[#FF6577]/10 border border-[#FF6577]/20 text-[#FF6577] text-xs rounded max-w-md mt-4 animate-fade-in">
+                <span>
+                  Error: {((generateQuestionMutation.error as any)?.response?.data?.message) || 
+                         ((generateQuestionMutation.error as any)?.message) || 
+                         "Failed to generate screening question. Please verify backend connectivity."}
+                </span>
+              </div>
+            )}
         </div>
       ) : (
         /* Active Interview Viewport (Point 33) */
