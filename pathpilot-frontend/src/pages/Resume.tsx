@@ -20,6 +20,17 @@ export const Resume: React.FC = () => {
   // ATS Resume State
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [activeDocId, setActiveDocId] = useState<string | null>(null);
+  
+  // Rotating loading messages
+  const resumeLoadingMessages = [
+    "VertexPath is reading resume file content...",
+    "Analyzing candidate work experiences...",
+    "Extracting technical skills and densities...",
+    "Computing compatibility against ATS parser rules...",
+    "Generating career checksheet recommendations...",
+    "Polishing structural resume enhancement suggestions..."
+  ];
+  const [resumeLoadingIndex, setResumeLoadingIndex] = useState(0);
   const [uploading, setUploading] = useState(false);
 
   // RAG State
@@ -142,6 +153,19 @@ export const Resume: React.FC = () => {
     return 'text-[#FF6577]';
   };
 
+  React.useEffect(() => {
+    let interval: any;
+    if (loadingAnalysis) {
+      setResumeLoadingIndex(0);
+      interval = setInterval(() => {
+        setResumeLoadingIndex((prev) => (prev + 1) % resumeLoadingMessages.length);
+      }, 2500);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [loadingAnalysis]);
+
   return (
     <div className="space-y-10">
       
@@ -252,9 +276,16 @@ export const Resume: React.FC = () => {
                 </p>
               </div>
             ) : loadingAnalysis ? (
-              <div className="flex-1 flex flex-col items-center justify-center py-16 space-y-2">
-                <Loader2 className="w-6 h-6 animate-spin text-[#9B5CFF]" />
-                <span className="text-xs text-slate-400">Evaluating keyword scores...</span>
+              <div className="flex-1 flex flex-col items-center justify-center p-8 bg-[#0D1016]/45 border border-slate-900 rounded-lg space-y-4 py-16 animate-fade-in text-center">
+                <Loader2 className="w-8 h-8 text-[#9B5CFF] animate-spin" />
+                <div className="space-y-1.5">
+                  <p className="text-xs font-bold text-[#F4F1EA] font-display min-h-[16px]">
+                    {resumeLoadingMessages[resumeLoadingIndex]}
+                  </p>
+                  <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">
+                    VertexPath is parsing resume details. Please stand by.
+                  </p>
+                </div>
               </div>
             ) : !analysis ? (
               <div className="flex-1 flex flex-col items-center justify-center py-16 text-center">
