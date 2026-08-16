@@ -45,7 +45,7 @@ public class ChatServiceImpl implements ChatService {
                 .connectTimeout(java.time.Duration.ofSeconds(10))
                 .build();
         org.springframework.http.client.JdkClientHttpRequestFactory factory = new org.springframework.http.client.JdkClientHttpRequestFactory(httpClient);
-        factory.setReadTimeout(25000);
+        factory.setReadTimeout(90000);
         this.restClient = RestClient.builder()
                 .baseUrl(aiServiceUrl)
                 .requestFactory(factory)

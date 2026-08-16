@@ -85,7 +85,7 @@ public class AuthController {
                     .connectTimeout(java.time.Duration.ofSeconds(10))
                     .build();
             org.springframework.http.client.JdkClientHttpRequestFactory factory = new org.springframework.http.client.JdkClientHttpRequestFactory(httpClient);
-            factory.setReadTimeout(15000);
+            factory.setReadTimeout(90000);
             RestClient testClient = RestClient.builder()
                     .baseUrl(aiServiceUrl)
                     .requestFactory(factory)
