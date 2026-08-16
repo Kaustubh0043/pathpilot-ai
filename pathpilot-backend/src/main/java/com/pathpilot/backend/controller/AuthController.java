@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.client.RestClient;
+import java.net.http.HttpClient;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,6 +31,9 @@ public class AuthController {
 
     private final AuthService authService;
     private final EmailService emailService;
+
+    @Value("${ai.service.url}")
+    private String aiServiceUrl;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> signup(@Valid @RequestBody SignupRequest request) {
@@ -65,5 +74,37 @@ public class AuthController {
     @org.springframework.web.bind.annotation.GetMapping("/health")
     public org.springframework.http.ResponseEntity<String> health() {
         return org.springframework.http.ResponseEntity.ok("OK");
+    }
+
+    @GetMapping("/test-connection")
+    public ResponseEntity<Map<String, Object>> testConnection() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("configuredAiServiceUrl", aiServiceUrl);
+        try {
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .connectTimeout(java.time.Duration.ofSeconds(10))
+                    .build();
+            org.springframework.http.client.JdkClientHttpRequestFactory factory = new org.springframework.http.client.JdkClientHttpRequestFactory(httpClient);
+            factory.setReadTimeout(15000);
+            RestClient testClient = RestClient.builder()
+                    .baseUrl(aiServiceUrl)
+                    .requestFactory(factory)
+                    .build();
+                    
+            String response = testClient.get()
+                    .uri("/docs")
+                    .retrieve()
+                    .body(String.class);
+            result.put("status", "success");
+            result.put("responseLength", response != null ? response.length() : 0);
+        } catch (Exception e) {
+            result.put("status", "failed");
+            result.put("error", e.getMessage());
+            java.io.StringWriter sw = new java.io.StringWriter();
+            java.io.PrintWriter pw = new java.io.PrintWriter(sw);
+            e.printStackTrace(pw);
+            result.put("stacktrace", sw.toString());
+        }
+        return ResponseEntity.ok(result);
     }
 }
