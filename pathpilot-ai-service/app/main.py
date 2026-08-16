@@ -72,52 +72,52 @@ class RagQueryRequest(BaseModel):
 # ==========================================
 
 @app.post("/api/ai/chat")
-async def chat(request: ChatRequest):
+def chat(request: ChatRequest):
     history_list = [{"role": msg.role, "content": msg.content} for msg in request.history]
     response = ai_service.chat_session(request.message, history_list, request.profile)
     return {"response": response}
 
 @app.post("/api/ai/roadmap")
-async def roadmap(request: RoadmapRequest):
+def roadmap(request: RoadmapRequest):
     try:
         return ai_service.generate_roadmap(request.topic)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Roadmap generation failed: {str(e)}")
 
 @app.post("/api/ai/project")
-async def project(request: ProjectRequest):
+def project(request: ProjectRequest):
     try:
         return ai_service.generate_project(request.stack)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Project generation failed: {str(e)}")
 
 @app.post("/api/ai/interview/generate")
-async def generate_interview(request: InterviewGenerateRequest):
+def generate_interview(request: InterviewGenerateRequest):
     try:
         return ai_service.generate_interview_question(request.role)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Interview question generation failed: {str(e)}")
 
 @app.post("/api/ai/interview/evaluate")
-async def evaluate_interview(request: InterviewEvaluateRequest):
+def evaluate_interview(request: InterviewEvaluateRequest):
     try:
         return ai_service.evaluate_interview_answer(request.question, request.answer)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Interview evaluation failed: {str(e)}")
 
 @app.post("/api/ai/analyze-resume")
-async def analyze_resume(file: UploadFile = File(...)):
+def analyze_resume(file: UploadFile = File(...)):
     try:
-        file_bytes = await file.read()
+        file_bytes = file.file.read()
         resume_text = extract_text_from_bytes(file_bytes, file.filename)
         return ai_service.analyze_resume(resume_text)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Resume analysis failed: {str(e)}")
 
 @app.post("/api/ai/compare-jd")
-async def compare_jd(file: UploadFile = File(...), jd_text: str = Form(...)):
+def compare_jd(file: UploadFile = File(...), jd_text: str = Form(...)):
     try:
-        file_bytes = await file.read()
+        file_bytes = file.file.read()
         resume_text = extract_text_from_bytes(file_bytes, file.filename)
         return ai_service.compare_jd(resume_text, jd_text)
     except Exception as e:
@@ -134,7 +134,7 @@ async def rag_upload(
     file: UploadFile = File(...)
 ):
     try:
-        file_bytes = await file.read()
+        file_bytes = file.file.read()
         raw_text = extract_text_from_bytes(file_bytes, file.filename)
         # Vectorize and index in ChromaDB
         vector_store_manager.add_document(
