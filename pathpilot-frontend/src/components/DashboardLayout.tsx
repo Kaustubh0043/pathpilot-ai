@@ -81,13 +81,15 @@ export const DashboardLayout: React.FC = () => {
 
           <div className="flex items-center gap-4 text-xs font-semibold text-[#9299A8]">
             {/* Subtle Study Streak (Point 28) */}
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-[#11151D] border border-slate-800/60 rounded text-[#F4F1EA] shadow-sm">
-              <span>🔥 {stats?.streakCount || 1} day</span>
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-[#FF8A00]/10 border border-[#FF8A00]/25 rounded text-[#FF8A00] font-bold text-[11px] uppercase tracking-wider shadow-[0_0_12px_rgba(255,138,0,0.05)] animate-fade-in">
+              <span className="inline-block animate-bounce">🔥</span>
+              <span>{stats?.streakCount || 1} day streak</span>
             </div>
 
             {/* Muted Path Indicator */}
-            <div className="hidden sm:block text-[11px] font-medium text-[#606979]">
-              {careerGoal} path
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-[#9B5CFF]/10 border border-[#9B5CFF]/20 rounded text-[#C49AFF] font-bold text-[10px] uppercase tracking-widest shadow-[0_0_10px_rgba(155,92,255,0.03)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#9B5CFF] animate-pulse" />
+              <span>{careerGoal} path</span>
             </div>
           </div>
         </header>

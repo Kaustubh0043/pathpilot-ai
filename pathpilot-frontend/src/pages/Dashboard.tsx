@@ -169,19 +169,23 @@ export const Dashboard: React.FC = () => {
                 window.dispatchEvent(new Event('careerGoalUpdated'));
               }}
               placeholder="e.g. Software Engineer"
-              className="focus:outline-none font-semibold text-[#F4F1EA]"
+              className="focus:outline-none font-bold text-[#9B5CFF] border-b border-dashed border-[#9B5CFF]/60 hover:border-[#9B5CFF] focus:border-[#9B5CFF] px-0.5 mx-1 transition-colors duration-200 cursor-text"
               style={{ 
-                width: `${(careerGoal.length || 10) + 1.2}ch`, 
+                width: `${(careerGoal.length || 10) + 0.8}ch`, 
                 background: 'transparent', 
                 border: 'none', 
-                borderBottom: '1px dashed #475569', 
-                padding: '0px 4px', 
-                margin: '0px',
+                borderBottom: '1px dashed rgba(155, 92, 255, 0.6)', 
+                padding: '0px', 
+                margin: '0px 4px',
                 borderRadius: '0px',
-                fontSize: '14px', 
-                lineHeight: 'normal',
+                fontSize: 'inherit', 
+                fontWeight: '700',
+                lineHeight: 'inherit',
                 outline: 'none',
-                boxShadow: 'none'
+                boxShadow: 'none',
+                display: 'inline-block',
+                verticalAlign: 'baseline',
+                color: '#9B5CFF'
               }}
             />
             <span>is currently <span className="text-[#9B5CFF] font-bold">{pathProgress}%</span> complete.</span>
@@ -205,9 +209,9 @@ export const Dashboard: React.FC = () => {
 
         <button
           onClick={() => incrementStreakMutation.mutate()}
-          className="self-start md:self-center flex items-center gap-2 px-4 py-2 bg-[#11151D] hover:bg-[#151A23] border border-slate-800 text-[#F4F1EA] rounded-md text-xs font-semibold transition-all cursor-pointer"
+          className="self-start md:self-center flex items-center gap-2 px-4.5 py-2 bg-gradient-to-r from-[#9B5CFF]/10 to-[#FF6577]/10 hover:from-[#9B5CFF]/20 hover:to-[#FF6577]/20 border border-[#9B5CFF]/30 hover:border-[#9B5CFF]/60 text-[#F4F1EA] rounded-md text-xs font-bold transition-all duration-300 shadow-[0_0_15px_rgba(155,92,255,0.05)] hover:shadow-[0_0_20px_rgba(155,92,255,0.15)] cursor-pointer active:scale-95"
         >
-          <Flame className="w-4 h-4 text-[#E9B84B]" />
+          <Flame className="w-4 h-4 text-[#FF8A00] animate-pulse" />
           <span>Sync Daily Log</span>
         </button>
       </div>
