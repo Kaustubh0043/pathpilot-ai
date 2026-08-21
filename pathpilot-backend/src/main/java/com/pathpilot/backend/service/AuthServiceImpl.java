@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
                 .streakCount(1) // Start streak on signup
-                .enabled(true) // Enable immediately (bypassing email verification block)
+                .enabled(false) // Strict verification enabled
                 .verificationCode(code)
                 .verificationCodeExpiresAt(expiresAt)
                 .build();
@@ -57,16 +57,13 @@ public class AuthServiceImpl implements AuthService {
         // Send verification email in the background (as logs or backup)
         emailService.sendVerificationEmail(savedUser.getEmail(), code);
 
-        String token = tokenProvider.generateToken(savedUser.getEmail(), savedUser.getId());
-        String refreshToken = tokenProvider.generateRefreshToken(savedUser.getEmail(), savedUser.getId());
-
         return AuthResponse.builder()
-                .token(token)
-                .refreshToken(refreshToken)
+                .token(null)
+                .refreshToken(null)
                 .userId(savedUser.getId())
                 .email(savedUser.getEmail())
                 .fullName(savedUser.getFullName())
-                .message("verified")
+                .message("verification_required")
                 .onboardingCompleted(savedUser.isOnboardingCompleted())
                 .build();
     }
