@@ -1,4 +1,4 @@
-# PathPilot AI - AI-Powered Career Development Platform
+# VertexPath - AI-Powered Career Development Platform
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-F2F4F9?style=for-the-badge&logo=spring-boot&logoColor=6DB33F)](https://spring.io/projects/spring-boot)
@@ -7,7 +7,7 @@
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-8E75C2?style=for-the-badge&logo=google-gemini&logoColor=white)](https://ai.google.dev/)
 
-PathPilot AI is an all-in-one, microservice-ready AI Career Development Platform that helps students, freshers, and professionals optimize their career readiness using Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG).
+VertexPath is an all-in-one, microservice-ready AI Career Development Platform that helps students, freshers, and professionals optimize their career readiness using Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG).
 
 ---
 
@@ -148,7 +148,7 @@ Neon offers a perpetual free tier of Postgres.
    * **`DATABASE_PASSWORD`**: Your Neon password.
    * **`AI_SERVICE_URL`**: Your live AI URL from Step 2.
    * **`JWT_SECRET`**: A secure randomly generated hex key.
-   * **`CORS_ALLOWED_ORIGINS`**: Your live Vercel URL (e.g. `https://pathpilot.vercel.app` or `*`).
+   * **`CORS_ALLOWED_ORIGINS`**: Your live Vercel URL (e.g. `https://vertexpath.vercel.app` or `*`).
 3. Copy your live backend URL (e.g., `https://backend-prod.onrender.com`).
 
 ---
