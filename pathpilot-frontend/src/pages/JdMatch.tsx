@@ -36,6 +36,7 @@ export const JdMatch: React.FC = () => {
     },
     onSuccess: (data) => {
       setResult(data);
+      localStorage.setItem('jobMatchCompleted', 'true');
       setTimeout(() => {
         const el = document.getElementById('jd-results');
         if (el) {

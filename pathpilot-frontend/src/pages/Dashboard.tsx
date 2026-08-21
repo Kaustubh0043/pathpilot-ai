@@ -95,8 +95,12 @@ export const Dashboard: React.FC = () => {
     activeStage = 'Skills';
   } else if (totalRoadmaps === 0) {
     activeStage = 'Projects';
-  } else {
+  } else if (!interviewCompleted) {
     activeStage = 'Interviews';
+  } else if (!jobMatchCompleted) {
+    activeStage = 'Applications';
+  } else {
+    activeStage = 'Destination';
   }
 
   // Dynamic Next Move definition based on real states (Point 23)
@@ -122,9 +126,14 @@ export const Dashboard: React.FC = () => {
     nextMoveButtonText = 'BUILD ROADMAP →';
   } else if (!interviewCompleted) {
     nextMoveTitle = 'Complete your first mock interview.';
-    nextMoveDesc = 'You identified interview preparation as a priority in onboarding.';
+    nextMoveDesc = 'Practice technical and behavioral questions tailored to your career goal.';
     nextMoveLink = '/dashboard/interviews';
     nextMoveButtonText = 'START INTERVIEW →';
+  } else if (!jobMatchCompleted) {
+    nextMoveTitle = 'Run a Job Match analysis.';
+    nextMoveDesc = 'Compare your resume against a target job description to identify skill gaps.';
+    nextMoveLink = '/dashboard/jd-match';
+    nextMoveButtonText = 'COMPARE JOB →';
   } else {
     nextMoveTitle = 'Consult AI Career Coach.';
     nextMoveDesc = 'Ask about custom project designs or architecture reviews.';
