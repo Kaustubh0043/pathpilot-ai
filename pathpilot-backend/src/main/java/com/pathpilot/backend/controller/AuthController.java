@@ -80,12 +80,14 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> testConnection() {
         Map<String, Object> result = new HashMap<>();
         result.put("configuredAiServiceUrl", aiServiceUrl);
+        
+        // 1. Test docs
         try {
             HttpClient httpClient = HttpClient.newBuilder()
                     .connectTimeout(java.time.Duration.ofSeconds(10))
                     .build();
             org.springframework.http.client.JdkClientHttpRequestFactory factory = new org.springframework.http.client.JdkClientHttpRequestFactory(httpClient);
-            factory.setReadTimeout(90000);
+            factory.setReadTimeout(15000);
             RestClient testClient = RestClient.builder()
                     .baseUrl(aiServiceUrl)
                     .requestFactory(factory)
@@ -95,16 +97,51 @@ public class AuthController {
                     .uri("/docs")
                     .retrieve()
                     .body(String.class);
-            result.put("status", "success");
-            result.put("responseLength", response != null ? response.length() : 0);
+            result.put("docsConnection", "success");
         } catch (Exception e) {
-            result.put("status", "failed");
-            result.put("error", e.getMessage());
+            result.put("docsConnection", "failed: " + e.getMessage());
+        }
+
+        // 2. Test compare-jd
+        try {
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .connectTimeout(java.time.Duration.ofSeconds(10))
+                    .build();
+            org.springframework.http.client.JdkClientHttpRequestFactory factory = new org.springframework.http.client.JdkClientHttpRequestFactory(httpClient);
+            factory.setReadTimeout(30000);
+            RestClient testClient = RestClient.builder()
+                    .baseUrl(aiServiceUrl)
+                    .requestFactory(factory)
+                    .build();
+
+            org.springframework.util.LinkedMultiValueMap<String, Object> body = new org.springframework.util.LinkedMultiValueMap<>();
+            org.springframework.core.io.ByteArrayResource resource = new org.springframework.core.io.ByteArrayResource("React Developer".getBytes()) {
+                @Override
+                public String getFilename() {
+                    return "resume.txt";
+                }
+            };
+            body.add("file", resource);
+            body.add("jd_text", "Looking for React dev");
+
+            Map<?, ?> response = testClient.post()
+                    .uri("/api/ai/compare-jd")
+                    .contentType(org.springframework.http.MediaType.MULTIPART_FORM_DATA)
+                    .body(body)
+                    .retrieve()
+                    .body(Map.class);
+                    
+            result.put("compareJdConnection", "success");
+            result.put("compareJdResponse", response);
+        } catch (Exception e) {
+            result.put("compareJdConnection", "failed");
+            result.put("compareJdError", e.getMessage());
             java.io.StringWriter sw = new java.io.StringWriter();
             java.io.PrintWriter pw = new java.io.PrintWriter(sw);
             e.printStackTrace(pw);
-            result.put("stacktrace", sw.toString());
+            result.put("compareJdStacktrace", sw.toString());
         }
+        
         return ResponseEntity.ok(result);
     }
 }
