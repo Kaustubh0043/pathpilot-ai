@@ -169,23 +169,9 @@ export const Dashboard: React.FC = () => {
                 window.dispatchEvent(new Event('careerGoalUpdated'));
               }}
               placeholder="e.g. Software Engineer"
-              className="focus:outline-none font-bold text-[#9B5CFF] border-b border-dashed border-[#9B5CFF]/60 hover:border-[#9B5CFF] focus:border-[#9B5CFF] px-0.5 mx-1 transition-colors duration-200 cursor-text"
+              className="inline-editable-input focus:outline-none"
               style={{ 
-                width: `${(careerGoal.length || 10) + 0.8}ch`, 
-                background: 'transparent', 
-                border: 'none', 
-                borderBottom: '1px dashed rgba(155, 92, 255, 0.6)', 
-                padding: '0px', 
-                margin: '0px 4px',
-                borderRadius: '0px',
-                fontSize: 'inherit', 
-                fontWeight: '700',
-                lineHeight: 'inherit',
-                outline: 'none',
-                boxShadow: 'none',
-                display: 'inline-block',
-                verticalAlign: 'baseline',
-                color: '#9B5CFF'
+                width: `${(careerGoal.length || 10) + 0.5}ch`
               }}
             />
             <span>is currently <span className="text-[#9B5CFF] font-bold">{pathProgress}%</span> complete.</span>
