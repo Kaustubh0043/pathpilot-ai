@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -112,14 +113,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
                     to={item.path}
                     onClick={() => setIsOpen(false)}
                     className={({ isActive }) => `
-                      flex items-center gap-3 py-2.5 rounded text-sm font-medium transition-all duration-200 group
+                      relative flex items-center gap-3 py-2.5 rounded text-sm font-medium transition-all duration-200 group pl-3
                       ${isActive 
-                        ? 'text-[#F4F1EA] border-l-2 border-[#9B5CFF] pl-3 bg-[#11151D]/60' 
-                        : 'text-[#9299A8] hover:text-[#F4F1EA] pl-3 border-l-2 border-transparent hover:bg-[#11151D]/20'}
+                        ? 'text-[#F4F1EA] border-l-2 border-[#9B5CFF]' 
+                        : 'text-[#9299A8] hover:text-[#F4F1EA] border-l-2 border-transparent hover:bg-[#11151D]/10'}
                     `}
                   >
-                    <item.icon className="w-4 h-4 transition-transform duration-200 group-hover:scale-105" />
-                    <span>{item.name}</span>
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <motion.div
+                            layoutId="active-nav-pill"
+                            className="absolute inset-0 bg-[#11151D]/60 rounded -z-10"
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                        )}
+                        <item.icon className="w-4 h-4 transition-transform duration-200 group-hover:scale-105" />
+                        <span>{item.name}</span>
+                      </>
+                    )}
                   </NavLink>
                 ))}
               </div>
